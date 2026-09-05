@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b1118">
-<title>Bitfiney Trading — Simulation</title>
+<title>Bitfiney Trading — Trading Experience</title>
 <style>
 *{
     box-sizing:border-box;
@@ -796,6 +796,7 @@ th{
 </style>
 </head>
 <body>
+
 <!-- ============================================================
      LOGIN
 ============================================================ -->
@@ -804,17 +805,21 @@ th{
         <div class="logo">
             Bitfiney<span>.</span>
         </div>
+
         <div class="simulation-badge">
-            SIMULATION ONLY
+            TRADING EXPERIENCE
         </div>
+
         <p class="login-description">
-            Welcome to Bitfiney Trading. This is an independent simulated
-            cryptocurrency trading interface. No real funds or blockchain
-            transactions are performed.
+            Welcome to Bitfiney Trading. This is an independent
+            cryptocurrency trading experience. No real funds or
+            blockchain transactions are performed.
         </p>
+
         <label class="form-label">
             Email
         </label>
+
         <input
             id="loginEmail"
             class="form-input"
@@ -822,9 +827,11 @@ th{
             autocomplete="email"
             placeholder="you@example.com"
         >
+
         <label class="form-label">
             Password
         </label>
+
         <input
             id="loginPassword"
             class="form-input"
@@ -832,6 +839,7 @@ th{
             autocomplete="current-password"
             placeholder="Password"
         >
+
         <button
             id="loginButton"
             class="primary-button"
@@ -839,6 +847,7 @@ th{
         >
             Enter Trading
         </button>
+
         <button
             id="signupButton"
             class="secondary-button"
@@ -846,86 +855,116 @@ th{
         >
             Create Trading Account
         </button>
+
         <div
             id="authMessage"
             class="auth-message"
         ></div>
     </div>
 </section>
+
 <!-- ============================================================
      APPLICATION
 ============================================================ -->
 <section id="app" class="hidden">
+
 <header class="topbar">
+
     <div class="brand">
         Bitfiney<span>.</span>
     </div>
+
     <div
         class="simulation-badge"
         style="margin:0"
     >
-        SIMULATION
+        TRADING EXPERIENCE
     </div>
+
     <nav class="main-nav">
+
         <button
             class="active"
             onclick="showView('home',this)"
         >
             Home
         </button>
+
         <button
             onclick="showView('market',this)"
         >
             Market
         </button>
+
         <button
             onclick="showView('contract',this)"
         >
             Contract
         </button>
+
         <button
             onclick="showView('funds',this)"
         >
             Funds
         </button>
+
+        <button
+            id="navAccount"
+            onclick="showView('account',this)"
+        >
+            Account
+        </button>
+
     </nav>
+
     <span
         id="accountEmail"
         class="account-email"
     ></span>
+
     <button
         class="logout-button"
         onclick="logout()"
     >
         Logout
     </button>
+
 </header>
+
 <!-- ============================================================
      TICKER
 ============================================================ -->
 <div class="ticker">
+
     <span>
         BTC/USD
         <strong>$68,420.20</strong>
     </span>
+
     <span>
         ETH/USD
         <strong>$3,912.10</strong>
     </span>
+
     <span>
         24H
         <strong class="green">+2.41%</strong>
     </span>
+
     <span>
         BTC
         <strong class="green">+1.82%</strong>
     </span>
+
     <span>
         Trading Balance
         <strong>$18,920.40</strong>
     </span>
+
 </div>
+
 <main class="main">
+
 <!-- ============================================================
      HOME
 ============================================================ -->
@@ -933,13 +972,16 @@ th{
     id="homeView"
     class="view active"
 >
+
     <div class="notice">
-        <strong>SIMULATION ONLY:</strong>
+        <strong>TRADING EXPERIENCE:</strong>
         All trading information, balances, orders, deposits, withdrawals
-        and profits shown on this page are simulated. No real money or
-        cryptocurrency is transferred.
+        and trading results shown here are part of the Bitfiney trading
+        experience. No real money or cryptocurrency is transferred.
     </div>
+
     <div class="stats">
+
         <div class="card">
             <div class="stat-label">
                 Trading Balance
@@ -948,6 +990,7 @@ th{
                 $18,920.40
             </div>
         </div>
+
         <div class="card">
             <div class="stat-label">
                 Today's Trading P/L
@@ -956,6 +999,7 @@ th{
                 +$428.72
             </div>
         </div>
+
         <div class="card">
             <div class="stat-label">
                 Open Orders
@@ -967,6 +1011,7 @@ th{
                 0
             </div>
         </div>
+
         <div class="card">
             <div class="stat-label">
                 Trading Status
@@ -975,7 +1020,9 @@ th{
                 Enabled
             </div>
         </div>
+
     </div>
+
     <div
         class="card"
         style="margin-top:12px"
@@ -983,6 +1030,7 @@ th{
         <h3>
             Bitfiney Trading Home
         </h3>
+
         <p
             style="
                 color:#87939f;
@@ -990,12 +1038,13 @@ th{
                 margin-top:9px;
             "
         >
-            Welcome to your Bitfiney simulated trading account.
-            Use Market to view the simulated BTC/USD market, Contract
-            to place simulated orders, and Funds to view your simulated
+            Welcome to your Bitfiney Trading Experience account.
+            Use Market to view the BTC/USD trading market, Contract
+            to place trading orders, and Funds to view your trading
             account balances and financial sections.
         </p>
     </div>
+
     <div
         class="card"
         style="margin-top:12px"
@@ -1003,6 +1052,7 @@ th{
         <h3>
             Account Overview
         </h3>
+
         <div
             style="
                 display:grid;
@@ -1011,6 +1061,7 @@ th{
                 margin-top:12px;
             "
         >
+
             <div
                 style="
                     padding:13px;
@@ -1021,10 +1072,12 @@ th{
                 <div class="stat-label">
                     BTC
                 </div>
+
                 <strong>
                     0.1250 BTC
                 </strong>
             </div>
+
             <div
                 style="
                     padding:13px;
@@ -1035,13 +1088,17 @@ th{
                 <div class="stat-label">
                     ETH
                 </div>
+
                 <strong>
                     1.8500 ETH
                 </strong>
             </div>
+
         </div>
     </div>
+
 </div>
+
 <!-- ============================================================
      MARKET
 ============================================================ -->
@@ -1049,66 +1106,88 @@ th{
     id="marketView"
     class="view"
 >
+
     <div class="notice">
-        <strong>SIMULATION ONLY:</strong>
+        <strong>TRADING EXPERIENCE:</strong>
         Market prices, order book information and recent trades displayed
-        here are simulated market data for the Bitfiney interface.
+        here are trading market data for the Bitfiney interface.
     </div>
+
     <div class="trading-grid">
+
         <section class="card">
+
             <div class="market-header">
+
                 <div>
                     <div class="market-name">
                         BTC/USD
                     </div>
+
                     <div class="market-subtitle">
                         Bitcoin / US Dollar
                     </div>
                 </div>
+
                 <div class="market-price">
+
                     <div class="big-price">
                         $68,420.20
                     </div>
+
                     <div class="percent green">
                         +1.82%
                     </div>
+
                 </div>
+
             </div>
+
             <div class="chart-toolbar">
+
                 <button
                     class="active"
                     onclick="setTimeframe(this,'1H')"
                 >
                     1H
                 </button>
+
                 <button
                     onclick="setTimeframe(this,'4H')"
                 >
                     4H
                 </button>
+
                 <button
                     onclick="setTimeframe(this,'1D')"
                 >
                     1D
                 </button>
+
                 <button
                     onclick="setTimeframe(this,'1W')"
                 >
                     1W
                 </button>
+
                 <span
                     class="chart-time"
                     id="chartTime"
                 >
                     1H
                 </span>
+
             </div>
+
             <div class="chart">
+
                 <svg
                     viewBox="0 0 1000 330"
                     preserveAspectRatio="none"
                 >
+
                     <defs>
+
                         <linearGradient
                             id="chartFill"
                             x1="0"
@@ -1116,16 +1195,21 @@ th{
                             y1="0"
                             y2="1"
                         >
+
                             <stop
                                 offset="0"
                                 stop-opacity=".35"
                             />
+
                             <stop
                                 offset="1"
                                 stop-opacity="0"
                             />
+
                         </linearGradient>
+
                     </defs>
+
                     <path
                         d="
                         M0 270
@@ -1155,6 +1239,7 @@ th{
                         "
                         fill="url(#chartFill)"
                     />
+
                     <polyline
                         points="
                         0,270
@@ -1183,90 +1268,117 @@ th{
                         stroke="currentColor"
                         stroke-width="3"
                     />
+
                 </svg>
+
             </div>
+
         </section>
+
         <section class="card">
+
             <div class="section-title">
                 Order Book
             </div>
+
             <div class="section-subtitle">
                 BTC/USD
             </div>
+
             <div class="book-head">
                 <span>Price</span>
                 <span>Amount</span>
                 <span>Total</span>
             </div>
+
             <div class="book-row">
                 <span class="red">68,451.10</span>
                 <span>0.0812</span>
                 <span>5,559.70</span>
             </div>
+
             <div class="book-row">
                 <span class="red">68,440.50</span>
                 <span>0.1250</span>
                 <span>8,555.06</span>
             </div>
+
             <div class="book-row">
                 <span class="red">68,431.20</span>
                 <span>0.0448</span>
                 <span>3,064.96</span>
             </div>
+
             <div class="book-middle">
                 $68,420.20
             </div>
+
             <div class="book-row">
                 <span class="green">68,409.30</span>
                 <span>0.0940</span>
                 <span>6,430.47</span>
             </div>
+
             <div class="book-row">
                 <span class="green">68,398.90</span>
                 <span>0.0610</span>
                 <span>4,172.33</span>
             </div>
+
             <div class="book-row">
                 <span class="green">68,387.40</span>
                 <span>0.1320</span>
                 <span>9,027.14</span>
             </div>
+
         </section>
+
         <section class="card">
+
             <div class="section-title">
                 Recent Trades
             </div>
+
             <div class="section-subtitle">
                 Price / Amount / Time
             </div>
+
             <div class="book-head">
                 <span>Price</span>
                 <span>Amount</span>
                 <span>Time</span>
             </div>
+
             <div class="book-row">
                 <span class="green">68,420.20</span>
                 <span>0.0142</span>
                 <span>11:51:40</span>
             </div>
+
             <div class="book-row">
                 <span class="red">68,419.80</span>
                 <span>0.0061</span>
                 <span>11:51:32</span>
             </div>
+
             <div class="book-row">
                 <span class="green">68,421.10</span>
                 <span>0.0200</span>
                 <span>11:51:18</span>
             </div>
+
             <div class="book-row">
                 <span class="green">68,425.40</span>
                 <span>0.0082</span>
                 <span>11:50:57</span>
             </div>
+
         </section>
+
     </div>
+
 </div>
+
 <!-- ============================================================
      CONTRACT
 ============================================================ -->
@@ -1274,44 +1386,57 @@ th{
     id="contractView"
     class="view"
 >
+
     <div class="notice">
-        <strong>SIMULATION ONLY:</strong>
-        Orders created in this section are simulated only. They do not
-        execute real trades, transfer cryptocurrency, or connect to a
-        real exchange.
+        <strong>TRADING EXPERIENCE:</strong>
+        Orders created in this section are part of the Bitfiney trading
+        experience. They do not execute real trades, transfer
+        cryptocurrency, or connect to a real exchange.
     </div>
+
     <div class="trading-grid">
+
         <section class="card">
+
             <div class="order-tabs">
+
                 <button
                     class="active"
                     onclick="setOrderMode('exchange',this)"
                 >
                     Exchange
                 </button>
+
                 <button
                     onclick="setOrderMode('margin',this)"
                 >
                     Margin
                 </button>
+
             </div>
+
             <div class="side-buttons">
+
                 <button
                     class="buy active"
                     onclick="setSide('buy')"
                 >
                     Buy
                 </button>
+
                 <button
                     class="sell"
                     onclick="setSide('sell')"
                 >
                     Sell
                 </button>
+
             </div>
+
             <label class="form-label">
                 Order Type
             </label>
+
             <select
                 id="orderType"
                 class="form-select"
@@ -1322,63 +1447,82 @@ th{
                 <option>Stop</option>
                 <option>Stop-Limit</option>
             </select>
+
             <div id="priceField">
+
                 <label class="form-label">
                     Price (USD)
                 </label>
+
                 <input
                     id="orderPrice"
                     class="form-input"
                     type="number"
                     value="68420.20"
                 >
+
             </div>
+
             <div
                 id="stopField"
                 style="display:none"
             >
+
                 <label class="form-label">
                     Stop Price
                 </label>
+
                 <input
                     id="stopPrice"
                     class="form-input"
                     type="number"
                     value="68000"
                 >
+
             </div>
+
             <label class="form-label">
                 Amount (BTC)
             </label>
+
             <input
                 id="orderAmount"
                 class="form-input"
                 type="number"
                 placeholder="0.0000"
             >
+
             <div class="quick-buttons">
+
                 <button onclick="setPercent(.25)">
                     25%
                 </button>
+
                 <button onclick="setPercent(.50)">
                     50%
                 </button>
+
                 <button onclick="setPercent(.75)">
                     75%
                 </button>
+
                 <button onclick="setPercent(1)">
                     100%
                 </button>
+
             </div>
+
             <label class="form-label">
                 Total
             </label>
+
             <input
                 id="orderTotal"
                 class="form-input"
                 readonly
                 value="$0.00"
             >
+
             <button
                 id="submitOrder"
                 class="submit-order"
@@ -1386,49 +1530,68 @@ th{
             >
                 Exchange Buy
             </button>
+
         </section>
+
         <section class="card">
+
             <div class="section-title">
                 Contract Trading
             </div>
+
             <div class="section-subtitle">
-                BTC/USD simulation
+                BTC/USD Trading Experience
             </div>
+
             <div style="margin-top:16px">
+
                 <div class="stat-label">
                     Current Price
                 </div>
+
                 <div
                     class="stat-value"
                     style="font-size:27px"
                 >
                     $68,420.20
                 </div>
+
             </div>
+
             <div style="margin-top:18px">
+
                 <div class="stat-label">
-                    Simulated Position
+                    Trading Position
                 </div>
+
                 <div
                     class="stat-value"
                     style="font-size:20px"
                 >
                     0.0000 BTC
                 </div>
+
             </div>
+
             <div style="margin-top:18px">
+
                 <div class="stat-label">
                     Margin Status
                 </div>
+
                 <div
                     class="stat-value green"
                     style="font-size:20px"
                 >
                     Available
                 </div>
+
             </div>
+
         </section>
+
         <section class="card wide">
+
             <div
                 style="
                     display:flex;
@@ -1437,19 +1600,26 @@ th{
                     margin-bottom:10px;
                 "
             >
+
                 <strong>
                     Open Orders
                 </strong>
+
                 <span
                     id="openCount"
                     style="color:#7f8c98;font-size:11px"
                 >
                     0 orders
                 </span>
+
             </div>
+
             <div class="table-wrapper">
+
                 <table>
+
                     <thead>
+
                         <tr>
                             <th>Pair</th>
                             <th>Type</th>
@@ -1459,12 +1629,19 @@ th{
                             <th>Status</th>
                             <th></th>
                         </tr>
+
                     </thead>
+
                     <tbody id="openOrdersTable"></tbody>
+
                 </table>
+
             </div>
+
         </section>
+
         <section class="card wide">
+
             <div
                 style="
                     display:flex;
@@ -1473,18 +1650,25 @@ th{
                     margin-bottom:10px;
                 "
             >
+
                 <strong>
                     Trading Order History
                 </strong>
+
                 <span
                     style="color:#7f8c98;font-size:11px"
                 >
-                    Simulation
+                    Trading Experience
                 </span>
+
             </div>
+
             <div class="table-wrapper">
+
                 <table>
+
                     <thead>
+
                         <tr>
                             <th>Time</th>
                             <th>Pair</th>
@@ -1494,13 +1678,21 @@ th{
                             <th>Amount</th>
                             <th>Status</th>
                         </tr>
+
                     </thead>
+
                     <tbody id="historyTable"></tbody>
+
                 </table>
+
             </div>
+
         </section>
+
     </div>
+
 </div>
+
 <!-- ============================================================
      FUNDS
 ============================================================ -->
@@ -1508,154 +1700,213 @@ th{
     id="fundsView"
     class="view"
 >
+
     <div class="notice">
-        <strong>SIMULATION ONLY:</strong>
+        <strong>TRADING EXPERIENCE:</strong>
         All balances, wallet information and financial information shown
-        in Funds are simulated. No blockchain transaction can be initiated
-        from this page.
+        in Funds are part of the Bitfiney trading experience.
+        No blockchain transaction can be initiated from this page.
     </div>
+
     <div class="funds-tabs">
+
         <button
             class="active"
             onclick="showFundsView('overview',this)"
         >
             Overview
         </button>
+
         <button
             onclick="showFundsView('spot',this)"
         >
             Spot
         </button>
+
         <button
             onclick="showFundsView('fundContract',this)"
         >
             Contract
         </button>
+
         <button
             onclick="showFundsView('financial',this)"
         >
             Financial
         </button>
+
     </div>
+
     <!-- FUNDS OVERVIEW -->
     <div
         id="overviewFundsView"
         class="funds-view active"
     >
+
         <div class="wallet-grid">
+
             <div class="card">
+
                 <div class="stat-label">
                     Total Trading Balance
                 </div>
+
                 <div class="stat-value">
                     $18,920.40
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated account value
+                    Trading Experience account value
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
                     Today's P/L
                 </div>
+
                 <div class="stat-value green">
                     +$428.72
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated trading result
+                    Trading result
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
                     Available Balance
                 </div>
+
                 <div class="stat-value">
                     $18,920.40
                 </div>
+
                 <div class="section-subtitle">
-                    Simulation balance
+                    Trading Experience balance
                 </div>
+
             </div>
+
         </div>
+
         <div class="fund-action-grid">
+
             <div class="card fund-action">
+
                 <h3>
                     Spot Funds
                 </h3>
+
                 <p>
-                    View simulated cryptocurrency balances held in the
+                    View cryptocurrency balances in the Trading Experience
                     Spot section.
                 </p>
+
                 <button
                     class="fund-action-button"
                     onclick="showFundsViewByName('spot')"
                 >
                     Open Spot
                 </button>
+
             </div>
+
             <div class="card fund-action">
+
                 <h3>
                     Contract Funds
                 </h3>
+
                 <p>
-                    View simulated contract balance and position information.
+                    View contract balance and position information.
                 </p>
+
                 <button
                     class="fund-action-button"
                     onclick="showFundsViewByName('fundContract')"
                 >
                     Open Contract
                 </button>
+
             </div>
+
         </div>
+
     </div>
+
     <!-- SPOT -->
     <div
         id="spotFundsView"
         class="funds-view"
     >
+
         <div class="wallet-grid">
+
             <div class="card">
+
                 <div class="stat-label">
                     USD
                 </div>
+
                 <div class="stat-value">
                     $18,920.40
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated Spot balance
+                    Trading Experience Spot balance
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
                     BTC
                 </div>
+
                 <div class="stat-value">
                     0.1250 BTC
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated Spot balance
+                    Trading Experience Spot balance
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
                     ETH
                 </div>
+
                 <div class="stat-value">
                     1.8500 ETH
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated Spot balance
+                    Trading Experience Spot balance
                 </div>
+
             </div>
+
         </div>
+
         <div
             class="card"
             style="margin-top:12px"
         >
+
             <h3>
                 Spot Wallet
             </h3>
+
             <p
                 style="
                     color:#87939f;
@@ -1663,59 +1914,82 @@ th{
                     margin-top:9px;
                 "
             >
-                These wallet balances are for simulation purposes only.
+                These wallet balances are part of the Trading Experience.
                 No real wallet address or blockchain transfer is connected
                 to this interface.
             </p>
+
         </div>
+
     </div>
+
     <!-- CONTRACT FUNDS -->
     <div
         id="fundContractFundsView"
         class="funds-view"
     >
+
         <div class="wallet-grid">
+
             <div class="card">
+
                 <div class="stat-label">
                     Contract Balance
                 </div>
+
                 <div class="stat-value">
                     $18,920.40
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated
+                    Trading Experience
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
                     Used Margin
                 </div>
+
                 <div class="stat-value">
                     $0.00
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated
+                    Trading Experience
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
                     Position
                 </div>
+
                 <div class="stat-value">
                     0.0000 BTC
                 </div>
+
                 <div class="section-subtitle">
                     No open position
                 </div>
+
             </div>
+
         </div>
+
         <div
             class="card"
             style="margin-top:12px"
         >
+
             <h3>
                 Contract Account
             </h3>
+
             <p
                 style="
                     color:#87939f;
@@ -1723,58 +1997,81 @@ th{
                     margin-top:9px;
                 "
             >
-                Contract balances and positions displayed here are
-                simulated and have no real financial value.
+                Contract balances and positions displayed here are part
+                of the Trading Experience and have no real financial value.
             </p>
+
         </div>
+
     </div>
+
     <!-- FINANCIAL -->
     <div
         id="financialFundsView"
         class="funds-view"
     >
+
         <div class="wallet-grid">
+
             <div class="card">
+
                 <div class="stat-label">
                     Trading Profit
                 </div>
+
                 <div class="stat-value green">
                     +$428.72
                 </div>
+
                 <div class="section-subtitle">
-                    Simulated today
+                    Trading result today
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
-                    Simulated Deposits
+                    Trading Experience Deposits
                 </div>
+
                 <div class="stat-value">
                     $0.00
                 </div>
+
                 <div class="section-subtitle">
                     No real deposits
                 </div>
+
             </div>
+
             <div class="card">
+
                 <div class="stat-label">
-                    Simulated Withdrawals
+                    Trading Experience Withdrawals
                 </div>
+
                 <div class="stat-value">
                     $0.00
                 </div>
+
                 <div class="section-subtitle">
                     No real withdrawals
                 </div>
+
             </div>
+
         </div>
+
         <div
             class="card"
             style="margin-top:12px"
         >
+
             <h3>
                 Financial Information
             </h3>
+
             <p
                 style="
                     color:#87939f;
@@ -1782,13 +2079,17 @@ th{
                     margin-top:9px;
                 "
             >
-                Financial figures displayed by Bitfiney are simulated
-                interface values only. This website does not process
+                Financial figures displayed by Bitfiney are Trading
+                Experience values only. This website does not process
                 real payments or cryptocurrency transfers.
             </p>
+
         </div>
+
     </div>
+
 </div>
+
 <!-- ============================================================
      ACCOUNT
 ============================================================ -->
@@ -1796,17 +2097,25 @@ th{
     id="accountView"
     class="view"
 >
+
     <div class="account-box">
+
         <div class="notice">
-            <strong>SIMULATION ONLY:</strong>
-            Your Bitfiney account is a simulation trading account.
+
+            <strong>TRADING EXPERIENCE:</strong>
+
+            Your Bitfiney account is a Trading Experience account.
             No real money, cryptocurrency or blockchain transactions
             are connected to this website.
+
         </div>
+
         <div class="card">
+
             <h3>
                 Account
             </h3>
+
             <p
                 style="
                     color:#87939f;
@@ -1814,9 +2123,10 @@ th{
                     margin-top:9px;
                 "
             >
-                You are signed in to your Bitfiney Trading simulation
+                You are signed in to your Bitfiney Trading Experience
                 account.
             </p>
+
             <div
                 style="
                     margin-top:15px;
@@ -1825,9 +2135,11 @@ th{
                     border-radius:8px;
                 "
             >
+
                 <div class="stat-label">
                     Signed-in Email
                 </div>
+
                 <div
                     id="accountPageEmail"
                     style="
@@ -1836,23 +2148,30 @@ th{
                         word-break:break-word;
                     "
                 ></div>
+
             </div>
+
         </div>
+
         <!-- ADMIN BUTTON:
              Hidden unless current Supabase user is in public.admins.
         -->
+
         <div
             id="adminPanelSection"
             class="card admin-panel-card"
             style="display:none;"
         >
+
             <h3>
                 Administrator
             </h3>
+
             <p>
                 Administrator access is available only to authorized
-                Bitfiney simulation administrators.
+                Bitfiney Trading Experience administrators.
             </p>
+
             <button
                 type="button"
                 class="admin-panel-button"
@@ -1860,14 +2179,20 @@ th{
             >
                 Admin Panel
             </button>
+
         </div>
+
     </div>
+
 </div>
+
 </main>
+
 <!-- ============================================================
      MOBILE NAV
 ============================================================ -->
 <nav class="mobile-nav">
+
     <button
         class="active"
         onclick="mobileView('home',this)"
@@ -1875,26 +2200,40 @@ th{
         <span class="nav-icon">⌂</span>
         <span class="nav-label">Home</span>
     </button>
+
     <button
         onclick="mobileView('market',this)"
     >
         <span class="nav-icon">▥</span>
         <span class="nav-label">Market</span>
     </button>
+
     <button
         onclick="mobileView('contract',this)"
     >
         <span class="nav-icon">↕</span>
         <span class="nav-label">Contract</span>
     </button>
+
     <button
         onclick="mobileView('funds',this)"
     >
         <span class="nav-icon">▣</span>
         <span class="nav-label">Funds</span>
     </button>
+
+    <button
+        id="mobileAccount"
+        onclick="mobileView('account',this)"
+    >
+        <span class="nav-icon">◉</span>
+        <span class="nav-label">Account</span>
+    </button>
+
 </nav>
+
 </section>
+
 <!-- ============================================================
      TOAST
 ============================================================ -->
@@ -1916,189 +2255,263 @@ th{
         font-size:12px;
     "
 ></div>
+
 <!-- ============================================================
      SUPABASE
 ============================================================ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
 /* ============================================================
    SUPABASE CONFIGURATION
 ============================================================ */
+
 const SUPABASE_URL =
     "https://wpfkubmosuzmahlggtqu.supabase.co";
+
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_WXBma9FkztJ6Ab74OFhYNQ_TK0GGaHZ";
+
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
+
 /* ============================================================
    GLOBAL STATE
 ============================================================ */
+
 let currentSide = "buy";
 let currentMode = "exchange";
 let toastTimer;
+
 /* ============================================================
    AUTH MESSAGE
 ============================================================ */
+
 function showAuthMessage(message,type){
+
     const box =
         document.getElementById(
             "authMessage"
         );
+
     if(!box){
         return;
     }
+
     box.textContent =
         message;
+
     box.className =
         "auth-message " +
         type;
 }
+
 /* ============================================================
    LOGIN
 ============================================================ */
+
 async function login(){
+
     const email =
         document
             .getElementById("loginEmail")
             .value
             .trim();
+
     const password =
         document
             .getElementById("loginPassword")
             .value;
+
     if(!email || !password){
+
         showAuthMessage(
             "Please enter your email and password.",
             "error"
         );
+
         return;
     }
+
     const button =
         document.getElementById(
             "loginButton"
         );
+
     button.disabled = true;
+
     button.textContent =
         "Signing in...";
+
     try{
+
         const result =
             await supabaseClient.auth.signInWithPassword({
                 email:email,
                 password:password
             });
+
         if(result.error){
             throw result.error;
         }
+
         const user =
             result.data.user;
+
         if(!user){
+
             throw new Error(
                 "Login completed but no user session was returned."
             );
+
         }
+
         enterApp(
             user.email ||
             email
         );
+
         await checkAdminPanelAccess();
+
         toast(
             "Welcome to Bitfiney Trading"
         );
+
     }catch(error){
+
         console.error(
             "Supabase login error:",
             error
         );
+
         showAuthMessage(
             getAuthErrorMessage(error),
             "error"
         );
+
     }finally{
+
         button.disabled = false;
+
         button.textContent =
             "Enter Trading";
+
     }
 }
+
 /* ============================================================
    SIGN UP
 ============================================================ */
+
 async function signup(){
+
     const email =
         document
             .getElementById("loginEmail")
             .value
             .trim();
+
     const password =
         document
             .getElementById("loginPassword")
             .value;
+
     if(!email || !password){
+
         showAuthMessage(
             "Enter an email and password first.",
             "error"
         );
+
         return;
     }
+
     if(password.length < 6){
+
         showAuthMessage(
             "Password must contain at least 6 characters.",
             "error"
         );
+
         return;
     }
+
     const button =
         document.getElementById(
             "signupButton"
         );
+
     button.disabled = true;
+
     button.textContent =
         "Creating Account...";
+
     try{
+
         const result =
             await supabaseClient.auth.signUp({
                 email:email,
                 password:password
             });
+
         if(result.error){
             throw result.error;
         }
+
         if(result.data.session){
+
             enterApp(
                 result.data.user.email ||
                 email
             );
+
             await checkAdminPanelAccess();
+
             toast(
                 "Trading account created successfully"
             );
+
         }else{
+
             showAuthMessage(
                 "Account created. Check your email to confirm your account, then sign in.",
                 "success"
             );
+
         }
+
     }catch(error){
+
         console.error(
             "Supabase signup error:",
             error
         );
+
         showAuthMessage(
             getAuthErrorMessage(error),
             "error"
         );
+
     }finally{
+
         button.disabled = false;
+
         button.textContent =
             "Create Trading Account";
+
     }
 }
+
 /* ============================================================
    AUTH ERROR HANDLING
 ============================================================ */
+
 function getAuthErrorMessage(error){
+
     const message =
         String(
             error &&
@@ -2106,112 +2519,153 @@ function getAuthErrorMessage(error){
                 ? error.message
                 : error
         );
+
     const lower =
         message.toLowerCase();
+
     if(
         lower.includes(
             "invalid login credentials"
         )
     ){
+
         return "Incorrect email or password.";
+
     }
+
     if(
         lower.includes(
             "email not confirmed"
         )
     ){
+
         return "Please confirm your email address before signing in.";
+
     }
+
     if(
         lower.includes(
             "user already registered"
         )
     ){
+
         return "This email already has a Trading Account. Please sign in.";
+
     }
+
     if(
         lower.includes(
             "password should be at least"
         )
     ){
+
         return "Your password is too short.";
+
     }
+
     if(
         lower.includes(
             "rate limit"
         )
     ){
+
         return "Too many attempts. Please wait a moment and try again.";
+
     }
+
     return message ||
         "Authentication failed. Please try again.";
 }
+
 /* ============================================================
    ENTER APPLICATION
 ============================================================ */
+
 function enterApp(email){
+
     document
         .getElementById("loginPage")
         .style.display = "none";
+
     document
         .getElementById("app")
         .classList
         .remove("hidden");
+
     document
         .getElementById("accountEmail")
         .textContent =
             email || "";
+
     const accountPageEmail =
         document.getElementById(
             "accountPageEmail"
         );
+
     if(accountPageEmail){
+
         accountPageEmail.textContent =
             email || "";
+
     }
 }
+
 /* ============================================================
    ADMIN PANEL AUTHORIZATION
 ============================================================ */
+
 async function checkAdminPanelAccess(){
+
     const section =
         document.getElementById(
             "adminPanelSection"
         );
+
     if(!section){
         return;
     }
+
     /*
        Always hide the button first.
        This prevents a previous admin session from accidentally
        leaving the button visible after another user signs in.
     */
+
     section.style.display =
         "none";
+
     try{
+
         const {
             data: { session },
             error: sessionError
         } =
             await supabaseClient.auth.getSession();
+
         if(sessionError){
+
             console.error(
                 "Admin session check failed:",
                 sessionError
             );
+
             return;
         }
+
         if(
             !session ||
             !session.user
         ){
+
             return;
         }
+
         /*
            Check the authenticated user's UUID against
            public.admins.
            Only a matching row can make the button visible.
         */
+
         const {
             data: admin,
             error: adminError
@@ -2224,263 +2678,375 @@ async function checkAdminPanelAccess(){
                     session.user.id
                 )
                 .maybeSingle();
+
         if(adminError){
+
             console.error(
                 "Admin authorization check failed:",
                 adminError
             );
+
             return;
         }
+
         if(admin){
+
             section.style.display =
                 "block";
+
         }
+
     }catch(error){
+
         console.error(
             "Admin panel access error:",
             error
         );
+
     }
 }
+
 /* ============================================================
    OPEN ADMIN PANEL
 ============================================================ */
+
 function openAdminPanel(){
+
     window.location.href =
         "admin.html";
+
 }
+
 /* ============================================================
    CHECK EXISTING SUPABASE SESSION
 ============================================================ */
+
 async function checkSession(){
+
     try{
+
         const result =
             await supabaseClient.auth.getSession();
+
         if(result.error){
+
             console.error(
                 "Session error:",
                 result.error
             );
+
             return;
         }
+
         const session =
             result.data.session;
+
         if(session && session.user){
+
             enterApp(
                 session.user.email || ""
             );
+
             await checkAdminPanelAccess();
+
         }
+
     }catch(error){
+
         console.error(
             "Could not check Supabase session:",
             error
         );
+
     }
 }
+
 /* ============================================================
    AUTH STATE LISTENER
 ============================================================ */
+
 supabaseClient.auth.onAuthStateChange(
     function(event,session){
+
         if(
             event === "SIGNED_IN" &&
             session &&
             session.user
         ){
+
             enterApp(
                 session.user.email || ""
             );
+
             /*
                Run asynchronously so the auth callback itself
                is not blocked.
             */
+
             setTimeout(
                 function(){
+
                     checkAdminPanelAccess();
+
                 },
                 0
             );
+
         }
+
         if(
             event === "SIGNED_OUT"
         ){
+
             const adminSection =
                 document.getElementById(
                     "adminPanelSection"
                 );
+
             if(adminSection){
+
                 adminSection.style.display =
                     "none";
+
             }
+
             document
                 .getElementById("app")
                 .classList
                 .add("hidden");
+
             document
                 .getElementById("loginPage")
                 .style
                 .display = "flex";
+
         }
+
     }
 );
+
 /* ============================================================
    INITIAL LOAD
 ============================================================ */
+
 window.addEventListener(
     "load",
     function(){
+
         checkSession();
+
         calculateTotal();
+
         updateOpenCount();
+
     }
 );
+
 /* ============================================================
    LOGOUT
 ============================================================ */
+
 async function logout(){
+
     try{
+
         const result =
             await supabaseClient.auth.signOut();
+
         if(result.error){
             throw result.error;
         }
+
         toast(
             "Signed out successfully"
         );
+
     }catch(error){
+
         console.error(
             "Logout error:",
             error
         );
+
         toast(
             "Unable to sign out. Please try again."
         );
+
     }
 }
+
 /* ============================================================
    MAIN NAVIGATION
 ============================================================ */
+
 function showView(name,button){
+
     document
         .querySelectorAll(".view")
         .forEach(function(view){
+
             view.classList.remove(
                 "active"
             );
+
         });
+
     const target =
         document.getElementById(
             name + "View"
         );
+
     if(target){
+
         target.classList.add(
             "active"
         );
+
     }
+
     document
         .querySelectorAll(
             ".main-nav button"
         )
         .forEach(function(btn){
+
             btn.classList.remove(
                 "active"
             );
+
         });
+
     if(button){
+
         button.classList.add(
             "active"
         );
+
     }
 }
+
 /* ============================================================
    MOBILE NAVIGATION
 ============================================================ */
+
 function mobileView(name,button){
+
     showView(name);
+
     document
         .querySelectorAll(
             ".mobile-nav button"
         )
         .forEach(function(btn){
+
             btn.classList.remove(
                 "active"
             );
+
         });
+
     if(button){
+
         button.classList.add(
             "active"
         );
+
     }
 }
+
 /* ============================================================
    FUNDS NAVIGATION
 ============================================================ */
+
 function showFundsView(name,button){
+
     document
         .querySelectorAll(
             ".funds-view"
         )
         .forEach(function(view){
+
             view.classList.remove(
                 "active"
             );
+
         });
+
     const target =
         document.getElementById(
             name + "FundsView"
         );
+
     if(target){
+
         target.classList.add(
             "active"
         );
+
     }
+
     document
         .querySelectorAll(
             ".funds-tabs button"
         )
         .forEach(function(btn){
+
             btn.classList.remove(
                 "active"
             );
+
         });
+
     if(button){
+
         button.classList.add(
             "active"
         );
+
     }
 }
+
 function showFundsViewByName(name){
+
     const buttons =
         document.querySelectorAll(
             ".funds-tabs button"
         );
+
     const names = [
         "overview",
         "spot",
         "fundContract",
         "financial"
     ];
+
     const index =
         names.indexOf(
             name
         );
+
     if(
         index >= 0 &&
         buttons[index]
     ){
+
         showFundsView(
             name,
             buttons[index]
         );
+
     }
 }
+
 /* ============================================================
    SIDE
 ============================================================ */
+
 function setSide(side){
+
     currentSide =
         side;
+
     document
         .querySelector(".buy")
         .classList
@@ -2488,6 +3054,7 @@ function setSide(side){
             "active",
             side === "buy"
         );
+
     document
         .querySelector(".sell")
         .classList
@@ -2495,14 +3062,17 @@ function setSide(side){
             "active",
             side === "sell"
         );
+
     const submit =
         document.getElementById(
             "submitOrder"
         );
+
     submit.classList.toggle(
         "sell",
         side === "sell"
     );
+
     submit.textContent =
         (
             currentMode === "margin"
@@ -2515,47 +3085,61 @@ function setSide(side){
                 : "Sell"
         );
 }
+
 /* ============================================================
    ORDER MODE
 ============================================================ */
+
 function setOrderMode(mode,button){
+
     currentMode =
         mode;
+
     document
         .querySelectorAll(
             ".order-tabs button"
         )
         .forEach(function(btn){
+
             btn.classList.remove(
                 "active"
             );
+
         });
+
     button.classList.add(
         "active"
     );
+
     setSide(
         currentSide
     );
+
     toast(
         mode === "margin"
-            ? "Margin trading selected — simulation only"
-            : "Exchange trading selected — simulation only"
+            ? "Margin trading selected — Trading Experience"
+            : "Exchange trading selected — Trading Experience"
     );
 }
+
 /* ============================================================
    ORDER TYPE
 ============================================================ */
+
 function orderTypeChanged(){
+
     const type =
         document.getElementById(
             "orderType"
         ).value;
+
     document.getElementById(
         "priceField"
     ).style.display =
         type === "Market"
             ? "none"
             : "block";
+
     document.getElementById(
         "stopField"
     ).style.display =
@@ -2565,24 +3149,30 @@ function orderTypeChanged(){
         )
             ? "block"
             : "none";
+
     calculateTotal();
 }
+
 /* ============================================================
    TOTAL
 ============================================================ */
+
 function calculateTotal(){
+
     const price =
         parseFloat(
             document.getElementById(
                 "orderPrice"
             ).value
         ) || 0;
+
     const amount =
         parseFloat(
             document.getElementById(
                 "orderAmount"
             ).value
         ) || 0;
+
     document.getElementById(
         "orderTotal"
     ).value =
@@ -2597,74 +3187,98 @@ function calculateTotal(){
             }
         );
 }
+
 document.addEventListener(
     "input",
     function(event){
+
         if(
             event.target.id === "orderPrice" ||
             event.target.id === "orderAmount"
         ){
+
             calculateTotal();
+
         }
+
     }
 );
+
 /* ============================================================
    QUICK AMOUNT
 ============================================================ */
+
 function setPercent(percent){
+
     const balance =
         18920.40;
+
     const price =
         parseFloat(
             document.getElementById(
                 "orderPrice"
             ).value
         ) || 68420.20;
+
     const amount =
         (
             balance * percent
         ) / price;
+
     document.getElementById(
         "orderAmount"
     ).value =
         amount.toFixed(4);
+
     calculateTotal();
 }
+
 /* ============================================================
-   PLACE SIMULATED ORDER
+   PLACE TRADING ORDER
 ============================================================ */
+
 function placeOrder(){
+
     const type =
         document.getElementById(
             "orderType"
         ).value;
+
     const price =
         parseFloat(
             document.getElementById(
                 "orderPrice"
             ).value
         ) || 0;
+
     const amount =
         parseFloat(
             document.getElementById(
                 "orderAmount"
             ).value
         ) || 0;
+
     if(amount <= 0){
+
         toast(
             "Enter a valid amount"
         );
+
         return;
     }
+
     if(
         type !== "Market" &&
         price <= 0
     ){
+
         toast(
             "Enter a valid price"
         );
+
         return;
     }
+
     const shownPrice =
         type === "Market"
             ? "Market"
@@ -2676,15 +3290,19 @@ function placeOrder(){
                       maximumFractionDigits:2
                   }
               );
+
     const side =
         currentSide === "buy"
             ? "Buy"
             : "Sell";
+
     /* OPEN ORDER */
+
     const row =
         document.createElement(
             "tr"
         );
+
     row.innerHTML =
         "<td>BTC/USD</td>" +
         "<td>" +
@@ -2713,16 +3331,20 @@ function placeOrder(){
         "Cancel" +
         "</button>" +
         "</td>";
+
     document
         .getElementById(
             "openOrdersTable"
         )
         .prepend(row);
+
     /* HISTORY */
+
     const historyRow =
         document.createElement(
             "tr"
         );
+
     historyRow.innerHTML =
         "<td>Just now</td>" +
         "<td>BTC/USD</td>" +
@@ -2745,50 +3367,68 @@ function placeOrder(){
         amount.toFixed(4) +
         "</td>" +
         "<td>Open</td>";
+
     document
         .getElementById(
             "historyTable"
         )
         .prepend(historyRow);
+
     updateOpenCount();
+
     toast(
         side +
-        " order created — simulation only"
+        " order created — Trading Experience"
     );
 }
+
 /* ============================================================
    CANCEL
 ============================================================ */
+
 function cancelRow(button){
+
     const row =
         button.closest(
             "tr"
         );
+
     if(row){
+
         row.remove();
+
     }
+
     updateOpenCount();
+
     toast(
-        "Simulated order cancelled"
+        "Trading order cancelled"
     );
 }
+
 /* ============================================================
    OPEN COUNT
 ============================================================ */
+
 function updateOpenCount(){
+
     const number =
         document.querySelectorAll(
             "#openOrdersTable tr"
         ).length;
+
     const openCount =
         document.getElementById(
             "openCount"
         );
+
     const dashOpen =
         document.getElementById(
             "dashOpen"
         );
+
     if(openCount){
+
         openCount.textContent =
             number +
             " " +
@@ -2797,69 +3437,95 @@ function updateOpenCount(){
                     ? "order"
                     : "orders"
             );
+
     }
+
     if(dashOpen){
+
         dashOpen.textContent =
             number;
+
     }
 }
+
 /* ============================================================
    TIMEFRAME
 ============================================================ */
+
 function setTimeframe(button,time){
+
     document
         .querySelectorAll(
             ".chart-toolbar button"
         )
         .forEach(function(btn){
+
             btn.classList.remove(
                 "active"
             );
+
         });
+
     button.classList.add(
         "active"
     );
+
     document.getElementById(
         "chartTime"
     ).textContent =
         time;
+
     toast(
         "Chart timeframe: " +
         time +
-        " — simulation"
+        " — Trading Experience"
     );
 }
+
 /* ============================================================
    TOAST
 ============================================================ */
+
 function toast(message){
+
     const box =
         document.getElementById(
             "toast"
         );
+
     if(!box){
         return;
     }
+
     box.textContent =
         message;
+
     box.style.opacity =
         "1";
+
     box.style.transform =
         "translateY(0)";
+
     clearTimeout(
         toastTimer
     );
+
     toastTimer =
         setTimeout(
             function(){
+
                 box.style.opacity =
                     "0";
+
                 box.style.transform =
                     "translateY(10px)";
+
             },
             3000
         );
 }
+
 </script>
+
 </body>
 </html>
