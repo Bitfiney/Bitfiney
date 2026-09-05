@@ -1,0 +1,2533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bitfiney Admin — Simulation</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    background:#080d12;
+    color:#e9eef3;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+header{
+    height:62px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:0 18px;
+    background:#0e151c;
+    border-bottom:1px solid #27323d;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:900;
+}
+
+.logo span{
+    color:#3d9cff;
+}
+
+.badge{
+    padding:5px 8px;
+    border-radius:5px;
+    background:#f1aa00;
+    color:#111;
+    font-size:10px;
+    font-weight:900;
+}
+
+.spacer{
+    flex:1;
+}
+
+.admin-label{
+    color:#8c99a5;
+    font-size:12px;
+}
+
+.layout{
+    display:flex;
+    min-height:calc(100vh - 62px);
+}
+
+.sidebar{
+    width:225px;
+    flex-shrink:0;
+    background:#0c1319;
+    border-right:1px solid #202b35;
+    padding:14px;
+}
+
+.sidebar button{
+    width:100%;
+    border:0;
+    background:transparent;
+    color:#8e9aa6;
+    text-align:left;
+    padding:11px 12px;
+    margin-bottom:5px;
+    border-radius:7px;
+}
+
+.sidebar button:hover,
+.sidebar button.active{
+    background:#19242e;
+    color:#fff;
+}
+
+.main{
+    flex:1;
+    padding:18px;
+    max-width:1600px;
+}
+
+.view{
+    display:none;
+}
+
+.view.active{
+    display:block;
+}
+
+.notice{
+    background:#1c170e;
+    border:1px solid #665019;
+    color:#e7c976;
+    padding:12px 14px;
+    border-radius:8px;
+    margin-bottom:14px;
+    line-height:1.55;
+    font-size:12px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.card{
+    background:#101820;
+    border:1px solid #27333e;
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:12px;
+}
+
+.stat-label{
+    color:#7f8b97;
+    font-size:11px;
+}
+
+.stat-value{
+    margin-top:7px;
+    font-size:25px;
+    font-weight:900;
+}
+
+.green{
+    color:#2bd67b;
+}
+
+.red{
+    color:#ff5d69;
+}
+
+.muted{
+    color:#7f8c98;
+    font-size:12px;
+}
+
+.table-wrapper{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th,
+td{
+    text-align:left;
+    padding:10px 7px;
+    border-bottom:1px solid #202a34;
+    white-space:nowrap;
+}
+
+th{
+    color:#75828e;
+    font-size:10px;
+    text-transform:uppercase;
+}
+
+.action{
+    border:0;
+    border-radius:6px;
+    padding:6px 9px;
+    margin:2px;
+    color:#fff;
+    background:#1d2a35;
+}
+
+.action:hover{
+    filter:brightness(1.2);
+}
+
+.approve{
+    background:#155c40;
+}
+
+.reject{
+    background:#59242d;
+}
+
+.blue{
+    background:#18568b;
+}
+
+.warning{
+    background:#6b5018;
+}
+
+.controls{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
+    margin-top:12px;
+}
+
+.control-button{
+    border:1px solid #34414d;
+    background:#19232c;
+    color:#aeb8c1;
+    padding:8px;
+    border-radius:6px;
+}
+
+.control-button.enabled{
+    background:#155b40;
+    color:#fff;
+    border-color:#267d59;
+}
+
+.control-button.restricted{
+    background:#57242c;
+    color:#fff;
+    border-color:#873843;
+}
+
+.user-card{
+    margin-bottom:12px;
+}
+
+.user-head{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+}
+
+.status-active{
+    color:#2bd67b;
+}
+
+.status-restricted{
+    color:#ff5d69;
+}
+
+.user-actions{
+    margin-top:10px;
+}
+
+.search{
+    width:100%;
+    max-width:400px;
+    background:#0a1016;
+    border:1px solid #2d3945;
+    color:#fff;
+    padding:10px;
+    border-radius:7px;
+    margin-bottom:12px;
+}
+
+.activity{
+    max-height:500px;
+    overflow:auto;
+}
+
+.activity-item{
+    padding:11px 5px;
+    border-bottom:1px solid #202a34;
+}
+
+.activity-time{
+    color:#697682;
+    font-size:10px;
+}
+
+.toast{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    background:#17222c;
+    border:1px solid #3b4854;
+    padding:12px 15px;
+    border-radius:8px;
+    display:none;
+    z-index:50;
+}
+
+.toast.show{
+    display:block;
+}
+
+.empty{
+    padding:20px;
+    color:#778490;
+    text-align:center;
+}
+
+@media(max-width:1000px){
+
+    .sidebar{
+        width:185px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .controls{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:0 10px;
+    }
+
+    .admin-label{
+        display:none;
+    }
+
+    .layout{
+        display:block;
+    }
+
+    .sidebar{
+        width:100%;
+        display:flex;
+        overflow:auto;
+        border-right:0;
+        border-bottom:1px solid #202b35;
+        padding:7px;
+    }
+
+    .sidebar button{
+        min-width:max-content;
+        margin:0 3px;
+    }
+
+    .main{
+        padding:10px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .controls{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Bitfiney<span>.</span>
+    </div>
+
+    <span class="badge">
+        SIMULATION ADMIN
+    </span>
+
+    <div class="spacer"></div>
+
+    <span class="admin-label">
+        Administrator: admin@bitfiney.local
+    </span>
+
+</header>
+
+
+<div class="layout">
+
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <button
+        class="active"
+        onclick="showView('overview',this)"
+    >
+        Overview
+    </button>
+
+    <button
+        onclick="showView('users',this)"
+    >
+        Users
+    </button>
+
+    <button
+        onclick="showView('deposits',this)"
+    >
+        Deposits
+    </button>
+
+    <button
+        onclick="showView('withdrawals',this)"
+    >
+        Withdrawals
+    </button>
+
+    <button
+        onclick="showView('controls',this)"
+    >
+        User Controls
+    </button>
+
+    <button
+        onclick="showView('activity',this)"
+    >
+        Activity & Audit
+    </button>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+
+<div class="notice">
+
+    <strong>SIMULATION ONLY:</strong>
+
+    This standalone administrator panel changes simulated data
+    stored in this browser only. It does not transfer cryptocurrency,
+    process real deposits, execute real withdrawals, or create real
+    investment profits.
+
+    For genuine multi-user administration, this interface must be
+    connected to Supabase with authentication, PostgreSQL, RLS and
+    trusted server-side operations.
+
+</div>
+
+
+<!-- OVERVIEW -->
+
+<section
+    id="overviewView"
+    class="view active"
+>
+
+    <div class="stats">
+
+        <div class="card">
+
+            <div class="stat-label">
+                Total Users
+            </div>
+
+            <div
+                id="statUsers"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="stat-label">
+                Pending Deposits
+            </div>
+
+            <div
+                id="statDeposits"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="stat-label">
+                Pending Withdrawals
+            </div>
+
+            <div
+                id="statWithdrawals"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="stat-label">
+                Audit Events
+            </div>
+
+            <div
+                id="statAudit"
+                class="stat-value"
+            >
+                0
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Administrator Capabilities
+        </h3>
+
+        <p class="muted">
+
+            The Bitfiney administrator interface supports simulated
+            deposit approval/rejection, simulated profit entries,
+            simulated withdrawal approval/rejection, simulated
+            withdrawal address changes, simulated deposit address and
+            network configuration, feature restrictions, user activity
+            monitoring and administrator audit logging.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- USERS -->
+
+<section
+    id="usersView"
+    class="view"
+>
+
+    <div class="card">
+
+        <h3>
+            Users
+        </h3>
+
+        <input
+            id="userSearch"
+            class="search"
+            placeholder="Search user or email..."
+            oninput="renderUsers()"
+        >
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Balance</th>
+                        <th>Status</th>
+                        <th>Deposit Address</th>
+                        <th>Network</th>
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="usersTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- DEPOSITS -->
+
+<section
+    id="depositsView"
+    class="view"
+>
+
+    <div class="card">
+
+        <h3>
+            Simulated Deposit Requests
+        </h3>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Amount</th>
+                        <th>Reference</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="depositsTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- WITHDRAWALS -->
+
+<section
+    id="withdrawalsView"
+    class="view"
+>
+
+    <div class="card">
+
+        <h3>
+            Simulated Withdrawal Requests
+        </h3>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Amount</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="withdrawalsTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTROLS -->
+
+<section
+    id="controlsView"
+    class="view"
+>
+
+    <div class="card">
+
+        <h3>
+            User Feature Controls
+        </h3>
+
+        <p class="muted">
+            These switches represent simulated permissions.
+        </p>
+
+    </div>
+
+    <div id="controlsList">
+    </div>
+
+</section>
+
+
+<!-- ACTIVITY -->
+
+<section
+    id="activityView"
+    class="view"
+>
+
+    <div class="card">
+
+        <h3>
+            User Activity
+        </h3>
+
+        <div
+            id="activityList"
+            class="activity"
+        >
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>
+            Administrator Audit Log
+        </h3>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Time</th>
+                        <th>Administrator</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Details</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="auditTable">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<div
+    id="toast"
+    class="toast"
+></div>
+
+
+<script>
+
+
+/* ============================================================
+   SIMULATION DATA
+============================================================ */
+
+
+const STORAGE_KEY =
+    "bitfiney_admin_simulation_v2";
+
+
+const ADMIN_EMAIL =
+    "admin@bitfiney.local";
+
+
+let state =
+    JSON.parse(
+        localStorage.getItem(
+            STORAGE_KEY
+        ) || "null"
+    );
+
+
+if(!state){
+
+    state = {
+
+        users: [
+
+            {
+                id:"U1001",
+                name:"Trading User 1",
+                email:"user1@example.com",
+                balance:25480.72,
+                status:"active",
+
+                trading:true,
+                futures:true,
+                buy:true,
+                sell:true,
+                withdrawal:true,
+
+                depositAddress:"SIM-DEPOSIT-001",
+                network:"Ethereum / ERC-20"
+            },
+
+            {
+                id:"U1002",
+                name:"Trading User 2",
+                email:"user2@example.com",
+                balance:12840.50,
+                status:"active",
+
+                trading:true,
+                futures:true,
+                buy:true,
+                sell:true,
+                withdrawal:true,
+
+                depositAddress:"SIM-DEPOSIT-002",
+                network:"BNB Smart Chain / BEP-20"
+            },
+
+            {
+                id:"U1003",
+                name:"Trading User 3",
+                email:"user3@example.com",
+                balance:7420.25,
+                status:"active",
+
+                trading:true,
+                futures:true,
+                buy:true,
+                sell:true,
+                withdrawal:true,
+
+                depositAddress:"SIM-DEPOSIT-003",
+                network:"TRON / TRC-20"
+            }
+
+        ],
+
+
+        deposits: [
+
+            {
+                id:"D-1001",
+                user:"U1001",
+                amount:1500,
+                reference:"SIM-DEP-REQUEST-001",
+                status:"pending"
+            },
+
+            {
+                id:"D-1002",
+                user:"U1002",
+                amount:850,
+                reference:"SIM-DEP-REQUEST-002",
+                status:"pending"
+            }
+
+        ],
+
+
+        withdrawals: [
+
+            {
+                id:"W-1001",
+                user:"U1001",
+                amount:600,
+                address:"SIM-WALLET-001",
+                status:"pending"
+            },
+
+            {
+                id:"W-1002",
+                user:"U1003",
+                amount:350,
+                address:"SIM-WALLET-002",
+                status:"pending"
+            }
+
+        ],
+
+
+        activity: [
+
+            {
+                time:new Date().toLocaleString(),
+                user:"U1001",
+                activity:"Logged in to simulated trading"
+            },
+
+            {
+                time:new Date().toLocaleString(),
+                user:"U1002",
+                activity:"Viewed simulated wallet"
+            },
+
+            {
+                time:new Date().toLocaleString(),
+                user:"U1003",
+                activity:"Placed simulated BTC/USD order"
+            }
+
+        ],
+
+
+        audit: []
+
+    };
+
+    save();
+
+}
+
+
+/* ============================================================
+   HELPERS
+============================================================ */
+
+
+function save(){
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(state)
+    );
+
+    render();
+
+}
+
+
+function getUser(id){
+
+    return state.users.find(
+        function(user){
+
+            return user.id === id;
+
+        }
+    );
+
+}
+
+
+function money(value){
+
+    return "$" +
+        Number(value).toLocaleString(
+            undefined,
+            {
+                minimumFractionDigits:2,
+                maximumFractionDigits:2
+            }
+        );
+
+}
+
+
+function addAudit(
+    action,
+    userId,
+    details
+){
+
+    state.audit.unshift({
+
+        time:
+            new Date().toLocaleString(),
+
+        admin:
+            ADMIN_EMAIL,
+
+        user:
+            userId,
+
+        action:
+            action,
+
+        details:
+            details
+
+    });
+
+}
+
+
+/* ============================================================
+   NAVIGATION
+============================================================ */
+
+
+function showView(
+    name,
+    button
+){
+
+    document
+        .querySelectorAll(".view")
+        .forEach(
+            function(view){
+
+                view.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    const target =
+        document.getElementById(
+            name + "View"
+        );
+
+
+    if(target){
+
+        target.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".sidebar button"
+        )
+        .forEach(
+            function(btn){
+
+                btn.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+    if(button){
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   TOAST
+============================================================ */
+
+
+let toastTimer;
+
+
+function toast(message){
+
+    const box =
+        document.getElementById(
+            "toast"
+        );
+
+
+    box.textContent =
+        message;
+
+
+    box.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function(){
+
+                box.classList.remove(
+                    "show"
+                );
+
+            },
+            2600
+        );
+
+}
+
+
+/* ============================================================
+   DEPOSIT CONTROLS
+============================================================ */
+
+
+function approveDeposit(id){
+
+    const deposit =
+        state.deposits.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if(
+        !deposit ||
+        deposit.status !== "pending"
+    ){
+
+        return;
+
+    }
+
+
+    const user =
+        getUser(
+            deposit.user
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    deposit.status =
+        "approved";
+
+
+    user.balance +=
+        Number(
+            deposit.amount
+        );
+
+
+    addAudit(
+        "Deposit approved",
+        user.id,
+        "Simulated balance +" +
+        money(
+            deposit.amount
+        ) +
+        " (" +
+        deposit.id +
+        ")"
+    );
+
+
+    toast(
+        "Simulated deposit approved"
+    );
+
+
+    save();
+
+}
+
+
+function rejectDeposit(id){
+
+    const deposit =
+        state.deposits.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if(
+        !deposit ||
+        deposit.status !== "pending"
+    ){
+
+        return;
+
+    }
+
+
+    deposit.status =
+        "rejected";
+
+
+    addAudit(
+        "Deposit rejected",
+        deposit.user,
+        deposit.id
+    );
+
+
+    toast(
+        "Simulated deposit rejected"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   PROFIT
+============================================================ */
+
+
+function addProfit(userId){
+
+    const user =
+        getUser(
+            userId
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    const value =
+        prompt(
+            "Enter simulated profit amount.\n\nThis is NOT real investment profit:",
+            "100"
+        );
+
+
+    if(
+        value === null ||
+        value.trim() === ""
+    ){
+
+        return;
+
+    }
+
+
+    const amount =
+        Number(
+            value
+        );
+
+
+    if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ){
+
+        toast(
+            "Enter a valid positive amount"
+        );
+
+        return;
+
+    }
+
+
+    user.balance +=
+        amount;
+
+
+    addAudit(
+        "Simulated profit added",
+        user.id,
+        "+" +
+        money(
+            amount
+        )
+    );
+
+
+    toast(
+        "Simulated profit added"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   WITHDRAWALS
+============================================================ */
+
+
+function approveWithdrawal(id){
+
+    const withdrawal =
+        state.withdrawals.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if(
+        !withdrawal ||
+        withdrawal.status !== "pending"
+    ){
+
+        return;
+
+    }
+
+
+    const user =
+        getUser(
+            withdrawal.user
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    if(
+        user.balance <
+        withdrawal.amount
+    ){
+
+        toast(
+            "Insufficient simulated balance"
+        );
+
+        return;
+
+    }
+
+
+    withdrawal.status =
+        "approved";
+
+
+    user.balance -=
+        Number(
+            withdrawal.amount
+        );
+
+
+    addAudit(
+        "Withdrawal approved",
+        user.id,
+        "Simulated balance -" +
+        money(
+            withdrawal.amount
+        ) +
+        " (" +
+        withdrawal.id +
+        ")"
+    );
+
+
+    toast(
+        "Simulated withdrawal approved"
+    );
+
+
+    save();
+
+}
+
+
+function rejectWithdrawal(id){
+
+    const withdrawal =
+        state.withdrawals.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if(
+        !withdrawal ||
+        withdrawal.status !== "pending"
+    ){
+
+        return;
+
+    }
+
+
+    withdrawal.status =
+        "rejected";
+
+
+    addAudit(
+        "Withdrawal rejected",
+        withdrawal.user,
+        withdrawal.id
+    );
+
+
+    toast(
+        "Simulated withdrawal rejected"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   CHANGE WITHDRAWAL ADDRESS
+============================================================ */
+
+
+function changeWithdrawalAddress(id){
+
+    const withdrawal =
+        state.withdrawals.find(
+            function(item){
+
+                return item.id === id;
+
+            }
+        );
+
+
+    if(
+        !withdrawal ||
+        withdrawal.status !== "pending"
+    ){
+
+        return;
+
+    }
+
+
+    const newAddress =
+        prompt(
+            "Enter the new SIMULATED withdrawal address:",
+            withdrawal.address
+        );
+
+
+    if(
+        newAddress === null ||
+        newAddress.trim() === ""
+    ){
+
+        return;
+
+    }
+
+
+    withdrawal.address =
+        newAddress.trim();
+
+
+    addAudit(
+        "Withdrawal address changed",
+        withdrawal.user,
+        withdrawal.id +
+        " -> " +
+        withdrawal.address
+    );
+
+
+    toast(
+        "Simulated withdrawal address updated"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   DEPOSIT ADDRESS + NETWORK
+============================================================ */
+
+
+function configureDeposit(
+    userId
+){
+
+    const user =
+        getUser(
+            userId
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    const address =
+        prompt(
+            "SIMULATED deposit address:",
+            user.depositAddress
+        );
+
+
+    if(
+        address === null ||
+        address.trim() === ""
+    ){
+
+        return;
+
+    }
+
+
+    const network =
+        prompt(
+            "SIMULATED network / chain:\n\nExamples: ERC-20, TRC-20, BEP-20",
+            user.network
+        );
+
+
+    if(
+        network === null ||
+        network.trim() === ""
+    ){
+
+        return;
+
+    }
+
+
+    user.depositAddress =
+        address.trim();
+
+
+    user.network =
+        network.trim();
+
+
+    addAudit(
+        "Deposit address/network changed",
+        user.id,
+        user.depositAddress +
+        " / " +
+        user.network
+    );
+
+
+    toast(
+        "Simulated deposit settings updated"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   FEATURE CONTROLS
+============================================================ */
+
+
+function toggleFeature(
+    userId,
+    key,
+    label
+){
+
+    const user =
+        getUser(
+            userId
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    user[key] =
+        !user[key];
+
+
+    if(
+        key === "trading" &&
+        user[key] === true
+    ){
+
+        user.status =
+            "active";
+
+    }
+
+
+    addAudit(
+        label +
+        " " +
+        (
+            user[key]
+                ? "enabled"
+                : "restricted"
+        ),
+        user.id,
+        label +
+        ": " +
+        (
+            user[key]
+                ? "enabled"
+                : "restricted"
+        )
+    );
+
+
+    toast(
+        label +
+        " " +
+        (
+            user[key]
+                ? "enabled"
+                : "restricted"
+        )
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   RESTRICT EVERYTHING
+============================================================ */
+
+
+function restrictAll(
+    userId
+){
+
+    const user =
+        getUser(
+            userId
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    user.trading =
+        false;
+
+    user.futures =
+        false;
+
+    user.buy =
+        false;
+
+    user.sell =
+        false;
+
+    user.withdrawal =
+        false;
+
+    user.status =
+        "restricted";
+
+
+    addAudit(
+        "User fully restricted",
+        user.id,
+        "Trading, Futures, Buy, Sell and Withdrawals restricted"
+    );
+
+
+    toast(
+        "User fully restricted"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   RESTORE EVERYTHING
+============================================================ */
+
+
+function restoreAll(
+    userId
+){
+
+    const user =
+        getUser(
+            userId
+        );
+
+
+    if(!user){
+
+        return;
+
+    }
+
+
+    user.trading =
+        true;
+
+    user.futures =
+        true;
+
+    user.buy =
+        true;
+
+    user.sell =
+        true;
+
+    user.withdrawal =
+        true;
+
+    user.status =
+        "active";
+
+
+    addAudit(
+        "User restored",
+        user.id,
+        "Trading, Futures, Buy, Sell and Withdrawals restored"
+    );
+
+
+    toast(
+        "User restored"
+    );
+
+
+    save();
+
+}
+
+
+/* ============================================================
+   USERS TABLE
+============================================================ */
+
+
+function renderUsers(){
+
+    const search =
+        (
+            document.getElementById(
+                "userSearch"
+            )?.value ||
+            ""
+        )
+        .toLowerCase();
+
+
+    const users =
+        state.users.filter(
+            function(user){
+
+                return (
+                    user.name
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    user.email
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    user.id
+                        .toLowerCase()
+                        .includes(search)
+                );
+
+            }
+        );
+
+
+    const table =
+        document.getElementById(
+            "usersTable"
+        );
+
+
+    if(users.length === 0){
+
+        table.innerHTML =
+            "<tr><td colspan='8' class='empty'>" +
+            "No users found." +
+            "</td></tr>";
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        users.map(
+            function(user){
+
+                return `
+
+                <tr>
+
+                    <td>${user.id}</td>
+
+                    <td>${user.name}</td>
+
+                    <td>${user.email}</td>
+
+                    <td>${money(user.balance)}</td>
+
+                    <td class="${
+                        user.status === "active"
+                            ? "status-active"
+                            : "status-restricted"
+                    }">
+                        ${user.status}
+                    </td>
+
+                    <td>
+                        ${user.depositAddress}
+                    </td>
+
+                    <td>
+                        ${user.network}
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="action blue"
+                            onclick="addProfit('${user.id}')"
+                        >
+                            + Profit
+                        </button>
+
+                        <button
+                            class="action"
+                            onclick="configureDeposit('${user.id}')"
+                        >
+                            Deposit Settings
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* ============================================================
+   DEPOSITS TABLE
+============================================================ */
+
+
+function renderDeposits(){
+
+    const table =
+        document.getElementById(
+            "depositsTable"
+        );
+
+
+    if(
+        state.deposits.length === 0
+    ){
+
+        table.innerHTML =
+            "<tr><td colspan='6' class='empty'>" +
+            "No deposit requests." +
+            "</td></tr>";
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        state.deposits.map(
+            function(deposit){
+
+                const user =
+                    getUser(
+                        deposit.user
+                    );
+
+
+                let actions =
+                    "—";
+
+
+                if(
+                    deposit.status ===
+                    "pending"
+                ){
+
+                    actions = `
+
+                        <button
+                            class="action approve"
+                            onclick="approveDeposit('${deposit.id}')"
+                        >
+                            Approve
+                        </button>
+
+                        <button
+                            class="action reject"
+                            onclick="rejectDeposit('${deposit.id}')"
+                        >
+                            Reject
+                        </button>
+
+                    `;
+
+                }
+
+
+                return `
+
+                <tr>
+
+                    <td>${deposit.id}</td>
+
+                    <td>
+                        ${user?.email || deposit.user}
+                    </td>
+
+                    <td>
+                        ${money(deposit.amount)}
+                    </td>
+
+                    <td>
+                        ${deposit.reference}
+                    </td>
+
+                    <td>
+                        ${deposit.status}
+                    </td>
+
+                    <td>
+                        ${actions}
+                    </td>
+
+                </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* ============================================================
+   WITHDRAWAL TABLE
+============================================================ */
+
+
+function renderWithdrawals(){
+
+    const table =
+        document.getElementById(
+            "withdrawalsTable"
+        );
+
+
+    if(
+        state.withdrawals.length === 0
+    ){
+
+        table.innerHTML =
+            "<tr><td colspan='6' class='empty'>" +
+            "No withdrawal requests." +
+            "</td></tr>";
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        state.withdrawals.map(
+            function(withdrawal){
+
+                const user =
+                    getUser(
+                        withdrawal.user
+                    );
+
+
+                let actions =
+                    "—";
+
+
+                if(
+                    withdrawal.status ===
+                    "pending"
+                ){
+
+                    actions = `
+
+                        <button
+                            class="action approve"
+                            onclick="approveWithdrawal('${withdrawal.id}')"
+                        >
+                            Approve
+                        </button>
+
+                        <button
+                            class="action reject"
+                            onclick="rejectWithdrawal('${withdrawal.id}')"
+                        >
+                            Reject
+                        </button>
+
+                        <button
+                            class="action"
+                            onclick="changeWithdrawalAddress('${withdrawal.id}')"
+                        >
+                            Change Address
+                        </button>
+
+                    `;
+
+                }
+
+
+                return `
+
+                <tr>
+
+                    <td>${withdrawal.id}</td>
+
+                    <td>
+                        ${user?.email || withdrawal.user}
+                    </td>
+
+                    <td>
+                        ${money(withdrawal.amount)}
+                    </td>
+
+                    <td>
+                        ${withdrawal.address}
+                    </td>
+
+                    <td>
+                        ${withdrawal.status}
+                    </td>
+
+                    <td>
+                        ${actions}
+                    </td>
+
+                </tr>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* ============================================================
+   USER CONTROLS
+============================================================ */
+
+
+function renderControls(){
+
+    const container =
+        document.getElementById(
+            "controlsList"
+        );
+
+
+    container.innerHTML =
+        state.users.map(
+            function(user){
+
+                return `
+
+                <div class="card user-card">
+
+                    <div class="user-head">
+
+                        <div>
+
+                            <strong>
+                                ${user.name}
+                            </strong>
+
+                            <div class="muted">
+                                ${user.email}
+                            </div>
+
+                        </div>
+
+                        <div class="${
+                            user.status === "active"
+                                ? "status-active"
+                                : "status-restricted"
+                        }">
+
+                            ${user.status}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="controls">
+
+
+                        <button
+                            class="control-button ${
+                                user.trading
+                                    ? "enabled"
+                                    : "restricted"
+                            }"
+                            onclick="toggleFeature(
+                                '${user.id}',
+                                'trading',
+                                'Trading'
+                            )"
+                        >
+                            Trading:
+                            ${user.trading ? "ON" : "OFF"}
+                        </button>
+
+
+                        <button
+                            class="control-button ${
+                                user.futures
+                                    ? "enabled"
+                                    : "restricted"
+                            }"
+                            onclick="toggleFeature(
+                                '${user.id}',
+                                'futures',
+                                'Futures'
+                            )"
+                        >
+                            Futures:
+                            ${user.futures ? "ON" : "OFF"}
+                        </button>
+
+
+                        <button
+                            class="control-button ${
+                                user.buy
+                                    ? "enabled"
+                                    : "restricted"
+                            }"
+                            onclick="toggleFeature(
+                                '${user.id}',
+                                'buy',
+                                'Buy'
+                            )"
+                        >
+                            Buy:
+                            ${user.buy ? "ON" : "OFF"}
+                        </button>
+
+
+                        <button
+                            class="control-button ${
+                                user.sell
+                                    ? "enabled"
+                                    : "restricted"
+                            }"
+                            onclick="toggleFeature(
+                                '${user.id}',
+                                'sell',
+                                'Sell'
+                            )"
+                        >
+                            Sell:
+                            ${user.sell ? "ON" : "OFF"}
+                        </button>
+
+
+                        <button
+                            class="control-button ${
+                                user.withdrawal
+                                    ? "enabled"
+                                    : "restricted"
+                            }"
+                            onclick="toggleFeature(
+                                '${user.id}',
+                                'withdrawal',
+                                'Withdrawals'
+                            )"
+                        >
+                            Withdrawals:
+                            ${user.withdrawal ? "ON" : "OFF"}
+                        </button>
+
+
+                    </div>
+
+
+                    <div class="user-actions">
+
+                        <button
+                            class="action reject"
+                            onclick="restrictAll('${user.id}')"
+                        >
+                            Restrict All
+                        </button>
+
+
+                        <button
+                            class="action approve"
+                            onclick="restoreAll('${user.id}')"
+                        >
+                            Restore All
+                        </button>
+
+
+                        <button
+                            class="action blue"
+                            onclick="addProfit('${user.id}')"
+                        >
+                            Add Simulated Profit
+                        </button>
+
+
+                        <button
+                            class="action"
+                            onclick="configureDeposit('${user.id}')"
+                        >
+                            Deposit Address / Network
+                        </button>
+
+                    </div>
+
+                </div>
+
+                `;
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* ============================================================
+   ACTIVITY
+============================================================ */
+
+
+function renderActivity(){
+
+    const container =
+        document.getElementById(
+            "activityList"
+        );
+
+
+    if(
+        state.activity.length === 0
+    ){
+
+        container.innerHTML =
+            "<div class='empty'>" +
+            "No activity recorded." +
+            "</div>";
+
+    }else{
+
+        container.innerHTML =
+            state.activity
+                .slice(0,100)
+                .map(
+                    function(item){
+
+                        const user =
+                            getUser(
+                                item.user
+                            );
+
+
+                        return `
+
+                        <div class="activity-item">
+
+                            <div>
+                                ${item.activity}
+                            </div>
+
+                            <div class="muted">
+                                ${
+                                    user?.email ||
+                                    item.user
+                                }
+                            </div>
+
+                            <div class="activity-time">
+                                ${item.time}
+                            </div>
+
+                        </div>
+
+                        `;
+
+                    }
+                )
+                .join("");
+
+    }
+
+
+    const auditTable =
+        document.getElementById(
+            "auditTable"
+        );
+
+
+    if(
+        state.audit.length === 0
+    ){
+
+        auditTable.innerHTML =
+            "<tr><td colspan='5' class='empty'>" +
+            "No administrator actions yet." +
+            "</td></tr>";
+
+        return;
+
+    }
+
+
+    auditTable.innerHTML =
+        state.audit
+            .slice(0,100)
+            .map(
+                function(item){
+
+                    const user =
+                        getUser(
+                            item.user
+                        );
+
+
+                    return `
+
+                    <tr>
+
+                        <td>
+                            ${item.time}
+                        </td>
+
+                        <td>
+                            ${item.admin}
+                        </td>
+
+                        <td>
+                            ${
+                                user?.email ||
+                                item.user
+                            }
+                        </td>
+
+                        <td>
+                            ${item.action}
+                        </td>
+
+                        <td>
+                            ${item.details}
+                        </td>
+
+                    </tr>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+/* ============================================================
+   OVERVIEW
+============================================================ */
+
+
+function renderOverview(){
+
+    document.getElementById(
+        "statUsers"
+    ).textContent =
+        state.users.length;
+
+
+    document.getElementById(
+        "statDeposits"
+    ).textContent =
+        state.deposits.filter(
+            function(item){
+
+                return item.status ===
+                    "pending";
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "statWithdrawals"
+    ).textContent =
+        state.withdrawals.filter(
+            function(item){
+
+                return item.status ===
+                    "pending";
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "statAudit"
+    ).textContent =
+        state.audit.length;
+
+}
+
+
+/* ============================================================
+   RENDER
+============================================================ */
+
+
+function render(){
+
+    renderOverview();
+
+    renderUsers();
+
+    renderDeposits();
+
+    renderWithdrawals();
+
+    renderControls();
+
+    renderActivity();
+
+}
+
+
+render();
+
+
+</script>
+
+</body>
+</html>
