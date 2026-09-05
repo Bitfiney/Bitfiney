@@ -15,13 +15,13 @@ header{height:62px;position:sticky;top:0;z-index:20;background:#0b0e11;border-bo
 input,select,textarea{width:100%;background:#0e1216;border:1px solid var(--border);color:#fff;border-radius:5px;padding:10px;outline:none}textarea{min-height:78px;resize:vertical}label{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.field{margin-bottom:12px}.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--border);background:var(--panel2);color:#fff;padding:10px 14px;border-radius:5px}.btn.green{background:rgba(22,199,132,.14);border-color:rgba(22,199,132,.45);color:var(--green)}.btn.red{background:rgba(234,57,67,.12);border-color:rgba(234,57,67,.4);color:var(--red)}.btn.yellow{background:rgba(240,185,11,.12);border-color:rgba(240,185,11,.4);color:var(--yellow)}.btn.blue{background:rgba(75,156,255,.12);border-color:rgba(75,156,255,.4);color:var(--blue)}
 .user-list{display:grid;gap:8px;max-height:520px;overflow:auto}.user-item{padding:12px;border:1px solid var(--border);background:#101418;border-radius:5px;cursor:pointer}.user-item:hover,.user-item.selected{border-color:#46515b;background:var(--panel2)}.user-item strong{display:block}.user-item small{color:var(--muted)}.pill{display:inline-block;padding:4px 7px;border-radius:4px;font-size:10px;background:rgba(22,199,132,.1);color:var(--green);border:1px solid rgba(22,199,132,.2)}.pill.red{background:rgba(234,57,67,.1);color:var(--red);border-color:rgba(234,57,67,.25)}
 .control-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.control{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#101418;border:1px solid var(--border);padding:10px;border-radius:5px}.switch{min-width:92px}.notice{border:1px solid var(--border);background:#101418;border-radius:5px;padding:10px 12px;font-size:12px;line-height:1.5;margin-bottom:14px}.notice.warn{border-color:rgba(234,57,67,.35);background:rgba(234,57,67,.07);color:#ff9aa1}.notice.ok{border-color:rgba(22,199,132,.3);color:#9ff0cc}.toast{position:fixed;right:18px;bottom:18px;background:#20262d;border:1px solid #3b444d;border-radius:6px;padding:11px 14px;display:none;z-index:100}.toast.show{display:block}
-#gate{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px}.gatebox{max-width:430px;width:100%;background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:30px;text-align:center}.gatebox h2{margin-top:0}.gatebox p{color:var(--muted);line-height:1.5}
+#gate .login-form{margin-top:18px;text-align:left}.login-form label{margin-top:10px}.login-form .btn{width:100%;margin-top:12px}.login-error{color:#ff9aa1;font-size:12px;margin-top:10px;display:none}#gate{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px}.gatebox{max-width:430px;width:100%;background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:30px;text-align:center}.gatebox h2{margin-top:0}.gatebox p{color:var(--muted);line-height:1.5}
 @media(max-width:1000px){.grid4{grid-template-columns:repeat(2,1fr)}.sidebar{width:180px}}@media(max-width:700px){.layout{display:block}.sidebar{width:100%;display:flex;overflow:auto;border-right:0;border-bottom:1px solid var(--border);padding:7px}.sidebar button{min-width:max-content;margin:0 3px}.main{padding:12px}.grid4,.grid2,.row,.row3,.control-grid{grid-template-columns:1fr}.admin-email{display:none}}
 </style>
 </head>
 <body>
-<div id="gate"><div class="gatebox"><h2 id="gateTitle">Checking administrator access</h2><p id="gateMessage">Connecting to Bitfiney...</p></div></div>
-<header><div class="logo">Bitfiney<span>.</span></div><span class="badge">ADMINISTRATOR</span><div class="spacer"></div><span id="adminEmail" class="admin-email"></span></header>
+<div id="gate"><div class="gatebox"><h2 id="gateTitle">Administrator Login</h2><p id="gateMessage">Sign in with your authorized Bitfiney administrator account.</p><div id="loginForm" class="login-form"><label>Email</label><input id="loginEmail" type="email" autocomplete="username" placeholder="Admin email"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Password"><button id="loginButton" class="btn green" type="button" onclick="adminLogin()">Login</button><div id="loginError" class="login-error"></div></div></div></div>
+<header><div class="logo">Bitfiney<span>.</span></div><span class="badge">ADMINISTRATOR</span><div class="spacer"></div><span id="adminEmail" class="admin-email"></span><button class="btn red" type="button" onclick="adminLogout()">Logout</button></header>
 <div class="layout">
 <aside class="sidebar">
 <button class="active" onclick="showView('overview',this)">Overview</button>
@@ -91,17 +91,50 @@ const money=v=>"$"+Number(v||0).toLocaleString(undefined,{minimumFractionDigits:
 function toast(m){const e=$("toast");e.textContent=m;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2600)}
 function showView(name,btn){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$("view-"+name).classList.add('active');document.querySelectorAll('.sidebar button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');if(name==='users')loadUsers();if(name==='deposits')loadDeposits();if(name==='withdrawals')loadWithdrawals();if(name==='audit')loadAudit()}
 function goHome(){location.href='index.html'}
+async function adminLogout(){if(db) await db.auth.signOut();location.reload()}
+function showLogin(message='Sign in with your authorized Bitfiney administrator account.'){
+    $('gateTitle').textContent='Administrator Login';
+    $('gateMessage').textContent=message;
+    $('loginForm').classList.remove('hidden');
+    $('loginError').style.display='none';
+    $('loginButton').disabled=false;
+    $('loginButton').textContent='Login';
+}
+async function adminLogin(){
+    const email=$('loginEmail').value.trim();
+    const password=$('loginPassword').value;
+    const err=$('loginError');
+    if(!email||!password){err.textContent='Enter your email and password.';err.style.display='block';return;}
+    $('loginButton').disabled=true;$('loginButton').textContent='Signing in...';err.style.display='none';
+    try{
+        if(!db) await loadSupabaseClient();
+        const {data,error}=await timeoutPromise(db.auth.signInWithPassword({email,password}),15000);
+        if(error) throw error;
+        if(!data?.user) throw new Error('Login did not create a session.');
+        const {data:admin,error:ae}=await timeoutPromise(db.from('admins').select('user_id').eq('user_id',data.user.id).maybeSingle(),10000);
+        if(ae) throw ae;
+        if(!admin){
+            await db.auth.signOut();
+            throw new Error('This account is not authorized to use the administrator panel.');
+        }
+        $('adminEmail').textContent=data.user.email||'';
+        $('loginForm').classList.add('hidden');
+        $('gate').classList.add('hidden');
+        await Promise.all([loadStats(),loadUsers(),loadDeposits(),loadWithdrawals(),loadAudit()]);
+    }catch(error){
+        console.error('Administrator login failed:',error);
+        err.textContent=error?.message||'Unable to sign in.';err.style.display='block';
+        $('loginButton').disabled=false;$('loginButton').textContent='Login';
+    }
+}
 async function requireAdmin(){
-    gate('Checking administrator access','Please wait...');
     try{
         await timeoutPromise(loadSupabaseClient(),10000);
         const {data,error}=await timeoutPromise(db.auth.getSession(),10000);
         if(error) throw error;
         const session=data?.session;
         if(!session?.user){
-            $('gateTitle').textContent='Login required';
-            $('gateMessage').textContent='Please log in to your Bitfiney administrator account first.';
-            setTimeout(()=>{location.href='index.html';},1200);
+            showLogin();
             return false;
         }
         const {data:admin,error:ae}=await timeoutPromise(
