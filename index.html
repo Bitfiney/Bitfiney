@@ -3,18 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0e11">
 <title>Bitfiney Trading — Trading Experience</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
     box-sizing:border-box;
 }
 
-body{
+html,body{
     margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
     font-family:Arial,Helvetica,sans-serif;
-    background:#f5f7fb;
-    color:#182230;
+    background:#0b0e11;
+    color:#f1f3f5;
+}
+
+body{
+    padding-bottom:82px;
 }
 
 button,
@@ -27,60 +37,103 @@ button{
     cursor:pointer;
 }
 
+.hidden{
+    display:none !important;
+}
+
+/* ============================================================
+   TOP BAR
+============================================================ */
+
 .topbar{
-    background:#111827;
-    color:#fff;
-    padding:14px 20px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    height:62px;
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:16px;
+    padding:0 22px;
+    background:#111418;
+    border-bottom:1px solid #242a30;
 }
 
-.brand{
-    font-weight:800;
+.logo{
     font-size:22px;
-}
-
-.topbar-badge,
-.simulation-badge{
-    font-size:11px;
     font-weight:800;
-    letter-spacing:.7px;
-    background:#dc2626;
-    color:#fff;
-    border-radius:999px;
-    padding:6px 9px;
+    letter-spacing:.4px;
 }
 
-.main-nav{
+.logo span{
+    color:#16c784;
+}
+
+.topbar-right{
     display:flex;
-    gap:6px;
-    background:#fff;
-    border-bottom:1px solid #e5e7eb;
-    padding:8px 16px;
+    align-items:center;
+    gap:10px;
 }
 
-.main-nav button,
-.mobile-nav button{
+.experience-badge{
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+    padding:6px 9px;
+    border:1px solid #16c784;
+    border-radius:5px;
+    color:#16c784;
+    background:rgba(22,199,132,.06);
+}
+
+.user-email{
+    font-size:12px;
+    color:#9aa3ad;
+}
+
+/* ============================================================
+   DESKTOP NAV
+============================================================ */
+
+.desktop-nav{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:7px 16px;
+    background:#0f1215;
+    border-bottom:1px solid #20252a;
+    overflow-x:auto;
+}
+
+.nav-btn{
     border:0;
     background:transparent;
-    color:#667085;
-    padding:10px 14px;
-    border-radius:9px;
+    color:#9da6af;
+    padding:9px 15px;
+    border-radius:5px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
 }
 
-.main-nav button.active,
-.mobile-nav button.active{
-    background:#eef2ff;
-    color:#4338ca;
-    font-weight:700;
+.nav-btn:hover{
+    background:#191e23;
+    color:#fff;
 }
 
-.container{
-    max-width:1120px;
+.nav-btn.active{
+    background:#1b2228;
+    color:#fff;
+}
+
+/* ============================================================
+   MAIN
+============================================================ */
+
+main{
+    width:100%;
+    max-width:1400px;
     margin:0 auto;
-    padding:20px 16px 100px;
+    padding:22px;
 }
 
 .view{
@@ -91,288 +144,780 @@ button{
     display:block;
 }
 
-.card{
-    background:#fff;
-    border:1px solid #e5e7eb;
-    border-radius:16px;
-    padding:18px;
-    margin-bottom:16px;
-    box-shadow:0 4px 16px rgba(15,23,42,.04);
-}
-
-.notice{
-    background:#fef2f2;
-    border:1px solid #fecaca;
-    color:#991b1b;
-    border-radius:12px;
-    padding:12px 14px;
-    font-size:13px;
-    margin-bottom:16px;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
-}
-
-.stat{
-    background:#f8fafc;
-    border-radius:12px;
-    padding:15px;
-}
-
-.stat-label{
-    font-size:12px;
-    color:#667085;
-}
-
-.stat-value{
-    font-size:22px;
-    font-weight:800;
-    margin-top:6px;
-}
-
-.btn{
-    border:0;
-    border-radius:10px;
-    padding:11px 15px;
-    font-weight:700;
-}
-
-.btn-primary{
-    background:#4338ca;
-    color:#fff;
-}
-
-.btn-green{
-    background:#059669;
-    color:#fff;
-}
-
-.btn-red{
-    background:#dc2626;
-    color:#fff;
-}
-
-.btn-light{
-    background:#eef2f7;
-    color:#344054;
-}
-
-input,
-select{
-    width:100%;
-    border:1px solid #d0d5dd;
-    border-radius:10px;
-    padding:11px 12px;
-    background:#fff;
-}
-
-label{
-    display:block;
-    font-size:12px;
-    font-weight:700;
-    color:#475467;
+.page-title{
     margin:0 0 6px;
+    font-size:25px;
+    font-weight:700;
 }
 
-.form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    margin-bottom:12px;
+.page-subtitle{
+    margin:0 0 20px;
+    color:#8e98a2;
+    font-size:13px;
 }
 
-.order-actions{
-    display:flex;
-    gap:8px;
-    margin-top:12px;
+/* ============================================================
+   EXPERIENCE NOTICE
+============================================================ */
+
+.experience-notice{
+    border:1px solid #263039;
+    background:#11161a;
+    color:#aeb7c0;
+    border-radius:7px;
+    padding:12px 14px;
+    margin-bottom:18px;
+    font-size:12px;
+    line-height:1.5;
 }
 
-.side-buttons{
-    display:flex;
-    gap:8px;
-    margin-bottom:14px;
+.experience-notice strong{
+    color:#16c784;
 }
 
-.side-buttons button{
-    flex:1;
+/* ============================================================
+   CARDS
+============================================================ */
+
+.card{
+    background:#111418;
+    border:1px solid #242a30;
+    border-radius:8px;
+    padding:18px;
 }
 
-.side-buy{
-    background:#dcfce7;
-    color:#166534;
-    border:1px solid #bbf7d0;
+.card-title{
+    margin:0 0 6px;
+    font-size:15px;
+    font-weight:700;
 }
 
-.side-sell{
-    background:#fee2e2;
-    color:#991b1b;
-    border:1px solid #fecaca;
-}
-
-.mode-buttons{
-    display:flex;
-    gap:8px;
-    margin-bottom:14px;
-}
-
-.mode-buttons button{
-    flex:1;
-}
-
-.funds-nav{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+.card-subtitle{
+    color:#818b95;
+    font-size:12px;
     margin-bottom:15px;
 }
 
-.funds-nav button{
-    border:0;
-    background:#f1f5f9;
-    border-radius:9px;
-    padding:9px 13px;
+/* ============================================================
+   HOME
+============================================================ */
+
+.home-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:18px;
 }
 
-.funds-nav button.active{
-    background:#dbeafe;
-    color:#1d4ed8;
+.stat-card{
+    background:#111418;
+    border:1px solid #242a30;
+    border-radius:8px;
+    padding:16px;
+}
+
+.stat-label{
+    font-size:11px;
+    color:#858f99;
+    margin-bottom:9px;
+}
+
+.stat-value{
+    font-size:20px;
     font-weight:700;
 }
 
-.table-wrap{
-    overflow:auto;
+.stat-value.positive{
+    color:#16c784;
 }
 
-.orders{
+.stat-value.negative{
+    color:#f6465d;
+}
+
+.home-two{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:14px;
+}
+
+/* ============================================================
+   TABLE
+============================================================ */
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
     width:100%;
     border-collapse:collapse;
 }
 
-.orders th,
-.orders td{
+th{
     text-align:left;
-    padding:11px;
-    border-bottom:1px solid #eef2f6;
-    font-size:13px;
+    color:#737d87;
+    font-size:10px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    padding:10px 8px;
+    border-bottom:1px solid #242a30;
+}
+
+td{
+    padding:11px 8px;
+    font-size:12px;
+    border-bottom:1px solid #1c2227;
+    color:#d6dbe0;
+}
+
+tbody tr:hover{
+    background:#151a1f;
+}
+
+.buy-text{
+    color:#16c784;
+}
+
+.sell-text{
+    color:#f6465d;
+}
+
+/* ============================================================
+   MARKET
+============================================================ */
+
+.market-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:12px;
+}
+
+.market-price{
+    font-size:26px;
+    font-weight:700;
+    margin:8px 0;
+}
+
+.market-change{
+    font-size:12px;
+    color:#16c784;
+}
+
+.orderbook{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.order-side-title{
+    font-size:11px;
+    color:#89939c;
+    margin-bottom:8px;
+}
+
+.order-row{
+    display:flex;
+    justify-content:space-between;
+    padding:5px 0;
+    font-size:11px;
+}
+
+/* ============================================================
+   CONTRACT
+============================================================ */
+
+.contract-layout{
+    display:grid;
+    grid-template-columns:1.2fr .8fr;
+    gap:14px;
+}
+
+.order-form{
+    background:#111418;
+    border:1px solid #242a30;
+    border-radius:8px;
+    padding:18px;
+}
+
+.form-label{
+    display:block;
+    margin:0 0 7px;
+    color:#8b949d;
+    font-size:11px;
+}
+
+.input{
+    width:100%;
+    height:40px;
+    border:1px solid #30373e;
+    border-radius:5px;
+    background:#0b0e11;
+    color:#fff;
+    outline:none;
+    padding:0 11px;
+    margin-bottom:13px;
+}
+
+.input:focus{
+    border-color:#16c784;
+}
+
+.side-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-bottom:14px;
+}
+
+.side-btn{
+    height:38px;
+    border:1px solid #30373e;
+    background:#151a1f;
+    color:#aab3bc;
+    border-radius:5px;
+    font-weight:700;
+}
+
+.side-btn.active.buy{
+    background:rgba(22,199,132,.12);
+    color:#16c784;
+    border-color:#16c784;
+}
+
+.side-btn.active.sell{
+    background:rgba(246,70,93,.12);
+    color:#f6465d;
+    border-color:#f6465d;
+}
+
+.action-btn{
+    width:100%;
+    height:42px;
+    border:0;
+    border-radius:5px;
+    color:#fff;
+    font-weight:700;
+}
+
+.action-btn.buy{
+    background:#16c784;
+}
+
+.action-btn.sell{
+    background:#f6465d;
+}
+
+.action-btn:hover{
+    filter:brightness(1.08);
+}
+
+.secondary-btn{
+    height:38px;
+    padding:0 14px;
+    border-radius:5px;
+    border:1px solid #30373e;
+    background:#151a1f;
+    color:#d4d9de;
+}
+
+.secondary-btn:hover{
+    border-color:#4a545e;
+}
+
+/* ============================================================
+   FUNDS
+============================================================ */
+
+.funds-tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid #252b31;
+    margin-bottom:16px;
+    overflow-x:auto;
+}
+
+.funds-tab{
+    border:0;
+    background:transparent;
+    color:#818b95;
+    padding:11px 18px;
+    font-size:12px;
+    font-weight:700;
+    border-bottom:2px solid transparent;
     white-space:nowrap;
 }
 
-.empty{
-    padding:22px;
-    text-align:center;
-    color:#98a2b3;
+.funds-tab:hover{
+    color:#fff;
 }
 
-.login-screen{
+.funds-tab.active{
+    color:#fff;
+    border-bottom-color:#16c784;
+}
+
+.funds-view{
+    display:none;
+}
+
+.funds-view.active{
+    display:block;
+}
+
+/* MAIN ASSET CARD */
+
+.assets-card{
+    background:#111418;
+    border:1px solid #292f35;
+    border-radius:9px;
+    padding:20px;
+    margin-bottom:14px;
+}
+
+.assets-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.assets-label{
+    font-size:14px;
+    font-weight:600;
+    color:#d6dbe0;
+}
+
+.eye-btn{
+    width:30px;
+    height:30px;
+    border:1px solid #30373e;
+    border-radius:5px;
+    background:#171c21;
+    color:#b6bec6;
+    font-size:15px;
+}
+
+.eye-btn:hover{
+    color:#fff;
+    border-color:#59636d;
+}
+
+.assets-values{
+    margin:20px 0 18px;
+}
+
+.assets-primary{
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:.2px;
+}
+
+.assets-secondary{
+    margin-top:6px;
+    font-size:12px;
+    color:#7f8993;
+}
+
+.funds-actions{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.funds-action{
+    height:39px;
+    border-radius:5px;
+    border:1px solid #30373e;
+    background:#171c21;
+    color:#e4e8eb;
+    font-size:12px;
+    font-weight:700;
+}
+
+.funds-action:hover{
+    border-color:#16c784;
+    color:#16c784;
+}
+
+.funds-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.wallet-card{
+    background:#111418;
+    border:1px solid #242a30;
+    border-radius:8px;
+    padding:16px;
+}
+
+.wallet-name{
+    font-size:12px;
+    color:#8d97a0;
+    margin-bottom:12px;
+}
+
+.wallet-value{
+    font-size:21px;
+    font-weight:700;
+}
+
+.wallet-sub{
+    color:#6f7982;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.financial-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.financial-card{
+    background:#111418;
+    border:1px solid #242a30;
+    border-radius:8px;
+    padding:17px;
+}
+
+.financial-card h4{
+    margin:0 0 9px;
+    font-size:12px;
+    color:#9aa3ac;
+}
+
+.financial-card strong{
+    font-size:21px;
+}
+
+/* ============================================================
+   ACCOUNT
+============================================================ */
+
+.account-layout{
+    display:grid;
+    grid-template-columns:1fr .8fr;
+    gap:14px;
+}
+
+.profile-row{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:12px 0;
+    border-bottom:1px solid #20262c;
+}
+
+.profile-row:last-child{
+    border-bottom:0;
+}
+
+.profile-key{
+    color:#7f8992;
+    font-size:12px;
+}
+
+.profile-value{
+    color:#e1e5e8;
+    font-size:12px;
+    text-align:right;
+    word-break:break-all;
+}
+
+.admin-panel-card{
+    border-color:#284437;
+    background:#101814;
+}
+
+.admin-panel-card h3{
+    margin:0 0 7px;
+    color:#16c784;
+    font-size:15px;
+}
+
+.admin-panel-card p{
+    color:#8c9892;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.admin-panel-button{
+    width:100%;
+    height:39px;
+    border:1px solid #16c784;
+    border-radius:5px;
+    background:rgba(22,199,132,.08);
+    color:#16c784;
+    font-weight:700;
+}
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+#loginScreen{
     min-height:100vh;
     display:flex;
     align-items:center;
     justify-content:center;
     padding:20px;
-    background:linear-gradient(135deg,#111827,#7f1d1d);
+    background:
+        radial-gradient(circle at top,#17201d 0,#0b0e11 42%,#07090b 100%);
 }
 
-.login-card{
-    width:min(430px,100%);
-    background:#fff;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 20px 60px rgba(0,0,0,.25);
+.login-box{
+    width:100%;
+    max-width:410px;
+    background:#111418;
+    border:1px solid #2a3137;
+    border-radius:10px;
+    padding:28px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
 }
 
-.login-card h1{
-    margin:0 0 8px;
+.login-logo{
+    text-align:center;
+    font-size:27px;
+    font-weight:800;
+    margin-bottom:6px;
 }
 
-.login-card p{
-    color:#667085;
+.login-logo span{
+    color:#16c784;
+}
+
+.login-badge{
+    width:max-content;
+    margin:0 auto 24px;
+    color:#16c784;
+    border:1px solid #16c784;
+    border-radius:4px;
+    padding:5px 8px;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.login-title{
+    font-size:19px;
+    margin:0 0 5px;
+}
+
+.login-description{
+    color:#7f8992;
+    font-size:12px;
     line-height:1.5;
+    margin-bottom:20px;
 }
 
-.login-card .field{
-    margin:12px 0;
+.login-btn{
+    width:100%;
+    height:42px;
+    border:0;
+    border-radius:5px;
+    background:#16c784;
+    color:#07110c;
+    font-weight:800;
 }
 
-.auth-actions{
+.login-switch{
+    text-align:center;
+    margin-top:16px;
+    font-size:12px;
+    color:#7e8790;
+}
+
+.login-switch button{
+    border:0;
+    background:none;
+    color:#16c784;
+    padding:0;
+}
+
+/* ============================================================
+   MODAL
+============================================================ */
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.72);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:100%;
+    max-width:430px;
+    background:#111418;
+    border:1px solid #30373e;
+    border-radius:9px;
+    padding:20px;
+}
+
+.modal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+}
+
+.modal-head h3{
+    margin:0;
+    font-size:16px;
+}
+
+.close-btn{
+    width:30px;
+    height:30px;
+    border:1px solid #30373e;
+    background:#171c21;
+    color:#aab2ba;
+    border-radius:5px;
+}
+
+.modal-note{
+    color:#7e8993;
+    font-size:11px;
+    line-height:1.5;
+    margin-bottom:16px;
+}
+
+.modal-actions{
     display:flex;
     gap:8px;
-    margin-top:15px;
 }
 
-.auth-actions button{
+.modal-actions button{
     flex:1;
 }
 
-.auth-message{
-    font-size:13px;
-    margin-top:12px;
-    color:#b42318;
+/* ============================================================
+   TOAST
+============================================================ */
+
+.toast{
+    position:fixed;
+    right:18px;
+    bottom:90px;
+    z-index:800;
+    background:#171c21;
+    border:1px solid #343c43;
+    color:#e5e9ec;
+    padding:11px 14px;
+    border-radius:6px;
+    font-size:12px;
+    box-shadow:0 12px 30px rgba(0,0,0,.3);
+    transform:translateY(20px);
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
 }
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* ============================================================
+   MOBILE NAV
+============================================================ */
 
 .mobile-nav{
     position:fixed;
     left:0;
     right:0;
     bottom:0;
-    background:#fff;
-    border-top:1px solid #e5e7eb;
+    z-index:300;
+    height:70px;
     display:none;
     grid-template-columns:repeat(5,1fr);
-    z-index:20;
+    background:#0f1215;
+    border-top:1px solid #242a30;
 }
 
 .mobile-nav button{
-    border-radius:0;
-    padding:9px 4px;
+    border:0;
+    background:transparent;
+    color:#707a84;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+}
+
+.mobile-nav button.active{
+    color:#16c784;
 }
 
 .nav-icon{
-    display:block;
-    font-size:18px;
+    font-size:17px;
+    line-height:1;
 }
 
 .nav-label{
-    display:block;
-    font-size:10px;
-    margin-top:2px;
-}
-
-.admin-panel-card{
-    border:1px solid #c7d2fe;
-    background:#eef2ff;
-}
-
-.admin-panel-button{
-    border:0;
-    background:#4338ca;
-    color:#fff;
-    border-radius:10px;
-    padding:11px 15px;
+    font-size:9px;
     font-weight:700;
 }
 
-.toast{
-    position:fixed;
-    right:18px;
-    bottom:75px;
-    background:#111827;
-    color:#fff;
-    padding:12px 15px;
-    border-radius:10px;
-    display:none;
-    z-index:50;
-    font-size:13px;
-}
+/* ============================================================
+   RESPONSIVE
+============================================================ */
 
-@media(max-width:760px){
-    .grid{
-        grid-template-columns:1fr 1fr;
+@media(max-width:1000px){
+
+    .home-grid{
+        grid-template-columns:repeat(2,1fr);
     }
 
-    .main-nav{
+    .market-grid{
+        grid-template-columns:1fr;
+    }
+
+    .contract-layout,
+    .account-layout,
+    .home-two{
+        grid-template-columns:1fr;
+    }
+
+    .funds-grid,
+    .financial-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    body{
+        padding-bottom:74px;
+    }
+
+    .topbar{
+        height:58px;
+        padding:0 13px;
+    }
+
+    .logo{
+        font-size:19px;
+    }
+
+    .user-email{
+        display:none;
+    }
+
+    .desktop-nav{
         display:none;
     }
 
@@ -380,339 +925,545 @@ label{
         display:grid;
     }
 
-    .container{
-        padding-bottom:90px;
+    main{
+        padding:14px;
     }
-}
 
-@media(max-width:520px){
-    .grid,
-    .form-row{
+    .page-title{
+        font-size:21px;
+    }
+
+    .home-grid{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+    }
+
+    .stat-card{
+        padding:13px;
+    }
+
+    .stat-value{
+        font-size:17px;
+    }
+
+    .funds-tabs{
+        margin-left:-14px;
+        margin-right:-14px;
+        padding-left:10px;
+    }
+
+    .funds-tab{
+        padding:11px 14px;
+    }
+
+    .assets-card{
+        padding:16px;
+    }
+
+    .assets-primary{
+        font-size:25px;
+    }
+
+    .funds-actions{
+        gap:6px;
+    }
+
+    .funds-action{
+        font-size:11px;
+    }
+
+    .funds-grid,
+    .financial-grid{
         grid-template-columns:1fr;
     }
 
-    .topbar{
-        padding:12px 14px;
+    .login-box{
+        padding:22px;
     }
 
-    .container{
-        padding:14px 12px 90px;
+    .toast{
+        left:14px;
+        right:14px;
+        bottom:84px;
+        text-align:center;
+    }
+}
+
+@media(max-width:400px){
+
+    .home-grid{
+        grid-template-columns:1fr;
+    }
+
+    .assets-primary{
+        font-size:22px;
+    }
+
+    .funds-action{
+        padding:0 4px;
     }
 }
 </style>
 </head>
-<body>
-<div id="loginScreen" class="login-screen">
-    <div class="login-card">
 
-        <div class="simulation-badge">
+<body>
+<!-- ============================================================
+     LOGIN SCREEN
+============================================================ -->
+
+<section id="loginScreen">
+
+    <div class="login-box">
+
+        <div class="login-logo">
+            Bit<span>finey</span>
+        </div>
+
+        <div class="login-badge">
             TRADING EXPERIENCE
         </div>
 
-        <h1>Bitfiney</h1>
+        <h2 class="login-title" id="loginTitle">
+            Welcome back
+        </h2>
 
-        <p>
-            Welcome to Bitfiney Trading.
-            This is an independent cryptocurrency trading experience.
+        <p class="login-description">
+            Sign in to continue to your Bitfiney Trading Experience account.
         </p>
 
-        <div class="field">
-            <label>Email</label>
+        <form id="authForm">
+
+            <label class="form-label">
+                Email
+            </label>
+
             <input
-                id="email"
+                id="authEmail"
+                class="input"
                 type="email"
                 autocomplete="email"
+                placeholder="Enter your email"
+                required
             >
-        </div>
 
-        <div class="field">
-            <label>Password</label>
+            <label class="form-label">
+                Password
+            </label>
+
             <input
-                id="password"
+                id="authPassword"
+                class="input"
                 type="password"
                 autocomplete="current-password"
+                placeholder="Enter your password"
+                required
             >
-        </div>
-
-        <div class="auth-actions">
-            <button
-                class="btn btn-primary"
-                onclick="login()"
-            >
-                Login
-            </button>
 
             <button
-                class="btn btn-light"
-                onclick="signup()"
-            >
-                Sign Up
+                id="authButton"
+                class="login-btn"
+                type="submit">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="login-switch">
+            <span id="switchText">Don't have an account?</span>
+            <button
+                type="button"
+                id="switchAuthButton"
+                onclick="toggleAuthMode()">
+                Create account
             </button>
         </div>
-
-        <div
-            id="authMessage"
-            class="auth-message"
-        ></div>
 
     </div>
-</div>
 
+</section>
+
+
+<!-- ============================================================
+     APPLICATION
+============================================================ -->
 
 <div id="app" style="display:none;">
 
     <!-- TOP BAR -->
-    <div class="topbar">
 
-        <div class="brand">
-            Bitfiney
+    <header class="topbar">
+
+        <div class="logo">
+            Bit<span>finey</span>
         </div>
 
-        <div class="topbar-badge">
-            TRADING EXPERIENCE
+        <div class="topbar-right">
+
+            <div class="experience-badge">
+                TRADING EXPERIENCE
+            </div>
+
+            <div
+                id="userEmail"
+                class="user-email">
+            </div>
+
         </div>
 
-    </div>
+    </header>
 
 
-    <!-- DESKTOP NAVIGATION -->
-    <nav class="main-nav">
+    <!-- DESKTOP NAV -->
+
+    <nav class="desktop-nav">
 
         <button
             id="navHome"
-            class="active"
-            onclick="showView('home',this)"
-        >
+            class="nav-btn active"
+            onclick="showView('home',this)">
             Home
         </button>
 
         <button
             id="navMarket"
-            onclick="showView('market',this)"
-        >
+            class="nav-btn"
+            onclick="showView('market',this)">
             Market
         </button>
 
         <button
             id="navContract"
-            onclick="showView('contract',this)"
-        >
+            class="nav-btn"
+            onclick="showView('contract',this)">
             Contract
         </button>
 
         <button
             id="navFunds"
-            onclick="showView('funds',this)"
-        >
+            class="nav-btn"
+            onclick="showView('funds',this)">
             Funds
         </button>
 
         <button
             id="navAccount"
-            onclick="showView('account',this)"
-        >
+            class="nav-btn"
+            onclick="showView('account',this)">
             Account
         </button>
 
     </nav>
 
 
-    <!-- MAIN CONTENT -->
-    <main class="container">
+    <!-- ========================================================
+         MAIN CONTENT
+    ========================================================= -->
+
+    <main>
 
 
-        <!-- =========================
+        <!-- ====================================================
              HOME
-        ========================== -->
+        ==================================================== -->
 
         <section
-            id="home"
-            class="view active"
-        >
+            id="homeView"
+            class="view active">
 
-            <div class="notice">
-                TRADING EXPERIENCE:
-                All trading information, balances, orders,
-                deposits, withdrawals and trading results
-                shown here are part of the Bitfiney trading experience.
+            <h1 class="page-title">
+                Trading Dashboard
+            </h1>
+
+            <p class="page-subtitle">
+                Your Bitfiney Trading Experience overview.
+            </p>
+
+            <div class="experience-notice">
+                <strong>TRADING EXPERIENCE:</strong>
+                All trading information, balances, orders, deposits,
+                withdrawals and trading results shown here are part of
+                the Bitfiney trading experience.
             </div>
 
 
-            <div class="card">
+            <div class="home-grid">
 
-                <h2>
-                    Welcome to your Bitfiney Trading Experience account.
-                </h2>
-
-                <p>
-                    Use Market to view the BTC/USD trading market,
-                    Contract to place trading orders, and Funds to view
-                    your trading account balances and financial sections.
-                </p>
-
-            </div>
-
-
-            <div class="grid">
-
-                <div class="stat">
+                <div class="stat-card">
 
                     <div class="stat-label">
-                        Trading Experience account value
+                        Trading Balance
                     </div>
 
                     <div
-                        class="stat-value"
-                        id="homeValue"
-                    >
-                        $0.00
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-label">
-                        Trading result
-                    </div>
-
-                    <div
-                        class="stat-value"
-                        id="homeProfit"
-                    >
-                        $0.00
-                    </div>
-
-                </div>
-
-
-                <div class="stat">
-
-                    <div class="stat-label">
-                        Trading Experience balance
-                    </div>
-
-                    <div
-                        class="stat-value"
                         id="homeBalance"
-                    >
+                        class="stat-value">
                         $0.00
                     </div>
 
                 </div>
 
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Available Balance
+                    </div>
+
+                    <div
+                        id="homeAvailable"
+                        class="stat-value">
+                        $0.00
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Trading Result
+                    </div>
+
+                    <div
+                        id="homeProfit"
+                        class="stat-value positive">
+                        $0.00
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-label">
+                        Trading Orders
+                    </div>
+
+                    <div
+                        id="homeOrders"
+                        class="stat-value">
+                        0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="home-two">
+
+                <div class="card">
+
+                    <h3 class="card-title">
+                        Recent Trading Orders
+                    </h3>
+
+                    <div class="card-subtitle">
+                        Your latest Trading Experience orders.
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Side</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="homeOrdersTable">
+                                <tr>
+                                    <td colspan="4">
+                                        No trading orders yet.
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3 class="card-title">
+                        Account Status
+                    </h3>
+
+                    <div class="card-subtitle">
+                        Current Trading Experience status.
+                    </div>
+
+                    <div class="profile-row">
+                        <span class="profile-key">
+                            Account
+                        </span>
+                        <span class="profile-value">
+                            Active
+                        </span>
+                    </div>
+
+                    <div class="profile-row">
+                        <span class="profile-key">
+                            Mode
+                        </span>
+                        <span class="profile-value buy-text">
+                            Trading Experience
+                        </span>
+                    </div>
+
+                    <div class="profile-row">
+                        <span class="profile-key">
+                            Currency
+                        </span>
+                        <span class="profile-value">
+                            USDT
+                        </span>
+                    </div>
+
+                </div>
+
             </div>
 
         </section>
 
 
-
-        <!-- =========================
+        <!-- ====================================================
              MARKET
-        ========================== -->
+        ==================================================== -->
 
         <section
-            id="market"
-            class="view"
-        >
+            id="marketView"
+            class="view">
 
-            <div class="notice">
-                TRADING EXPERIENCE:
+            <h1 class="page-title">
+                Market
+            </h1>
+
+            <p class="page-subtitle">
+                Trading market information.
+            </p>
+
+            <div class="experience-notice">
+                <strong>TRADING EXPERIENCE:</strong>
                 Market prices, order book information and recent trades
-                displayed here are trading market data for the Bitfiney interface.
+                displayed here are trading market data for the Bitfiney
+                interface.
             </div>
 
 
-            <div class="card">
+            <div class="market-grid">
 
-                <h2>
-                    BTC/USD
-                </h2>
+                <div class="card">
 
-
-                <div class="grid">
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            Price
-                        </div>
-
-                        <div class="stat-value">
-                            $79,000.00
-                        </div>
-
+                    <div class="stat-label">
+                        BTC / USDT
                     </div>
 
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            24h change
-                        </div>
-
-                        <div class="stat-value">
-                            +2.14%
-                        </div>
-
+                    <div
+                        id="btcPrice"
+                        class="market-price">
+                        $67,500.00
                     </div>
 
+                    <div class="market-change">
+                        +2.41%
+                    </div>
 
-                    <div class="stat">
+                </div>
 
-                        <div class="stat-label">
-                            24h volume
+
+                <div class="card">
+
+                    <h3 class="card-title">
+                        Order Book
+                    </h3>
+
+                    <div class="orderbook">
+
+                        <div>
+
+                            <div class="order-side-title sell-text">
+                                SELL
+                            </div>
+
+                            <div class="order-row">
+                                <span>67,520</span>
+                                <span>0.421</span>
+                            </div>
+
+                            <div class="order-row">
+                                <span>67,510</span>
+                                <span>0.312</span>
+                            </div>
+
+                            <div class="order-row">
+                                <span>67,505</span>
+                                <span>0.187</span>
+                            </div>
+
                         </div>
 
-                        <div class="stat-value">
-                            $2.4B
+
+                        <div>
+
+                            <div class="order-side-title buy-text">
+                                BUY
+                            </div>
+
+                            <div class="order-row">
+                                <span>67,495</span>
+                                <span>0.224</span>
+                            </div>
+
+                            <div class="order-row">
+                                <span>67,490</span>
+                                <span>0.418</span>
+                            </div>
+
+                            <div class="order-row">
+                                <span>67,480</span>
+                                <span>0.631</span>
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
 
-            </div>
 
+                <div class="card">
 
+                    <h3 class="card-title">
+                        Recent Trades
+                    </h3>
 
-            <div class="card">
+                    <div class="order-row">
+                        <span>67,500</span>
+                        <span class="buy-text">0.142</span>
+                    </div>
 
-                <h3>
-                    Order Book
-                </h3>
+                    <div class="order-row">
+                        <span>67,498</span>
+                        <span class="sell-text">0.081</span>
+                    </div>
 
+                    <div class="order-row">
+                        <span>67,497</span>
+                        <span class="buy-text">0.219</span>
+                    </div>
 
-                <div class="table-wrap">
-
-                    <table class="orders">
-
-                        <tr>
-                            <th>Price</th>
-                            <th>Amount</th>
-                            <th>Total</th>
-                        </tr>
-
-                        <tr>
-                            <td>$79,020</td>
-                            <td>0.42 BTC</td>
-                            <td>$33,188.40</td>
-                        </tr>
-
-                        <tr>
-                            <td>$79,000</td>
-                            <td>0.31 BTC</td>
-                            <td>$24,490.00</td>
-                        </tr>
-
-                        <tr>
-                            <td>$78,980</td>
-                            <td>0.27 BTC</td>
-                            <td>$21,324.60</td>
-                        </tr>
-
-                    </table>
+                    <div class="order-row">
+                        <span>67,495</span>
+                        <span class="buy-text">0.105</span>
+                    </div>
 
                 </div>
 
@@ -721,246 +1472,158 @@ label{
         </section>
 
 
-
-        <!-- =========================
+        <!-- ====================================================
              CONTRACT
-        ========================== -->
+        ==================================================== -->
 
         <section
-            id="contract"
-            class="view"
-        >
+            id="contractView"
+            class="view">
 
-            <div class="notice">
-                TRADING EXPERIENCE:
-                Orders created in this section are part of the Bitfiney trading experience.
+            <h1 class="page-title">
+                Contract
+            </h1>
+
+            <p class="page-subtitle">
+                Create and manage Trading Experience orders.
+            </p>
+
+            <div class="experience-notice">
+                <strong>TRADING EXPERIENCE:</strong>
+                Orders created in this section are part of the Bitfiney
+                trading experience.
             </div>
 
 
-            <div class="card">
+            <div class="contract-layout">
 
-                <h2>
-                    Trading Orders
-                </h2>
+                <div class="order-form">
 
+                    <h3 class="card-title">
+                        Trading Order
+                    </h3>
 
-                <!-- BUY / SELL -->
-
-                <div class="side-buttons">
-
-                    <button
-                        id="buyBtn"
-                        class="btn side-buy"
-                        onclick="setSide('buy')"
-                    >
-                        Buy
-                    </button>
-
-                    <button
-                        id="sellBtn"
-                        class="btn"
-                        onclick="setSide('sell')"
-                    >
-                        Sell
-                    </button>
-
-                </div>
+                    <div class="card-subtitle">
+                        Select your order side and enter the order details.
+                    </div>
 
 
-                <!-- TRADING MODE -->
+                    <div class="side-buttons">
 
-                <div class="mode-buttons">
+                        <button
+                            id="buySide"
+                            class="side-btn buy active"
+                            type="button"
+                            onclick="selectSide('buy')">
+                            Buy
+                        </button>
 
-                    <button
-                        id="marginBtn"
-                        class="btn btn-light"
-                        onclick="setOrderMode('margin')"
-                    >
-                        Margin Trading
-                    </button>
-
-                    <button
-                        id="exchangeBtn"
-                        class="btn btn-primary"
-                        onclick="setOrderMode('exchange')"
-                    >
-                        Exchange Trading
-                    </button>
-
-                </div>
-
-
-                <!-- ORDER TYPE / PRICE -->
-
-                <div class="form-row">
-
-                    <div>
-
-                        <label>
-                            Order Type
-                        </label>
-
-                        <select
-                            id="orderType"
-                            onchange="orderTypeChanged()"
-                        >
-
-                            <option value="limit">
-                                Limit
-                            </option>
-
-                            <option value="market">
-                                Market
-                            </option>
-
-                        </select>
+                        <button
+                            id="sellSide"
+                            class="side-btn sell"
+                            type="button"
+                            onclick="selectSide('sell')">
+                            Sell
+                        </button>
 
                     </div>
 
 
-                    <div>
+                    <label class="form-label">
+                        Trading Mode
+                    </label>
 
-                        <label>
-                            Price
-                        </label>
+                    <select
+                        id="tradingMode"
+                        class="input"
+                        onchange="tradingModeChanged()">
 
-                        <input
-                            id="price"
-                            type="number"
-                            value="79000"
-                            min="0"
-                            step="0.01"
-                            oninput="calculateTotal()"
-                        >
+                        <option value="exchange">
+                            Exchange
+                        </option>
 
-                    </div>
+                        <option value="margin">
+                            Margin
+                        </option>
 
-                </div>
-
-
-                <!-- AMOUNT / TOTAL -->
-
-                <div class="form-row">
-
-                    <div>
-
-                        <label>
-                            Amount (BTC)
-                        </label>
-
-                        <input
-                            id="amount"
-                            type="number"
-                            value="0.01"
-                            min="0"
-                            step="0.000001"
-                            oninput="calculateTotal()"
-                        >
-
-                    </div>
+                    </select>
 
 
-                    <div>
+                    <label class="form-label">
+                        Order Price (USDT)
+                    </label>
 
-                        <label>
-                            Total (USD)
-                        </label>
-
-                        <input
-                            id="total"
-                            type="number"
-                            readonly
-                        >
-
-                    </div>
-
-                </div>
+                    <input
+                        id="orderPrice"
+                        class="input"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value="67500"
+                    >
 
 
-                <!-- ORDER ACTIONS -->
+                    <label class="form-label">
+                        Amount
+                    </label>
 
-                <div class="order-actions">
+                    <input
+                        id="orderAmount"
+                        class="input"
+                        type="number"
+                        min="0"
+                        step="0.000001"
+                        value="0.001"
+                    >
+
 
                     <button
-                        class="btn btn-primary"
-                        onclick="placeOrder()"
-                    >
-                        Place Order
-                    </button>
-
-                    <button
-                        class="btn btn-light"
-                        onclick="setPercent(25)"
-                    >
-                        25%
-                    </button>
-
-                    <button
-                        class="btn btn-light"
-                        onclick="setPercent(50)"
-                    >
-                        50%
-                    </button>
-
-                    <button
-                        class="btn btn-light"
-                        onclick="setPercent(100)"
-                    >
-                        100%
+                        id="placeOrderButton"
+                        class="action-btn buy"
+                        type="button"
+                        onclick="placeOrder()">
+                        Buy BTC
                     </button>
 
                 </div>
 
-            </div>
 
+                <div class="card">
 
+                    <h3 class="card-title">
+                        Open Trading Orders
+                    </h3>
 
-            <!-- OPEN ORDERS -->
+                    <div class="card-subtitle">
+                        Orders created in this Trading Experience.
+                    </div>
 
-            <div class="card">
+                    <div
+                        id="contractOrders"
+                        class="table-wrap">
 
-                <h3>
-                    Open Trading Orders
-                    <span id="openCount">0</span>
-                </h3>
+                        <table>
 
+                            <thead>
+                                <tr>
+                                    <th>Side</th>
+                                    <th>Price</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
 
-                <div class="table-wrap">
+                            <tbody id="contractOrdersTable">
+                                <tr>
+                                    <td colspan="4">
+                                        No trading orders yet.
+                                    </td>
+                                </tr>
+                            </tbody>
 
-                    <table class="orders">
+                        </table>
 
-                        <thead>
-
-                            <tr>
-                                <th>Side</th>
-                                <th>Mode</th>
-                                <th>Type</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                                <th>Total</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody id="ordersBody">
-
-                            <tr>
-
-                                <td
-                                    colspan="8"
-                                    class="empty"
-                                >
-                                    No trading orders yet.
-                                </td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
+                    </div>
 
                 </div>
 
@@ -969,113 +1632,342 @@ label{
         </section>
 
 
-
-        <!-- =========================
+        <!-- ====================================================
              FUNDS
-        ========================== -->
+        ==================================================== -->
 
         <section
-            id="funds"
-            class="view"
-        >
+            id="fundsView"
+            class="view">
 
-            <div class="notice">
-                TRADING EXPERIENCE:
+            <h1 class="page-title">
+                Funds
+            </h1>
+
+            <p class="page-subtitle">
+                Manage your Trading Experience balances and financial information.
+            </p>
+
+            <div class="experience-notice">
+                <strong>TRADING EXPERIENCE:</strong>
                 All balances, wallet information and financial information
                 shown in Funds are part of the Bitfiney trading experience.
             </div>
 
 
-            <!-- FUNDS SUB NAVIGATION -->
+            <!-- FUNDS SUBNAV -->
 
-            <div class="funds-nav">
+            <div class="funds-tabs">
 
                 <button
-                    id="fundOverviewBtn"
-                    class="active"
-                    onclick="showFundsView('overview',this)"
-                >
+                    id="fundTabOverview"
+                    class="funds-tab active"
+                    onclick="showFundsTab('overview',this)">
                     Overview
                 </button>
 
                 <button
-                    id="fundSpotBtn"
-                    onclick="showFundsView('spot',this)"
-                >
+                    id="fundTabSpot"
+                    class="funds-tab"
+                    onclick="showFundsTab('spot',this)">
                     Spot
                 </button>
 
                 <button
-                    id="fundContractBtn"
-                    onclick="showFundsView('contractAccount',this)"
-                >
+                    id="fundTabContract"
+                    class="funds-tab"
+                    onclick="showFundsTab('contract',this)">
                     Contract
                 </button>
 
                 <button
-                    id="fundFinancialBtn"
-                    onclick="showFundsView('financial',this)"
-                >
+                    id="fundTabFinancial"
+                    class="funds-tab"
+                    onclick="showFundsTab('financial',this)">
                     Financial
                 </button>
 
             </div>
 
 
-            <!-- FUNDS OVERVIEW -->
+            <!-- =================================================
+                 OVERVIEW TAB
+            ================================================= -->
 
             <div
-                id="fundOverview"
-                class="fund-view"
-            >
+                id="fundsOverview"
+                class="funds-view active">
 
-                <div class="grid">
+                <div class="assets-card">
 
-                    <div class="stat">
+                    <div class="assets-header">
 
-                        <div class="stat-label">
-                            Trading Experience account value
+                        <div class="assets-label">
+                            Total assets (USDT)
+                        </div>
+
+                        <button
+                            id="balanceEye"
+                            class="eye-btn"
+                            type="button"
+                            onclick="toggleBalanceVisibility()"
+                            aria-label="Hide or show balance">
+                            ◉
+                        </button>
+
+                    </div>
+
+
+                    <div class="assets-values">
+
+                        <div
+                            id="totalAssetsValue"
+                            class="assets-primary">
+                            $0.00
                         </div>
 
                         <div
-                            class="stat-value"
-                            id="fundValue"
-                        >
+                            id="totalAssetsApprox"
+                            class="assets-secondary">
                             $0.00
                         </div>
 
                     </div>
 
 
-                    <div class="stat">
+                    <div class="funds-actions">
 
-                        <div class="stat-label">
+                        <button
+                            class="funds-action"
+                            type="button"
+                            onclick="openFundsModal('deposit')">
+                            Deposit
+                        </button>
+
+                        <button
+                            class="funds-action"
+                            type="button"
+                            onclick="openFundsModal('withdraw')">
+                            Withdraw
+                        </button>
+
+                        <button
+                            class="funds-action"
+                            type="button"
+                            onclick="openFundsModal('exchange')">
+                            Exchange
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="funds-grid">
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Trading Balance
+                        </div>
+
+                        <div
+                            id="overviewTradingBalance"
+                            class="wallet-value">
+                            $0.00
+                        </div>
+
+                        <div class="wallet-sub">
+                            USDT
+                        </div>
+
+                    </div>
+
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Spot Wallet
+                        </div>
+
+                        <div
+                            id="overviewSpotBalance"
+                            class="wallet-value">
+                            $0.00
+                        </div>
+
+                        <div class="wallet-sub">
+                            Available balance
+                        </div>
+
+                    </div>
+
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Contract Account
+                        </div>
+
+                        <div
+                            id="overviewContractBalance"
+                            class="wallet-value">
+                            $0.00
+                        </div>
+
+                        <div class="wallet-sub">
+                            Contract balance
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 SPOT TAB
+            ================================================= -->
+
+            <div
+                id="fundsSpot"
+                class="funds-view">
+
+                <div class="experience-notice">
+                    These wallet balances are part of the Bitfiney Trading Experience.
+                </div>
+
+                <div class="funds-grid">
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            USDT
+                        </div>
+
+                        <div
+                            id="spotUsdt"
+                            class="wallet-value">
+                            $0.00
+                        </div>
+
+                        <div class="wallet-sub">
+                            Spot available
+                        </div>
+
+                    </div>
+
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            BTC
+                        </div>
+
+                        <div
+                            id="spotBtc"
+                            class="wallet-value">
+                            0.000000
+                        </div>
+
+                        <div class="wallet-sub">
+                            BTC balance
+                        </div>
+
+                    </div>
+
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Wallet status
+                        </div>
+
+                        <div class="wallet-value buy-text">
+                            Active
+                        </div>
+
+                        <div class="wallet-sub">
+                            Trading Experience
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CONTRACT TAB
+            ================================================= -->
+
+            <div
+                id="fundsContract"
+                class="funds-view">
+
+                <div class="experience-notice">
+                    Contract balances and positions displayed here are part
+                    of the Bitfiney Trading Experience.
+                </div>
+
+                <div class="funds-grid">
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Contract Balance
+                        </div>
+
+                        <div
+                            id="contractWalletBalance"
+                            class="wallet-value">
+                            $0.00
+                        </div>
+
+                        <div class="wallet-sub">
+                            USDT
+                        </div>
+
+                    </div>
+
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Open Positions
+                        </div>
+
+                        <div
+                            id="contractPositions"
+                            class="wallet-value">
+                            0
+                        </div>
+
+                        <div class="wallet-sub">
+                            Active positions
+                        </div>
+
+                    </div>
+
+
+                    <div class="wallet-card">
+
+                        <div class="wallet-name">
+                            Unrealized result
+                        </div>
+
+                        <div
+                            id="contractProfit"
+                            class="wallet-value buy-text">
+                            $0.00
+                        </div>
+
+                        <div class="wallet-sub">
                             Trading result
                         </div>
 
-                        <div
-                            class="stat-value"
-                            id="fundProfit"
-                        >
-                            $0.00
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            Trading Experience balance
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="fundBalance"
-                        >
-                            $0.00
-                        </div>
-
                     </div>
 
                 </div>
@@ -1083,126 +1975,58 @@ label{
             </div>
 
 
-            <!-- SPOT -->
+            <!-- =================================================
+                 FINANCIAL TAB
+            ================================================= -->
 
             <div
-                id="fundSpot"
-                class="fund-view"
-                style="display:none;"
-            >
+                id="fundsFinancial"
+                class="funds-view">
 
-                <div class="card">
-
-                    <h3>
-                        Trading Experience Spot balance
-                    </h3>
-
-                    <div
-                        class="stat-value"
-                        id="spotBalance"
-                    >
-                        $0.00
-                    </div>
-
-                    <p>
-                        These wallet balances are part of the Bitfiney Trading Experience.
-                    </p>
-
+                <div class="experience-notice">
+                    Financial figures displayed by Bitfiney are part of the
+                    Trading Experience.
                 </div>
 
-            </div>
+                <div class="financial-grid">
 
+                    <div class="financial-card">
 
-            <!-- CONTRACT ACCOUNT -->
-
-            <div
-                id="fundContractAccount"
-                class="fund-view"
-                style="display:none;"
-            >
-
-                <div class="card">
-
-                    <h3>
-                        Trading Experience
-                    </h3>
-
-                    <div
-                        class="stat-value"
-                        id="contractBalance"
-                    >
-                        $0.00
-                    </div>
-
-                    <p>
-                        Contract balances and positions displayed here are
-                        part of the Bitfiney Trading Experience.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <!-- FINANCIAL -->
-
-            <div
-                id="fundFinancial"
-                class="fund-view"
-                style="display:none;"
-            >
-
-                <div class="card">
-
-                    <h3>
-                        Financial Information
-                    </h3>
-
-                    <p>
-                        Financial figures displayed by Bitfiney are
-                        part of the Trading Experience.
-                    </p>
-
-                </div>
-
-
-                <div class="grid">
-
-                    <div class="stat">
-
-                        <div class="stat-label">
-                            Trading result today
-                        </div>
-
-                        <div class="stat-value">
-                            $0.00
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-label">
+                        <h4>
                             Trading Experience Deposits
-                        </div>
+                        </h4>
 
-                        <div class="stat-value">
+                        <strong id="financialDeposits">
                             $0.00
-                        </div>
+                        </strong>
 
                     </div>
 
 
-                    <div class="stat">
+                    <div class="financial-card">
 
-                        <div class="stat-label">
+                        <h4>
                             Trading Experience Withdrawals
-                        </div>
+                        </h4>
 
-                        <div class="stat-value">
+                        <strong id="financialWithdrawals">
                             $0.00
-                        </div>
+                        </strong>
+
+                    </div>
+
+
+                    <div class="financial-card">
+
+                        <h4>
+                            Trading result today
+                        </h4>
+
+                        <strong
+                            id="financialProfit"
+                            class="buy-text">
+                            $0.00
+                        </strong>
 
                     </div>
 
@@ -1213,67 +2037,135 @@ label{
         </section>
 
 
-
-        <!-- =========================
+        <!-- ====================================================
              ACCOUNT
-        ========================== -->
+        ==================================================== -->
 
         <section
-            id="account"
-            class="view"
-        >
+            id="accountView"
+            class="view">
 
-            <div class="notice">
-                TRADING EXPERIENCE:
+            <h1 class="page-title">
+                Account
+            </h1>
+
+            <p class="page-subtitle">
+                Manage your Bitfiney Trading Experience account.
+            </p>
+
+            <div class="experience-notice">
+                <strong>TRADING EXPERIENCE:</strong>
                 Your Bitfiney account is a Trading Experience account.
             </div>
 
 
-            <div class="card">
+            <div class="account-layout">
 
-                <h2>
-                    Account
-                </h2>
+                <div class="card">
 
-                <p id="accountEmail">
-                    Signed in
-                </p>
+                    <h3 class="card-title">
+                        Account Information
+                    </h3>
 
-                <button
-                    class="btn btn-light"
-                    onclick="logout()"
-                >
-                    Logout
-                </button>
-
-            </div>
+                    <div class="card-subtitle">
+                        Your account details.
+                    </div>
 
 
-            <!-- ADMIN PANEL
-                 HIDDEN BY DEFAULT -->
+                    <div class="profile-row">
 
-            <div
-                id="adminPanelSection"
-                class="card admin-panel-card"
-                style="display:none;"
-            >
+                        <span class="profile-key">
+                            Email
+                        </span>
 
-                <h3>
-                    Administrator
-                </h3>
+                        <span
+                            id="accountEmail"
+                            class="profile-value">
+                            —
+                        </span>
 
-                <p>
-                    Administrator access is available only to authorized
-                    Bitfiney Trading Experience administrators.
-                </p>
+                    </div>
 
-                <button
-                    type="button"
-                    class="admin-panel-button"
-                    onclick="openAdminPanel()"
-                >
-                    Admin Panel
-                </button>
+
+                    <div class="profile-row">
+
+                        <span class="profile-key">
+                            User ID
+                        </span>
+
+                        <span
+                            id="accountUserId"
+                            class="profile-value">
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-key">
+                            Account type
+                        </span>
+
+                        <span class="profile-value">
+                            Trading Experience Account
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-row">
+
+                        <span class="profile-key">
+                            Status
+                        </span>
+
+                        <span class="profile-value buy-text">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <div style="margin-top:16px;">
+
+                        <button
+                            type="button"
+                            class="secondary-btn"
+                            onclick="signOut()">
+                            Sign Out
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ADMIN SECTION IS HIDDEN BY DEFAULT -->
+
+                <div
+                    id="adminPanelSection"
+                    class="card admin-panel-card"
+                    style="display:none;">
+
+                    <h3>
+                        Administrator
+                    </h3>
+
+                    <p>
+                        Administrator access is available only to authorized
+                        Bitfiney Trading Experience administrators.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="admin-panel-button"
+                        onclick="openAdminPanel()">
+                        Admin Panel
+                    </button>
+
+                </div>
 
             </div>
 
@@ -1282,54 +2174,85 @@ label{
     </main>
 
 
-
-    <!-- MOBILE BOTTOM NAVIGATION -->
+    <!-- ========================================================
+         MOBILE BOTTOM NAV
+    ========================================================= -->
 
     <nav class="mobile-nav">
 
         <button
             id="mobileHome"
             class="active"
-            onclick="mobileView('home',this)"
-        >
-            <span class="nav-icon">⌂</span>
-            <span class="nav-label">Home</span>
+            onclick="mobileView('home',this)">
+
+            <span class="nav-icon">
+                ⌂
+            </span>
+
+            <span class="nav-label">
+                Home
+            </span>
+
         </button>
 
 
         <button
             id="mobileMarket"
-            onclick="mobileView('market',this)"
-        >
-            <span class="nav-icon">◈</span>
-            <span class="nav-label">Market</span>
+            onclick="mobileView('market',this)">
+
+            <span class="nav-icon">
+                ◇
+            </span>
+
+            <span class="nav-label">
+                Market
+            </span>
+
         </button>
 
 
         <button
             id="mobileContract"
-            onclick="mobileView('contract',this)"
-        >
-            <span class="nav-icon">↗</span>
-            <span class="nav-label">Contract</span>
+            onclick="mobileView('contract',this)">
+
+            <span class="nav-icon">
+                ↗
+            </span>
+
+            <span class="nav-label">
+                Contract
+            </span>
+
         </button>
 
 
         <button
             id="mobileFunds"
-            onclick="mobileView('funds',this)"
-        >
-            <span class="nav-icon">▣</span>
-            <span class="nav-label">Funds</span>
+            onclick="mobileView('funds',this)">
+
+            <span class="nav-icon">
+                ◈
+            </span>
+
+            <span class="nav-label">
+                Funds
+            </span>
+
         </button>
 
 
         <button
             id="mobileAccount"
-            onclick="mobileView('account',this)"
-        >
-            <span class="nav-icon">◉</span>
-            <span class="nav-label">Account</span>
+            onclick="mobileView('account',this)">
+
+            <span class="nav-icon">
+                ◉
+            </span>
+
+            <span class="nav-label">
+                Account
+            </span>
+
         </button>
 
     </nav>
@@ -1337,15 +2260,178 @@ label{
 </div>
 
 
-<!-- TOAST -->
+<!-- ============================================================
+     FUNDS MODAL
+============================================================ -->
+
+<div
+    id="fundsModal"
+    class="modal"
+    onclick="closeModalOutside(event)">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h3 id="fundsModalTitle">
+                Deposit
+            </h3>
+
+            <button
+                class="close-btn"
+                type="button"
+                onclick="closeFundsModal()">
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="fundsModalNote"
+            class="modal-note">
+            Trading Experience deposit interface.
+        </div>
+
+
+        <div id="depositInterface">
+
+            <label class="form-label">
+                Amount (USDT)
+            </label>
+
+            <input
+                id="depositAmount"
+                class="input"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Enter amount">
+
+        </div>
+
+
+        <div
+            id="withdrawInterface"
+            style="display:none;">
+
+            <label class="form-label">
+                Amount (USDT)
+            </label>
+
+            <input
+                id="withdrawAmount"
+                class="input"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="Enter amount">
+
+            <label class="form-label">
+                Destination
+            </label>
+
+            <input
+                id="withdrawDestination"
+                class="input"
+                type="text"
+                placeholder="Enter destination">
+
+        </div>
+
+
+        <div
+            id="exchangeInterface"
+            style="display:none;">
+
+            <label class="form-label">
+                From
+            </label>
+
+            <select
+                id="exchangeFrom"
+                class="input">
+
+                <option value="USDT">
+                    USDT
+                </option>
+
+                <option value="BTC">
+                    BTC
+                </option>
+
+            </select>
+
+
+            <label class="form-label">
+                To
+            </label>
+
+            <select
+                id="exchangeTo"
+                class="input">
+
+                <option value="BTC">
+                    BTC
+                </option>
+
+                <option value="USDT">
+                    USDT
+                </option>
+
+            </select>
+
+
+            <label class="form-label">
+                Amount
+            </label>
+
+            <input
+                id="exchangeAmount"
+                class="input"
+                type="number"
+                min="0"
+                step="0.000001"
+                placeholder="Enter amount">
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="secondary-btn"
+                onclick="closeFundsModal()">
+                Cancel
+            </button>
+
+            <button
+                id="fundsModalAction"
+                type="button"
+                class="action-btn buy"
+                onclick="submitFundsAction()">
+                Continue
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ============================================================
+     TOAST
+============================================================ -->
 
 <div
     id="toast"
-    class="toast"
-></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+    class="toast">
+</div>
 <script>
+/* ============================================================
+   SUPABASE CONFIGURATION
+============================================================ */
 
 const SUPABASE_URL =
     "https://wpfkubmosuzmahlggtqu.supabase.co";
@@ -1360,9 +2446,29 @@ const supabaseClient =
     );
 
 
-let currentSide = "buy";
-let currentMode = "exchange";
-let toastTimer;
+/* ============================================================
+   APPLICATION STATE
+============================================================ */
+
+let authMode = "login";
+
+let currentUser = null;
+
+let selectedSide = "buy";
+
+let balanceHidden = false;
+
+let fundsModalMode = "deposit";
+
+let orders = [];
+
+let accountValues = {
+    balance: 0,
+    available: 0,
+    profit: 0,
+    deposits: 0,
+    withdrawals: 0
+};
 
 
 /* ============================================================
@@ -1371,239 +2477,276 @@ let toastTimer;
 
 function money(value){
 
+    const number =
+        Number(value || 0);
+
     return "$" +
-        Number(value || 0).toFixed(2);
+        number.toFixed(2);
+}
 
+
+function formatAmount(value){
+
+    return Number(value || 0)
+        .toFixed(6);
+}
+
+
+function escapeHtml(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
 /* ============================================================
-   LOCAL TRADING ORDERS
+   TOAST
 ============================================================ */
 
-function getOrders(){
+let toastTimer = null;
 
-    try{
+function showToast(message){
 
-        return JSON.parse(
-            localStorage.getItem("bitfiney_orders") || "[]"
-        );
+    const toast =
+        document.getElementById("toast");
 
-    }catch(error){
-
-        return [];
-
+    if(!toast){
+        return;
     }
 
-}
+    toast.textContent =
+        message;
 
+    toast.classList.add("show");
 
-function saveOrders(orders){
+    clearTimeout(toastTimer);
 
-    localStorage.setItem(
-        "bitfiney_orders",
-        JSON.stringify(orders)
-    );
+    toastTimer =
+        setTimeout(function(){
 
-}
+            toast.classList.remove("show");
 
-
-/* ============================================================
-   ACCOUNT VALUES
-============================================================ */
-
-function setAccountValues(){
-
-    const balance = 0;
-    const profit = 0;
-    const value = balance + profit;
-
-
-    [
-        "homeValue",
-        "fundValue"
-    ].forEach(function(id){
-
-        const element =
-            document.getElementById(id);
-
-        if(element){
-
-            element.textContent =
-                money(value);
-
-        }
-
-    });
-
-
-    [
-        "homeProfit",
-        "fundProfit"
-    ].forEach(function(id){
-
-        const element =
-            document.getElementById(id);
-
-        if(element){
-
-            element.textContent =
-                money(profit);
-
-        }
-
-    });
-
-
-    [
-        "homeBalance",
-        "fundBalance",
-        "spotBalance",
-        "contractBalance"
-    ].forEach(function(id){
-
-        const element =
-            document.getElementById(id);
-
-        if(element){
-
-            element.textContent =
-                money(balance);
-
-        }
-
-    });
-
+        },2600);
 }
 
 
 /* ============================================================
-   LOGIN
+   AUTH MODE
 ============================================================ */
 
-async function login(){
+function toggleAuthMode(){
 
-    const email =
-        document.getElementById("email")
-        .value
-        .trim();
+    authMode =
+        authMode === "login"
+            ? "signup"
+            : "login";
 
-    const password =
-        document.getElementById("password")
-        .value;
+    const title =
+        document.getElementById("loginTitle");
 
+    const button =
+        document.getElementById("authButton");
 
-    if(!email || !password){
+    const switchText =
+        document.getElementById("switchText");
 
-        document.getElementById("authMessage")
-            .textContent =
-            "Please enter your email and password.";
+    const switchButton =
+        document.getElementById("switchAuthButton");
 
-        return;
+    if(authMode === "login"){
 
-    }
+        title.textContent =
+            "Welcome back";
 
+        button.textContent =
+            "Sign In";
 
-    const {
-        error
-    } =
-        await supabaseClient.auth.signInWithPassword({
+        switchText.textContent =
+            "Don't have an account?";
 
-            email: email,
-            password: password
-
-        });
-
-
-    if(error){
-
-        document.getElementById("authMessage")
-            .textContent =
-            getAuthErrorMessage(error);
-
-        return;
-
-    }
-
-
-    document.getElementById("authMessage")
-        .textContent = "";
-
-    await enterApp();
-
-}
-
-
-/* ============================================================
-   SIGN UP
-============================================================ */
-
-async function signup(){
-
-    const email =
-        document.getElementById("email")
-        .value
-        .trim();
-
-    const password =
-        document.getElementById("password")
-        .value;
-
-
-    if(!email || !password){
-
-        document.getElementById("authMessage")
-            .textContent =
-            "Please enter your email and password.";
-
-        return;
-
-    }
-
-
-    if(password.length < 6){
-
-        document.getElementById("authMessage")
-            .textContent =
-            "Password must be at least 6 characters.";
-
-        return;
-
-    }
-
-
-    const {
-        error,
-        data
-    } =
-        await supabaseClient.auth.signUp({
-
-            email: email,
-            password: password
-
-        });
-
-
-    if(error){
-
-        document.getElementById("authMessage")
-            .textContent =
-            getAuthErrorMessage(error);
-
-        return;
-
-    }
-
-
-    if(data && data.session){
-
-        await enterApp();
+        switchButton.textContent =
+            "Create account";
 
     }else{
 
-        document.getElementById("authMessage")
-            .textContent =
-            "Account created. Please check your email if confirmation is required.";
+        title.textContent =
+            "Create your account";
+
+        button.textContent =
+            "Create Account";
+
+        switchText.textContent =
+            "Already have an account?";
+
+        switchButton.textContent =
+            "Sign in";
+
+    }
+}
+
+
+/* ============================================================
+   AUTH FORM
+============================================================ */
+
+document
+    .getElementById("authForm")
+    .addEventListener("submit",async function(event){
+
+        event.preventDefault();
+
+        const email =
+            document
+                .getElementById("authEmail")
+                .value
+                .trim();
+
+        const password =
+            document
+                .getElementById("authPassword")
+                .value;
+
+        if(!email || !password){
+
+            showToast(
+                "Please enter your email and password."
+            );
+
+            return;
+        }
+
+        const button =
+            document.getElementById("authButton");
+
+        button.disabled = true;
+
+        button.textContent =
+            authMode === "login"
+                ? "Signing in..."
+                : "Creating account...";
+
+        try{
+
+            if(authMode === "login"){
+
+                const { data,error } =
+                    await supabaseClient.auth.signInWithPassword({
+                        email:email,
+                        password:password
+                    });
+
+                if(error){
+                    throw error;
+                }
+
+                currentUser =
+                    data.user;
+
+                showToast(
+                    "Signed in successfully."
+                );
+
+            }else{
+
+                const { data,error } =
+                    await supabaseClient.auth.signUp({
+                        email:email,
+                        password:password
+                    });
+
+                if(error){
+                    throw error;
+                }
+
+                if(data.session){
+
+                    currentUser =
+                        data.user;
+
+                    showToast(
+                        "Account created successfully."
+                    );
+
+                }else{
+
+                    showToast(
+                        "Account created. Check your email if confirmation is required."
+                    );
+
+                }
+
+            }
+
+        }catch(error){
+
+            console.error(error);
+
+            showToast(
+                error.message ||
+                "Authentication failed."
+            );
+
+        }finally{
+
+            button.disabled = false;
+
+            button.textContent =
+                authMode === "login"
+                    ? "Sign In"
+                    : "Create Account";
+
+        }
+
+    });
+
+
+/* ============================================================
+   SESSION CHECK
+============================================================ */
+
+async function checkSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.getSession();
+
+        if(error){
+            throw error;
+        }
+
+        if(
+            data &&
+            data.session &&
+            data.session.user
+        ){
+
+            currentUser =
+                data.session.user;
+
+            await enterApplication();
+
+        }else{
+
+            showLoginScreen();
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Session check failed:",
+            error
+        );
+
+        showLoginScreen();
 
     }
 
@@ -1611,73 +2754,154 @@ async function signup(){
 
 
 /* ============================================================
-   AUTH ERROR MESSAGE
+   AUTH STATE LISTENER
 ============================================================ */
 
-function getAuthErrorMessage(error){
+supabaseClient.auth.onAuthStateChange(
+    async function(event,session){
 
-    const message =
-        String(error?.message || "");
+        if(
+            session &&
+            session.user
+        ){
 
-    const lower =
-        message.toLowerCase();
+            currentUser =
+                session.user;
 
+            await enterApplication();
 
-    if(
-        lower.includes(
-            "invalid login credentials"
-        )
-    ){
+        }else{
 
-        return "Invalid email or password.";
+            currentUser =
+                null;
 
-    }
+            showLoginScreen();
 
-
-    if(
-        lower.includes(
-            "email not confirmed"
-        )
-    ){
-
-        return "Please confirm your email before logging in.";
+        }
 
     }
-
-
-    return message ||
-        "Authentication failed.";
-
-}
+);
 
 
 /* ============================================================
    ENTER APPLICATION
 ============================================================ */
 
-async function enterApp(){
+async function enterApplication(){
 
-    document.getElementById(
-        "loginScreen"
-    ).style.display = "none";
+    const login =
+        document.getElementById("loginScreen");
 
+    const app =
+        document.getElementById("app");
 
-    document.getElementById(
-        "app"
-    ).style.display = "block";
+    if(login){
+        login.style.display = "none";
+    }
 
+    if(app){
+        app.style.display = "block";
+    }
+
+    updateUserInformation();
+
+    loadOrders();
 
     renderOrders();
 
-    setAccountValues();
+    renderAccountValues();
 
-    await checkSession();
+    await checkAdminPanelAccess();
 
 }
 
 
 /* ============================================================
-   ADMIN PANEL ACCESS
+   SHOW LOGIN
+============================================================ */
+
+function showLoginScreen(){
+
+    const login =
+        document.getElementById("loginScreen");
+
+    const app =
+        document.getElementById("app");
+
+    if(login){
+        login.style.display = "flex";
+    }
+
+    if(app){
+        app.style.display = "none";
+    }
+
+    const adminSection =
+        document.getElementById(
+            "adminPanelSection"
+        );
+
+    if(adminSection){
+        adminSection.style.display =
+            "none";
+    }
+
+}
+
+
+/* ============================================================
+   USER INFORMATION
+============================================================ */
+
+function updateUserInformation(){
+
+    if(!currentUser){
+        return;
+    }
+
+    const email =
+        currentUser.email ||
+        "—";
+
+    const userId =
+        currentUser.id ||
+        "—";
+
+    const topEmail =
+        document.getElementById(
+            "userEmail"
+        );
+
+    const accountEmail =
+        document.getElementById(
+            "accountEmail"
+        );
+
+    const accountUserId =
+        document.getElementById(
+            "accountUserId"
+        );
+
+    if(topEmail){
+        topEmail.textContent =
+            email;
+    }
+
+    if(accountEmail){
+        accountEmail.textContent =
+            email;
+    }
+
+    if(accountUserId){
+        accountUserId.textContent =
+            userId;
+    }
+
+}
+
+
+/* ============================================================
+   ADMIN AUTHORIZATION
 ============================================================ */
 
 async function checkAdminPanelAccess(){
@@ -1687,34 +2911,22 @@ async function checkAdminPanelAccess(){
             "adminPanelSection"
         );
 
-
     if(!section){
-
         return;
-
     }
 
-
-    /*
-       Always hide the Administrator card
-       before checking the current user.
-    */
-
-    section.style.display = "none";
-
+    section.style.display =
+        "none";
 
     try{
 
         const {
-            data: {
+            data:{
                 session
             },
-            error: sessionError
+            error:sessionError
         } =
-            await supabaseClient
-                .auth
-                .getSession();
-
+            await supabaseClient.auth.getSession();
 
         if(sessionError){
 
@@ -1724,9 +2936,7 @@ async function checkAdminPanelAccess(){
             );
 
             return;
-
         }
-
 
         if(
             !session ||
@@ -1734,13 +2944,11 @@ async function checkAdminPanelAccess(){
         ){
 
             return;
-
         }
 
-
         const {
-            data: admin,
-            error: adminError
+            data:admin,
+            error:adminError
         } =
             await supabaseClient
                 .from("admins")
@@ -1751,7 +2959,6 @@ async function checkAdminPanelAccess(){
                 )
                 .maybeSingle();
 
-
         if(adminError){
 
             console.error(
@@ -1760,15 +2967,7 @@ async function checkAdminPanelAccess(){
             );
 
             return;
-
         }
-
-
-        /*
-           Only an authenticated user whose
-           UUID exists in public.admins can
-           see the Administrator card.
-        */
 
         if(admin){
 
@@ -1793,158 +2992,143 @@ async function checkAdminPanelAccess(){
    OPEN ADMIN PANEL
 ============================================================ */
 
-function openAdminPanel(){
+async function openAdminPanel(){
 
-    window.location.href =
-        "admin.html";
+    try{
 
-}
-
-
-/* ============================================================
-   CHECK CURRENT SESSION
-============================================================ */
-
-async function checkSession(){
-
-    const {
-        data: {
-            session
-        }
-    } =
-        await supabaseClient
-            .auth
-            .getSession();
-
-
-    if(!session){
-
-        logoutUI();
-
-        return;
-
-    }
-
-
-    const accountEmail =
-        document.getElementById(
-            "accountEmail"
-        );
-
-
-    if(accountEmail){
-
-        accountEmail.textContent =
-            session.user.email ||
-            "Signed in";
-
-    }
-
-
-    await checkAdminPanelAccess();
-
-}
-
-
-/* ============================================================
-   LOGOUT UI
-============================================================ */
-
-function logoutUI(){
-
-    const adminSection =
-        document.getElementById(
-            "adminPanelSection"
-        );
-
-
-    if(adminSection){
-
-        adminSection.style.display =
-            "none";
-
-    }
-
-
-    document.getElementById(
-        "app"
-    ).style.display = "none";
-
-
-    document.getElementById(
-        "loginScreen"
-    ).style.display = "flex";
-
-}
-
-
-/* ============================================================
-   LOGOUT
-============================================================ */
-
-async function logout(){
-
-    await supabaseClient
-        .auth
-        .signOut();
-
-
-    logoutUI();
-
-}
-
-
-/* ============================================================
-   AUTH STATE LISTENER
-============================================================ */
-
-supabaseClient
-    .auth
-    .onAuthStateChange(
-        async function(event, session){
-
-            if(event === "SIGNED_OUT"){
-
-                logoutUI();
-
-                return;
-
-            }
-
-
-            if(
-                event === "SIGNED_IN" &&
+        const {
+            data:{
                 session
-            ){
-
-                await enterApp();
-
             }
+        } =
+            await supabaseClient.auth.getSession();
+
+        if(
+            !session ||
+            !session.user
+        ){
+
+            showToast(
+                "Please sign in first."
+            );
+
+            return;
+        }
+
+        const {
+            data:admin,
+            error
+        } =
+            await supabaseClient
+                .from("admins")
+                .select("user_id")
+                .eq(
+                    "user_id",
+                    session.user.id
+                )
+                .maybeSingle();
+
+        if(error){
+
+            console.error(error);
+
+            showToast(
+                "Administrator authorization could not be checked."
+            );
+
+            return;
+        }
+
+        if(!admin){
+
+            showToast(
+                "Access denied."
+            );
+
+            return;
+        }
+
+        window.location.href =
+            "admin.html";
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Administrator access failed."
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   SIGN OUT
+============================================================ */
+
+async function signOut(){
+
+    try{
+
+        await supabaseClient.auth.signOut();
+
+        currentUser =
+            null;
+
+        const adminSection =
+            document.getElementById(
+                "adminPanelSection"
+            );
+
+        if(adminSection){
+
+            adminSection.style.display =
+                "none";
 
         }
-    );
+
+        showToast(
+            "Signed out."
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Sign out failed."
+        );
+
+    }
+
+}
 
 
 /* ============================================================
    MAIN NAVIGATION
 ============================================================ */
 
-function showView(name, button){
+function showView(viewName,button){
 
-    document
-        .querySelectorAll(".view")
-        .forEach(function(view){
+    const views =
+        document.querySelectorAll(
+            ".view"
+        );
 
-            view.classList.remove(
-                "active"
-            );
+    views.forEach(function(view){
 
-        });
+        view.classList.remove(
+            "active"
+        );
 
+    });
 
     const target =
-        document.getElementById(name);
-
+        document.getElementById(
+            viewName + "View"
+        );
 
     if(target){
 
@@ -1955,18 +3139,18 @@ function showView(name, button){
     }
 
 
-    document
-        .querySelectorAll(
-            ".main-nav button"
-        )
-        .forEach(function(btn){
+    const navButtons =
+        document.querySelectorAll(
+            ".desktop-nav .nav-btn"
+        );
 
-            btn.classList.remove(
-                "active"
-            );
+    navButtons.forEach(function(btn){
 
-        });
+        btn.classList.remove(
+            "active"
+        );
 
+    });
 
     if(button){
 
@@ -1976,58 +3160,87 @@ function showView(name, button){
 
     }
 
+
+    updateMobileNavigation(
+        viewName
+    );
+
+    if(viewName === "funds"){
+
+        showFundsTabByName(
+            "overview"
+        );
+
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+function mobileView(viewName,button){
 
     const desktopButton =
         document.getElementById(
             "nav" +
-            name.charAt(0).toUpperCase() +
-            name.slice(1)
+            viewName.charAt(0).toUpperCase() +
+            viewName.slice(1)
         );
 
+    showView(
+        viewName,
+        desktopButton
+    );
 
-    if(desktopButton){
-
-        desktopButton.classList.add(
-            "active"
-        );
-
-    }
-
-
-    if(name === "account"){
-
-        checkAdminPanelAccess();
-
-    }
+    updateMobileNavigation(
+        viewName
+    );
 
 }
 
 
-/* ============================================================
-   MOBILE NAVIGATION
-============================================================ */
+function updateMobileNavigation(viewName){
 
-function mobileView(name, button){
+    const names = [
+        "Home",
+        "Market",
+        "Contract",
+        "Funds",
+        "Account"
+    ];
 
-    showView(name);
+    names.forEach(function(name){
 
+        const id =
+            "mobile" +
+            name;
 
-    document
-        .querySelectorAll(
-            ".mobile-nav button"
-        )
-        .forEach(function(btn){
+        const button =
+            document.getElementById(id);
 
-            btn.classList.remove(
+        if(button){
+
+            button.classList.remove(
                 "active"
             );
 
-        });
+        }
 
+    });
 
-    if(button){
+    const active =
+        document.getElementById(
+            "mobile" +
+            viewName.charAt(0).toUpperCase() +
+            viewName.slice(1)
+        );
 
-        button.classList.add(
+    if(active){
+
+        active.classList.add(
             "active"
         );
 
@@ -2037,50 +3250,53 @@ function mobileView(name, button){
 
 
 /* ============================================================
-   FUNDS NAVIGATION
+   FUNDS SUBNAVIGATION
 ============================================================ */
 
-function showFundsView(name, button){
+function showFundsTab(tabName,button){
 
-    document
-        .querySelectorAll(
-            ".fund-view"
-        )
-        .forEach(function(view){
+    const views =
+        document.querySelectorAll(
+            ".funds-view"
+        );
 
-            view.style.display =
-                "none";
+    views.forEach(function(view){
 
-        });
+        view.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    const tabs =
+        document.querySelectorAll(
+            ".funds-tab"
+        );
+
+    tabs.forEach(function(tab){
+
+        tab.classList.remove(
+            "active"
+        );
+
+    });
 
 
     const target =
         document.getElementById(
-            "fund" +
-            name.charAt(0).toUpperCase() +
-            name.slice(1)
+            "funds" +
+            tabName.charAt(0).toUpperCase() +
+            tabName.slice(1)
         );
-
 
     if(target){
 
-        target.style.display =
-            "block";
+        target.classList.add(
+            "active"
+        );
 
     }
-
-
-    document
-        .querySelectorAll(
-            ".funds-nav button"
-        )
-        .forEach(function(btn){
-
-            btn.classList.remove(
-                "active"
-            );
-
-        });
 
 
     if(button){
@@ -2094,37 +3310,17 @@ function showFundsView(name, button){
 }
 
 
-/* ============================================================
-   FUNDS NAVIGATION BY NAME
-============================================================ */
-
-function showFundsViewByName(name){
-
-    const buttonMap = {
-
-        overview:
-            "fundOverviewBtn",
-
-        spot:
-            "fundSpotBtn",
-
-        contractAccount:
-            "fundContractBtn",
-
-        financial:
-            "fundFinancialBtn"
-
-    };
-
+function showFundsTabByName(tabName){
 
     const button =
         document.getElementById(
-            buttonMap[name]
+            "fundTab" +
+            tabName.charAt(0).toUpperCase() +
+            tabName.slice(1)
         );
 
-
-    showFundsView(
-        name,
+    showFundsTab(
+        tabName,
         button
     );
 
@@ -2132,47 +3328,258 @@ function showFundsViewByName(name){
 
 
 /* ============================================================
-   BUY / SELL
+   BALANCE VISIBILITY
 ============================================================ */
 
-function setSide(side){
+function toggleBalanceVisibility(){
 
-    currentSide = side;
+    balanceHidden =
+        !balanceHidden;
 
+    renderAccountValues();
+
+    const eye =
+        document.getElementById(
+            "balanceEye"
+        );
+
+    if(eye){
+
+        eye.textContent =
+            balanceHidden
+                ? "○"
+                : "◉";
+
+    }
+
+}
+
+
+function displayBalance(value){
+
+    if(balanceHidden){
+
+        return "••••••••";
+
+    }
+
+    return money(value);
+
+}
+
+
+/* ============================================================
+   ACCOUNT / FUNDS VALUES
+============================================================ */
+
+function renderAccountValues(){
+
+    const balance =
+        Number(accountValues.balance || 0);
+
+    const available =
+        Number(accountValues.available || 0);
+
+    const profit =
+        Number(accountValues.profit || 0);
+
+    const deposits =
+        Number(accountValues.deposits || 0);
+
+    const withdrawals =
+        Number(accountValues.withdrawals || 0);
+
+
+    const homeBalance =
+        document.getElementById(
+            "homeBalance"
+        );
+
+    const homeAvailable =
+        document.getElementById(
+            "homeAvailable"
+        );
+
+    const homeProfit =
+        document.getElementById(
+            "homeProfit"
+        );
+
+    const totalAssets =
+        document.getElementById(
+            "totalAssetsValue"
+        );
+
+    const totalApprox =
+        document.getElementById(
+            "totalAssetsApprox"
+        );
+
+    if(homeBalance){
+
+        homeBalance.textContent =
+            displayBalance(balance);
+
+    }
+
+    if(homeAvailable){
+
+        homeAvailable.textContent =
+            displayBalance(available);
+
+    }
+
+    if(homeProfit){
+
+        homeProfit.textContent =
+            displayBalance(profit);
+
+        homeProfit.classList.toggle(
+            "negative",
+            profit < 0
+        );
+
+        homeProfit.classList.toggle(
+            "positive",
+            profit >= 0
+        );
+
+    }
+
+    if(totalAssets){
+
+        totalAssets.textContent =
+            displayBalance(balance);
+
+    }
+
+    if(totalApprox){
+
+        totalApprox.textContent =
+            displayBalance(balance);
+
+    }
+
+
+    const ids = {
+
+        overviewTradingBalance:
+            balance,
+
+        overviewSpotBalance:
+            available,
+
+        overviewContractBalance:
+            balance,
+
+        spotUsdt:
+            available,
+
+        contractWalletBalance:
+            balance,
+
+        financialDeposits:
+            deposits,
+
+        financialWithdrawals:
+            withdrawals,
+
+        financialProfit:
+            profit,
+
+        contractProfit:
+            profit
+
+    };
+
+
+    Object.keys(ids).forEach(function(id){
+
+        const element =
+            document.getElementById(id);
+
+        if(element){
+
+            element.textContent =
+                displayBalance(
+                    ids[id]
+                );
+
+        }
+
+    });
+
+}
+
+
+/* ============================================================
+   TRADING SIDE
+============================================================ */
+
+function selectSide(side){
+
+    selectedSide =
+        side === "sell"
+            ? "sell"
+            : "buy";
 
     const buyButton =
         document.getElementById(
-            "buyBtn"
+            "buySide"
         );
 
     const sellButton =
         document.getElementById(
-            "sellBtn"
+            "sellSide"
+        );
+
+    const actionButton =
+        document.getElementById(
+            "placeOrderButton"
         );
 
 
-    buyButton.className =
-        "btn " +
-        (
-            side === "buy"
-                ? "side-buy"
-                : ""
-        );
-
-
-    sellButton.className =
-        "btn " +
-        (
-            side === "sell"
-                ? "side-sell"
-                : ""
-        );
-
-
-    toast(
-        side.toUpperCase() +
-        " selected — Trading Experience"
+    buyButton.classList.remove(
+        "active"
     );
+
+    sellButton.classList.remove(
+        "active"
+    );
+
+    actionButton.classList.remove(
+        "buy",
+        "sell"
+    );
+
+
+    if(selectedSide === "buy"){
+
+        buyButton.classList.add(
+            "active"
+        );
+
+        actionButton.classList.add(
+            "buy"
+        );
+
+        actionButton.textContent =
+            "Buy BTC";
+
+    }else{
+
+        sellButton.classList.add(
+            "active"
+        );
+
+        actionButton.classList.add(
+            "sell"
+        );
+
+        actionButton.textContent =
+            "Sell BTC";
+
+    }
 
 }
 
@@ -2181,49 +3588,22 @@ function setSide(side){
    TRADING MODE
 ============================================================ */
 
-function setOrderMode(mode){
+function tradingModeChanged(){
 
-    currentMode = mode;
-
-
-    const marginButton =
+    const mode =
         document.getElementById(
-            "marginBtn"
-        );
-
-    const exchangeButton =
-        document.getElementById(
-            "exchangeBtn"
-        );
-
-
-    marginButton.className =
-        "btn " +
-        (
-            mode === "margin"
-                ? "btn-primary"
-                : "btn-light"
-        );
-
-
-    exchangeButton.className =
-        "btn " +
-        (
-            mode === "exchange"
-                ? "btn-primary"
-                : "btn-light"
-        );
-
+            "tradingMode"
+        ).value;
 
     if(mode === "margin"){
 
-        toast(
+        showToast(
             "Margin trading selected — Trading Experience"
         );
 
     }else{
 
-        toast(
+        showToast(
             "Exchange trading selected — Trading Experience"
         );
 
@@ -2233,70 +3613,55 @@ function setOrderMode(mode){
 
 
 /* ============================================================
-   ORDER TYPE
+   ORDER STORAGE
 ============================================================ */
 
-function orderTypeChanged(){
+function loadOrders(){
 
-    calculateTotal();
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "bitfiney_trading_orders"
+            );
+
+        orders =
+            saved
+                ? JSON.parse(saved)
+                : [];
+
+        if(!Array.isArray(orders)){
+            orders = [];
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        orders = [];
+
+    }
 
 }
 
 
-/* ============================================================
-   CALCULATE TOTAL
-============================================================ */
+function saveOrders(){
 
-function calculateTotal(){
+    try{
 
-    const price =
-        Number(
-            document.getElementById(
-                "price"
-            ).value || 0
+        localStorage.setItem(
+            "bitfiney_trading_orders",
+            JSON.stringify(orders)
         );
 
+    }catch(error){
 
-    const amount =
-        Number(
-            document.getElementById(
-                "amount"
-            ).value || 0
+        console.error(
+            "Could not save orders:",
+            error
         );
 
-
-    const total =
-        price * amount;
-
-
-    document.getElementById(
-        "total"
-    ).value =
-        total.toFixed(2);
-
-}
-
-
-/* ============================================================
-   PERCENTAGE
-============================================================ */
-
-function setPercent(percent){
-
-    const maxAmount = 1;
-
-
-    document.getElementById(
-        "amount"
-    ).value =
-        (
-            maxAmount *
-            percent /
-            100
-        ).toFixed(6);
-
-
-    calculateTotal();
+    }
 
 }
 
@@ -2310,69 +3675,86 @@ function placeOrder(){
     const price =
         Number(
             document.getElementById(
-                "price"
-            ).value || 0
+                "orderPrice"
+            ).value
         );
-
 
     const amount =
         Number(
             document.getElementById(
-                "amount"
-            ).value || 0
+                "orderAmount"
+            ).value
         );
+
+    const mode =
+        document.getElementById(
+            "tradingMode"
+        ).value;
 
 
     if(
-        price <= 0 ||
-        amount <= 0
+        !Number.isFinite(price) ||
+        price <= 0
     ){
 
-        toast(
-            "Enter a valid price and amount"
+        showToast(
+            "Enter a valid order price."
         );
 
         return;
-
     }
 
 
-    const orders =
-        getOrders();
+    if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ){
+
+        showToast(
+            "Enter a valid order amount."
+        );
+
+        return;
+    }
 
 
-    orders.unshift({
+    const order = {
 
-        id: Date.now(),
+        id:
+            Date.now(),
 
-        side: currentSide,
+        side:
+            selectedSide,
 
-        mode: currentMode,
+        price:
+            price,
 
-        type:
-            document.getElementById(
-                "orderType"
-            ).value,
+        amount:
+            amount,
 
-        price: price,
+        mode:
+            mode,
 
-        amount: amount,
+        status:
+            "Open",
 
-        total:
-            price * amount,
+        createdAt:
+            new Date().toISOString()
 
-        status: "Open"
-
-    });
+    };
 
 
-    saveOrders(orders);
+    orders.unshift(
+        order
+    );
+
+    saveOrders();
 
     renderOrders();
 
 
-    toast(
-        currentSide +
+    showToast(
+        selectedSide +
         " order created — Trading Experience"
     );
 
@@ -2383,33 +3765,21 @@ function placeOrder(){
    CANCEL ORDER
 ============================================================ */
 
-function cancelRow(id){
+function cancelOrder(id){
 
-    const orders =
-        getOrders().map(
-            function(order){
+    orders =
+        orders.filter(function(order){
 
-                if(order.id === id){
+            return String(order.id) !==
+                String(id);
 
-                    return {
-                        ...order,
-                        status: "Cancelled"
-                    };
+        });
 
-                }
-
-                return order;
-
-            }
-        );
-
-
-    saveOrders(orders);
+    saveOrders();
 
     renderOrders();
 
-
-    toast(
+    showToast(
         "Trading order cancelled"
     );
 
@@ -2422,71 +3792,62 @@ function cancelRow(id){
 
 function renderOrders(){
 
-    const body =
+    const contractTable =
         document.getElementById(
-            "ordersBody"
+            "contractOrdersTable"
         );
 
-
-    const orders =
-        getOrders();
-
-
-    const openOrders =
-        orders.filter(
-            function(order){
-
-                return order.status === "Open";
-
-            }
-        );
-
-
-    const openCount =
+    const homeTable =
         document.getElementById(
-            "openCount"
+            "homeOrdersTable"
+        );
+
+    const orderCount =
+        document.getElementById(
+            "homeOrders"
         );
 
 
-    if(openCount){
+    if(orderCount){
 
-        openCount.textContent =
-            openOrders.length;
+        orderCount.textContent =
+            orders.length;
 
     }
 
 
-    if(!orders.length){
+    if(
+        contractTable
+    ){
 
-        body.innerHTML =
-            '<tr>' +
-            '<td colspan="8" class="empty">' +
-            'No trading orders yet.' +
-            '</td>' +
-            '</tr>';
+        if(!orders.length){
 
-        return;
+            contractTable.innerHTML =
+                `
+                <tr>
+                    <td colspan="4">
+                        No trading orders yet.
+                    </td>
+                </tr>
+                `;
 
-    }
+        }else{
 
+            contractTable.innerHTML =
+                orders.map(function(order){
 
-    body.innerHTML =
-        orders.map(
-            function(order){
+                    const sideClass =
+                        order.side === "buy"
+                            ? "buy-text"
+                            : "sell-text";
 
-                return `
+                    return `
                     <tr>
 
-                        <td>
-                            ${order.side}
-                        </td>
-
-                        <td>
-                            ${order.mode}
-                        </td>
-
-                        <td>
-                            ${order.type}
+                        <td class="${sideClass}">
+                            ${escapeHtml(
+                                order.side.toUpperCase()
+                            )}
                         </td>
 
                         <td>
@@ -2494,106 +3855,445 @@ function renderOrders(){
                         </td>
 
                         <td>
-                            ${Number(order.amount).toFixed(6)}
+                            ${formatAmount(order.amount)}
                         </td>
 
                         <td>
-                            ${money(order.total)}
-                        </td>
-
-                        <td>
-                            ${order.status}
-                        </td>
-
-                        <td>
-                            ${
-                                order.status === "Open"
-                                ?
-                                `<button
-                                    class="btn btn-light"
-                                    onclick="cancelRow(${order.id})"
-                                >
-                                    Cancel
-                                </button>`
-                                :
-                                ""
-                            }
+                            <button
+                                class="secondary-btn"
+                                type="button"
+                                onclick="cancelOrder('${escapeHtml(order.id)}')">
+                                Cancel
+                            </button>
                         </td>
 
                     </tr>
+                    `;
+
+                }).join("");
+
+        }
+
+    }
+
+
+    if(homeTable){
+
+        const recent =
+            orders.slice(
+                0,
+                5
+            );
+
+        if(!recent.length){
+
+            homeTable.innerHTML =
+                `
+                <tr>
+                    <td colspan="4">
+                        No trading orders yet.
+                    </td>
+                </tr>
                 `;
 
-            }
-        )
-        .join("");
+        }else{
+
+            homeTable.innerHTML =
+                recent.map(function(order){
+
+                    const sideClass =
+                        order.side === "buy"
+                            ? "buy-text"
+                            : "sell-text";
+
+                    return `
+                    <tr>
+
+                        <td class="${sideClass}">
+                            ${escapeHtml(
+                                order.side.toUpperCase()
+                            )}
+                        </td>
+
+                        <td>
+                            ${money(order.price)}
+                        </td>
+
+                        <td>
+                            ${formatAmount(order.amount)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                order.status
+                            )}
+                        </td>
+
+                    </tr>
+                    `;
+
+                }).join("");
+
+        }
+
+    }
 
 }
 
 
 /* ============================================================
-   TIMEFRAME
+   FUNDS MODALS
 ============================================================ */
 
-function setTimeframe(value){
+function openFundsModal(mode){
 
-    toast(
-        "Chart timeframe: " +
-        value +
-        " — Trading Experience"
-    );
+    fundsModalMode =
+        mode;
 
-}
-
-
-/* ============================================================
-   TOAST
-============================================================ */
-
-function toast(message){
-
-    const element =
+    const modal =
         document.getElementById(
-            "toast"
+            "fundsModal"
+        );
+
+    const title =
+        document.getElementById(
+            "fundsModalTitle"
+        );
+
+    const note =
+        document.getElementById(
+            "fundsModalNote"
+        );
+
+    const action =
+        document.getElementById(
+            "fundsModalAction"
+        );
+
+    const deposit =
+        document.getElementById(
+            "depositInterface"
+        );
+
+    const withdraw =
+        document.getElementById(
+            "withdrawInterface"
+        );
+
+    const exchange =
+        document.getElementById(
+            "exchangeInterface"
         );
 
 
-    element.textContent =
-        message;
+    deposit.style.display =
+        "none";
+
+    withdraw.style.display =
+        "none";
+
+    exchange.style.display =
+        "none";
 
 
-    element.style.display =
-        "block";
+    if(mode === "deposit"){
+
+        title.textContent =
+            "Deposit";
+
+        note.textContent =
+            "Trading Experience deposit interface.";
+
+        deposit.style.display =
+            "block";
+
+        action.textContent =
+            "Submit Deposit";
+
+    }else if(mode === "withdraw"){
+
+        title.textContent =
+            "Withdraw";
+
+        note.textContent =
+            "Trading Experience withdrawal interface.";
+
+        withdraw.style.display =
+            "block";
+
+        action.textContent =
+            "Submit Withdrawal";
+
+    }else{
+
+        title.textContent =
+            "Exchange";
+
+        note.textContent =
+            "Trading Experience exchange interface.";
+
+        exchange.style.display =
+            "block";
+
+        action.textContent =
+            "Exchange";
+
+    }
 
 
-    clearTimeout(
-        toastTimer
+    modal.classList.add(
+        "show"
     );
 
+}
 
-    toastTimer =
-        setTimeout(
-            function(){
 
-                element.style.display =
-                    "none";
+function closeFundsModal(){
 
-            },
-            2200
+    const modal =
+        document.getElementById(
+            "fundsModal"
         );
+
+    modal.classList.remove(
+        "show"
+    );
+
+}
+
+
+function closeModalOutside(event){
+
+    if(
+        event.target &&
+        event.target.id ===
+            "fundsModal"
+    ){
+
+        closeFundsModal();
+
+    }
 
 }
 
 
 /* ============================================================
-   INITIALIZE
+   FUNDS ACTION
 ============================================================ */
 
-calculateTotal();
+function submitFundsAction(){
 
-renderOrders();
+    if(fundsModalMode === "deposit"){
 
-setAccountValues();
+        const amount =
+            Number(
+                document.getElementById(
+                    "depositAmount"
+                ).value
+            );
 
+        if(
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ){
+
+            showToast(
+                "Enter a valid deposit amount."
+            );
+
+            return;
+        }
+
+
+        accountValues.deposits +=
+            amount;
+
+        accountValues.balance +=
+            amount;
+
+        accountValues.available +=
+            amount;
+
+        renderAccountValues();
+
+        closeFundsModal();
+
+        showToast(
+            "Deposit request submitted — Trading Experience"
+        );
+
+
+    }else if(
+        fundsModalMode === "withdraw"
+    ){
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "withdrawAmount"
+                ).value
+            );
+
+        const destination =
+            document.getElementById(
+                "withdrawDestination"
+            ).value.trim();
+
+
+        if(
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ){
+
+            showToast(
+                "Enter a valid withdrawal amount."
+            );
+
+            return;
+        }
+
+
+        if(!destination){
+
+            showToast(
+                "Enter a withdrawal destination."
+            );
+
+            return;
+        }
+
+
+        if(
+            amount >
+            accountValues.available
+        ){
+
+            showToast(
+                "Insufficient available Trading Balance."
+            );
+
+            return;
+        }
+
+
+        accountValues.withdrawals +=
+            amount;
+
+        accountValues.available -=
+            amount;
+
+        accountValues.balance =
+            accountValues.available;
+
+
+        renderAccountValues();
+
+        closeFundsModal();
+
+        showToast(
+            "Withdrawal request submitted — Trading Experience"
+        );
+
+
+    }else{
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "exchangeAmount"
+                ).value
+            );
+
+        const from =
+            document.getElementById(
+                "exchangeFrom"
+            ).value;
+
+        const to =
+            document.getElementById(
+                "exchangeTo"
+            ).value;
+
+
+        if(from === to){
+
+            showToast(
+                "Select different currencies."
+            );
+
+            return;
+        }
+
+
+        if(
+            !Number.isFinite(amount) ||
+            amount <= 0
+        ){
+
+            showToast(
+                "Enter a valid exchange amount."
+            );
+
+            return;
+        }
+
+
+        if(from === "USDT"){
+
+            if(
+                amount >
+                accountValues.available
+            ){
+
+                showToast(
+                    "Insufficient USDT balance."
+                );
+
+                return;
+            }
+
+            accountValues.available -=
+                amount;
+
+        }else{
+
+            showToast(
+                "BTC exchange balance is not available."
+            );
+
+            return;
+        }
+
+
+        renderAccountValues();
+
+        closeFundsModal();
+
+        showToast(
+            "Exchange completed — Trading Experience"
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   INITIALIZATION
+============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        selectSide("buy");
+
+        renderAccountValues();
+
+        checkSession();
+
+    }
+);
 </script>
 
 </body>
