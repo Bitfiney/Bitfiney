@@ -123,6 +123,44 @@ button{
     background:#2188eb;
 }
 
+.secondary-button{
+    width:100%;
+    margin-top:9px;
+    padding:11px;
+    border:1px solid #34424f;
+    border-radius:8px;
+    background:#18212a;
+    color:#dfe6ec;
+    font-weight:700;
+}
+
+.secondary-button:hover{
+    background:#202c37;
+}
+
+.auth-message{
+    display:none;
+    margin-top:13px;
+    padding:10px 12px;
+    border-radius:7px;
+    font-size:12px;
+    line-height:1.5;
+}
+
+.auth-message.error{
+    display:block;
+    background:#30161b;
+    border:1px solid #70313b;
+    color:#ff9aa3;
+}
+
+.auth-message.success{
+    display:block;
+    background:#123222;
+    border:1px solid #246b45;
+    color:#7ee2a8;
+}
+
 /* APP */
 
 #app{
@@ -615,6 +653,10 @@ th{
     .big-price{
         font-size:23px;
     }
+
+    .login-card{
+        padding:25px 20px;
+    }
 }
 </style>
 </head>
@@ -642,27 +684,45 @@ th{
         </p>
 
         <label class="form-label">Email</label>
+
         <input
             id="loginEmail"
             class="form-input"
             type="email"
+            autocomplete="email"
             placeholder="you@example.com"
         >
 
         <label class="form-label">Password</label>
+
         <input
             id="loginPassword"
             class="form-input"
             type="password"
+            autocomplete="current-password"
             placeholder="Password"
         >
 
         <button
+            id="loginButton"
             class="primary-button"
             onclick="login()"
         >
             Enter Trading
         </button>
+
+        <button
+            id="signupButton"
+            class="secondary-button"
+            onclick="signup()"
+        >
+            Create Trading Account
+        </button>
+
+        <div
+            id="authMessage"
+            class="auth-message"
+        ></div>
 
     </div>
 
@@ -1486,9 +1546,8 @@ th{
             style="margin-top:15px"
         >
             Your Bitfiney account is a simulation trading account.
-            In the connected backend version, an administrator can
-            restrict or restore Trading, Futures, Buy, Sell and
-            Withdrawals for individual users.
+            Administrator controls can later be connected through
+            secure server-side Supabase functions.
         </div>
 
     </div>
@@ -1556,73 +1615,452 @@ th{
 ></div>
 
 
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+/* ============================================================
+   SUPABASE CONFIGURATION
+============================================================ */
+
+const SUPABASE_URL =
+    "https://wpfkubmosuzmahlggtqu.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_WXBma9FkztJ6Ab74OFhYNQ_TK0GGaHZ";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+/* ============================================================
+   GLOBAL STATE
+============================================================ */
 
 let currentSide = "buy";
 let currentMode = "exchange";
 let toastTimer;
 
 
-/* LOGIN */
+/* ============================================================
+   AUTH MESSAGE
+============================================================ */
 
-function login(){
+function showAuthMessage(message,type){
 
-    const email =
-        document.getElementById("loginEmail").value.trim();
+    const box =
+        document.getElementById("authMessage");
 
-    const password =
-        document.getElementById("loginPassword").value.trim();
-
-    if(!email || !password){
-
-        alert("Please enter an email and password.");
-
+    if(!box){
         return;
     }
 
-    localStorage.setItem(
-        "bitfiney_trading_user",
-        email
-    );
+    box.textContent = message;
 
-    enterApp(email);
+    box.className =
+        "auth-message " +
+        type;
 
-    toast(
-        "Welcome to Bitfiney Trading"
-    );
 }
 
+
+/* ============================================================
+   LOGIN
+============================================================ */
+
+async function login(){
+
+    const email =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+    if(!email || !password){
+
+        showAuthMessage(
+            "Please enter your email and password.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    const button =
+        document.getElementById(
+            "loginButton"
+        );
+
+    button.disabled = true;
+
+    button.textContent =
+        "Signing in...";
+
+    showAuthMessage(
+        "",
+        "success"
+    );
+
+    try{
+
+        const result =
+            await supabaseClient.auth.signInWithPassword({
+                email:email,
+                password:password
+            });
+
+        if(result.error){
+
+            throw result.error;
+
+        }
+
+        const user =
+            result.data.user;
+
+        if(!user){
+
+            throw new Error(
+                "Login completed but no user session was returned."
+            );
+
+        }
+
+        enterApp(
+            user.email ||
+            email
+        );
+
+        toast(
+            "Welcome to Bitfiney Trading"
+        );
+
+    }catch(error){
+
+        console.error(
+            "Supabase login error:",
+            error
+        );
+
+        showAuthMessage(
+            getAuthErrorMessage(error),
+            "error"
+        );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Enter Trading";
+
+    }
+
+}
+
+
+/* ============================================================
+   SIGN UP
+============================================================ */
+
+async function signup(){
+
+    const email =
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById("loginPassword")
+            .value;
+
+    if(!email || !password){
+
+        showAuthMessage(
+            "Enter an email and password first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    if(password.length < 6){
+
+        showAuthMessage(
+            "Password must contain at least 6 characters.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    const button =
+        document.getElementById(
+            "signupButton"
+        );
+
+    button.disabled = true;
+
+    button.textContent =
+        "Creating Account...";
+
+    try{
+
+        const result =
+            await supabaseClient.auth.signUp({
+                email:email,
+                password:password
+            });
+
+        if(result.error){
+
+            throw result.error;
+
+        }
+
+        if(result.data.session){
+
+            enterApp(
+                result.data.user.email ||
+                email
+            );
+
+            toast(
+                "Trading account created successfully"
+            );
+
+        }else{
+
+            showAuthMessage(
+                "Account created. Check your email to confirm your account, then sign in.",
+                "success"
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Supabase signup error:",
+            error
+        );
+
+        showAuthMessage(
+            getAuthErrorMessage(error),
+            "error"
+        );
+
+    }finally{
+
+        button.disabled = false;
+
+        button.textContent =
+            "Create Trading Account";
+
+    }
+
+}
+
+
+/* ============================================================
+   AUTH ERROR HANDLING
+============================================================ */
+
+function getAuthErrorMessage(error){
+
+    const message =
+        String(
+            error &&
+            error.message
+                ? error.message
+                : error
+        );
+
+    const lower =
+        message.toLowerCase();
+
+    if(
+        lower.includes("invalid login credentials")
+    ){
+
+        return "Incorrect email or password.";
+
+    }
+
+    if(
+        lower.includes("email not confirmed")
+    ){
+
+        return "Please confirm your email address before signing in.";
+
+    }
+
+    if(
+        lower.includes("user already registered")
+    ){
+
+        return "This email already has a Trading Account. Please sign in.";
+
+    }
+
+    if(
+        lower.includes("password should be at least")
+    ){
+
+        return "Your password is too short.";
+
+    }
+
+    if(
+        lower.includes("rate limit")
+    ){
+
+        return "Too many attempts. Please wait a moment and try again.";
+
+    }
+
+    return message ||
+        "Authentication failed. Please try again.";
+
+}
+
+
+/* ============================================================
+   ENTER APPLICATION
+============================================================ */
 
 function enterApp(email){
 
-    document.getElementById("loginPage")
+    document
+        .getElementById("loginPage")
         .style.display = "none";
 
-    document.getElementById("app")
-        .classList.remove("hidden");
+    document
+        .getElementById("app")
+        .classList
+        .remove("hidden");
 
-    document.getElementById("accountEmail")
-        .textContent = email;
+    document
+        .getElementById("accountEmail")
+        .textContent =
+            email || "";
 
-    document.getElementById("accountEmail2")
-        .textContent = email;
+    document
+        .getElementById("accountEmail2")
+        .textContent =
+            email || "";
+
 }
 
+
+/* ============================================================
+   CHECK EXISTING SUPABASE SESSION
+============================================================ */
+
+async function checkSession(){
+
+    try{
+
+        const result =
+            await supabaseClient.auth.getSession();
+
+        if(result.error){
+
+            console.error(
+                "Session error:",
+                result.error
+            );
+
+            return;
+
+        }
+
+        const session =
+            result.data.session;
+
+        if(session && session.user){
+
+            enterApp(
+                session.user.email || ""
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Could not check Supabase session:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   AUTH STATE LISTENER
+============================================================ */
+
+supabaseClient.auth.onAuthStateChange(
+    function(event,session){
+
+        if(
+            event === "SIGNED_IN" &&
+            session &&
+            session.user
+        ){
+
+            enterApp(
+                session.user.email || ""
+            );
+
+        }
+
+        if(
+            event === "SIGNED_OUT"
+        ){
+
+            document
+                .getElementById("app")
+                .classList
+                .add("hidden");
+
+            document
+                .getElementById("loginPage")
+                .style
+                .display = "flex";
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   INITIAL LOAD
+============================================================ */
 
 window.addEventListener(
     "load",
     function(){
 
-        const saved =
-            localStorage.getItem(
-                "bitfiney_trading_user"
-            );
-
-        if(saved){
-
-            enterApp(saved);
-
-        }
+        checkSession();
 
         calculateTotal();
 
@@ -1632,20 +2070,46 @@ window.addEventListener(
 );
 
 
-/* LOGOUT */
+/* ============================================================
+   LOGOUT
+============================================================ */
 
-function logout(){
+async function logout(){
 
-    localStorage.removeItem(
-        "bitfiney_trading_user"
-    );
+    try{
 
-    location.reload();
+        const result =
+            await supabaseClient.auth.signOut();
+
+        if(result.error){
+
+            throw result.error;
+
+        }
+
+        toast(
+            "Signed out successfully"
+        );
+
+    }catch(error){
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+        toast(
+            "Unable to sign out. Please try again."
+        );
+
+    }
 
 }
 
 
-/* NAVIGATION */
+/* ============================================================
+   NAVIGATION
+============================================================ */
 
 function showView(name,button){
 
@@ -1706,7 +2170,9 @@ function mobileView(name,button){
 }
 
 
-/* SIDE */
+/* ============================================================
+   SIDE
+============================================================ */
 
 function setSide(side){
 
@@ -1739,17 +2205,23 @@ function setSide(side){
     );
 
     submit.textContent =
-        (currentMode === "margin"
-            ? "Margin "
-            : "Exchange ") +
-        (side === "buy"
-            ? "Buy"
-            : "Sell");
+        (
+            currentMode === "margin"
+                ? "Margin "
+                : "Exchange "
+        ) +
+        (
+            side === "buy"
+                ? "Buy"
+                : "Sell"
+        );
 
 }
 
 
-/* ORDER MODE */
+/* ============================================================
+   ORDER MODE
+============================================================ */
 
 function setOrderMode(mode,button){
 
@@ -1776,7 +2248,9 @@ function setOrderMode(mode,button){
 }
 
 
-/* ORDER TYPE */
+/* ============================================================
+   ORDER TYPE
+============================================================ */
 
 function orderTypeChanged(){
 
@@ -1807,7 +2281,9 @@ function orderTypeChanged(){
 }
 
 
-/* TOTAL */
+/* ============================================================
+   TOTAL
+============================================================ */
 
 function calculateTotal(){
 
@@ -1859,7 +2335,9 @@ document.addEventListener(
 );
 
 
-/* QUICK AMOUNT */
+/* ============================================================
+   QUICK AMOUNT
+============================================================ */
 
 function setPercent(percent){
 
@@ -1888,7 +2366,9 @@ function setPercent(percent){
 }
 
 
-/* PLACE SIMULATED ORDER */
+/* ============================================================
+   PLACE SIMULATED ORDER
+============================================================ */
 
 function placeOrder(){
 
@@ -2058,7 +2538,9 @@ function placeOrder(){
 }
 
 
-/* CANCEL */
+/* ============================================================
+   CANCEL
+============================================================ */
 
 function cancelRow(button){
 
@@ -2080,7 +2562,9 @@ function cancelRow(button){
 }
 
 
-/* OPEN COUNT */
+/* ============================================================
+   OPEN COUNT
+============================================================ */
 
 function updateOpenCount(){
 
@@ -2089,26 +2573,42 @@ function updateOpenCount(){
             "#openOrdersTable tr"
         ).length;
 
-    document.getElementById(
-        "openCount"
-    ).textContent =
-        number +
-        " " +
-        (
-            number === 1
-                ? "order"
-                : "orders"
+    const openCount =
+        document.getElementById(
+            "openCount"
         );
 
-    document.getElementById(
-        "dashOpen"
-    ).textContent =
-        number;
+    const dashOpen =
+        document.getElementById(
+            "dashOpen"
+        );
+
+    if(openCount){
+
+        openCount.textContent =
+            number +
+            " " +
+            (
+                number === 1
+                    ? "order"
+                    : "orders"
+            );
+
+    }
+
+    if(dashOpen){
+
+        dashOpen.textContent =
+            number;
+
+    }
 
 }
 
 
-/* TIMEFRAME */
+/* ============================================================
+   TIMEFRAME
+============================================================ */
 
 function setTimeframe(button,time){
 
@@ -2137,7 +2637,9 @@ function setTimeframe(button,time){
 }
 
 
-/* TOAST */
+/* ============================================================
+   TOAST
+============================================================ */
 
 function toast(message){
 
@@ -2145,6 +2647,10 @@ function toast(message){
         document.getElementById(
             "toast"
         );
+
+    if(!box){
+        return;
+    }
 
     box.textContent =
         message;
