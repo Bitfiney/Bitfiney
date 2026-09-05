@@ -38,7 +38,12 @@ button{
     justify-content:center;
     padding:20px;
     background:
-        radial-gradient(circle at top,#172433 0%,#0b1118 42%,#06090d 100%);
+        radial-gradient(
+            circle at top,
+            #172433 0%,
+            #0b1118 42%,
+            #06090d 100%
+        );
 }
 .login-card{
     width:100%;
@@ -259,7 +264,10 @@ button{
 ============================================================ */
 .trading-grid{
     display:grid;
-    grid-template-columns:minmax(0,1.7fr) minmax(240px,.8fr) minmax(240px,.8fr);
+    grid-template-columns:
+        minmax(0,1.7fr)
+        minmax(240px,.8fr)
+        minmax(240px,.8fr);
     gap:12px;
 }
 .market-header{
@@ -317,8 +325,15 @@ button{
     overflow:hidden;
     border-radius:8px;
     background:
-        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.035) 1px,
+            transparent 1px
+        ),
         #0c1319;
     background-size:50px 50px;
 }
@@ -540,10 +555,35 @@ th{
     color:#fff;
 }
 /* ============================================================
-   ACCOUNT
+   ACCOUNT / ADMIN
 ============================================================ */
 .account-box{
     max-width:700px;
+}
+.admin-panel-card{
+    margin-top:12px;
+    border-color:#29445a;
+}
+.admin-panel-card h3{
+    font-size:16px;
+}
+.admin-panel-card p{
+    color:#87939f;
+    line-height:1.7;
+    margin-top:7px;
+    font-size:12px;
+}
+.admin-panel-button{
+    margin-top:12px;
+    padding:9px 14px;
+    border:1px solid #286b9c;
+    border-radius:7px;
+    background:#174d73;
+    color:#fff;
+    font-weight:800;
+}
+.admin-panel-button:hover{
+    background:#205f8d;
 }
 /* ============================================================
    MOBILE NAVIGATION
@@ -772,7 +812,9 @@ th{
             cryptocurrency trading interface. No real funds or blockchain
             transactions are performed.
         </p>
-        <label class="form-label">Email</label>
+        <label class="form-label">
+            Email
+        </label>
         <input
             id="loginEmail"
             class="form-input"
@@ -780,7 +822,9 @@ th{
             autocomplete="email"
             placeholder="you@example.com"
         >
-        <label class="form-label">Password</label>
+        <label class="form-label">
+            Password
+        </label>
         <input
             id="loginPassword"
             class="form-input"
@@ -816,7 +860,10 @@ th{
     <div class="brand">
         Bitfiney<span>.</span>
     </div>
-    <div class="simulation-badge" style="margin:0">
+    <div
+        class="simulation-badge"
+        style="margin:0"
+    >
         SIMULATION
     </div>
     <nav class="main-nav">
@@ -1008,7 +1055,6 @@ th{
         here are simulated market data for the Bitfiney interface.
     </div>
     <div class="trading-grid">
-        <!-- CHART -->
         <section class="card">
             <div class="market-header">
                 <div>
@@ -1140,7 +1186,6 @@ th{
                 </svg>
             </div>
         </section>
-        <!-- ORDER BOOK -->
         <section class="card">
             <div class="section-title">
                 Order Book
@@ -1187,7 +1232,6 @@ th{
                 <span>9,027.14</span>
             </div>
         </section>
-        <!-- RECENT TRADES -->
         <section class="card">
             <div class="section-title">
                 Recent Trades
@@ -1237,7 +1281,6 @@ th{
         real exchange.
     </div>
     <div class="trading-grid">
-        <!-- ORDER PANEL -->
         <section class="card">
             <div class="order-tabs">
                 <button
@@ -1344,7 +1387,6 @@ th{
                 Exchange Buy
             </button>
         </section>
-        <!-- CONTRACT INFORMATION -->
         <section class="card">
             <div class="section-title">
                 Contract Trading
@@ -1378,19 +1420,23 @@ th{
                 <div class="stat-label">
                     Margin Status
                 </div>
-                <div class="stat-value green" style="font-size:20px">
+                <div
+                    class="stat-value green"
+                    style="font-size:20px"
+                >
                     Available
                 </div>
             </div>
         </section>
-        <!-- OPEN ORDERS -->
         <section class="card wide">
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                margin-bottom:10px;
-            ">
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:10px;
+                "
+            >
                 <strong>
                     Open Orders
                 </strong>
@@ -1414,19 +1460,19 @@ th{
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody id="openOrdersTable">
-                    </tbody>
+                    <tbody id="openOrdersTable"></tbody>
                 </table>
             </div>
         </section>
-        <!-- ORDER HISTORY -->
         <section class="card wide">
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                margin-bottom:10px;
-            ">
+            <div
+                style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    margin-bottom:10px;
+                "
+            >
                 <strong>
                     Trading Order History
                 </strong>
@@ -1449,8 +1495,7 @@ th{
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody id="historyTable">
-                    </tbody>
+                    <tbody id="historyTable"></tbody>
                 </table>
             </div>
         </section>
@@ -1744,6 +1789,80 @@ th{
         </div>
     </div>
 </div>
+<!-- ============================================================
+     ACCOUNT
+============================================================ -->
+<div
+    id="accountView"
+    class="view"
+>
+    <div class="account-box">
+        <div class="notice">
+            <strong>SIMULATION ONLY:</strong>
+            Your Bitfiney account is a simulation trading account.
+            No real money, cryptocurrency or blockchain transactions
+            are connected to this website.
+        </div>
+        <div class="card">
+            <h3>
+                Account
+            </h3>
+            <p
+                style="
+                    color:#87939f;
+                    line-height:1.7;
+                    margin-top:9px;
+                "
+            >
+                You are signed in to your Bitfiney Trading simulation
+                account.
+            </p>
+            <div
+                style="
+                    margin-top:15px;
+                    padding:12px;
+                    background:#0c1319;
+                    border-radius:8px;
+                "
+            >
+                <div class="stat-label">
+                    Signed-in Email
+                </div>
+                <div
+                    id="accountPageEmail"
+                    style="
+                        margin-top:5px;
+                        font-weight:800;
+                        word-break:break-word;
+                    "
+                ></div>
+            </div>
+        </div>
+        <!-- ADMIN BUTTON:
+             Hidden unless current Supabase user is in public.admins.
+        -->
+        <div
+            id="adminPanelSection"
+            class="card admin-panel-card"
+            style="display:none;"
+        >
+            <h3>
+                Administrator
+            </h3>
+            <p>
+                Administrator access is available only to authorized
+                Bitfiney simulation administrators.
+            </p>
+            <button
+                type="button"
+                class="admin-panel-button"
+                onclick="openAdminPanel()"
+            >
+                Admin Panel
+            </button>
+        </div>
+    </div>
+</div>
 </main>
 <!-- ============================================================
      MOBILE NAV
@@ -1776,7 +1895,9 @@ th{
     </button>
 </nav>
 </section>
-<!-- TOAST -->
+<!-- ============================================================
+     TOAST
+============================================================ -->
 <div
     id="toast"
     style="
@@ -1823,11 +1944,14 @@ let toastTimer;
 ============================================================ */
 function showAuthMessage(message,type){
     const box =
-        document.getElementById("authMessage");
+        document.getElementById(
+            "authMessage"
+        );
     if(!box){
         return;
     }
-    box.textContent = message;
+    box.textContent =
+        message;
     box.className =
         "auth-message " +
         type;
@@ -1879,6 +2003,7 @@ async function login(){
             user.email ||
             email
         );
+        await checkAdminPanelAccess();
         toast(
             "Welcome to Bitfiney Trading"
         );
@@ -1945,6 +2070,7 @@ async function signup(){
                 result.data.user.email ||
                 email
             );
+            await checkAdminPanelAccess();
             toast(
                 "Trading account created successfully"
             );
@@ -1983,27 +2109,37 @@ function getAuthErrorMessage(error){
     const lower =
         message.toLowerCase();
     if(
-        lower.includes("invalid login credentials")
+        lower.includes(
+            "invalid login credentials"
+        )
     ){
         return "Incorrect email or password.";
     }
     if(
-        lower.includes("email not confirmed")
+        lower.includes(
+            "email not confirmed"
+        )
     ){
         return "Please confirm your email address before signing in.";
     }
     if(
-        lower.includes("user already registered")
+        lower.includes(
+            "user already registered"
+        )
     ){
         return "This email already has a Trading Account. Please sign in.";
     }
     if(
-        lower.includes("password should be at least")
+        lower.includes(
+            "password should be at least"
+        )
     ){
         return "Your password is too short.";
     }
     if(
-        lower.includes("rate limit")
+        lower.includes(
+            "rate limit"
+        )
     ){
         return "Too many attempts. Please wait a moment and try again.";
     }
@@ -2025,6 +2161,93 @@ function enterApp(email){
         .getElementById("accountEmail")
         .textContent =
             email || "";
+    const accountPageEmail =
+        document.getElementById(
+            "accountPageEmail"
+        );
+    if(accountPageEmail){
+        accountPageEmail.textContent =
+            email || "";
+    }
+}
+/* ============================================================
+   ADMIN PANEL AUTHORIZATION
+============================================================ */
+async function checkAdminPanelAccess(){
+    const section =
+        document.getElementById(
+            "adminPanelSection"
+        );
+    if(!section){
+        return;
+    }
+    /*
+       Always hide the button first.
+       This prevents a previous admin session from accidentally
+       leaving the button visible after another user signs in.
+    */
+    section.style.display =
+        "none";
+    try{
+        const {
+            data: { session },
+            error: sessionError
+        } =
+            await supabaseClient.auth.getSession();
+        if(sessionError){
+            console.error(
+                "Admin session check failed:",
+                sessionError
+            );
+            return;
+        }
+        if(
+            !session ||
+            !session.user
+        ){
+            return;
+        }
+        /*
+           Check the authenticated user's UUID against
+           public.admins.
+           Only a matching row can make the button visible.
+        */
+        const {
+            data: admin,
+            error: adminError
+        } =
+            await supabaseClient
+                .from("admins")
+                .select("user_id")
+                .eq(
+                    "user_id",
+                    session.user.id
+                )
+                .maybeSingle();
+        if(adminError){
+            console.error(
+                "Admin authorization check failed:",
+                adminError
+            );
+            return;
+        }
+        if(admin){
+            section.style.display =
+                "block";
+        }
+    }catch(error){
+        console.error(
+            "Admin panel access error:",
+            error
+        );
+    }
+}
+/* ============================================================
+   OPEN ADMIN PANEL
+============================================================ */
+function openAdminPanel(){
+    window.location.href =
+        "admin.html";
 }
 /* ============================================================
    CHECK EXISTING SUPABASE SESSION
@@ -2046,6 +2269,7 @@ async function checkSession(){
             enterApp(
                 session.user.email || ""
             );
+            await checkAdminPanelAccess();
         }
     }catch(error){
         console.error(
@@ -2067,10 +2291,28 @@ supabaseClient.auth.onAuthStateChange(
             enterApp(
                 session.user.email || ""
             );
+            /*
+               Run asynchronously so the auth callback itself
+               is not blocked.
+            */
+            setTimeout(
+                function(){
+                    checkAdminPanelAccess();
+                },
+                0
+            );
         }
         if(
             event === "SIGNED_OUT"
         ){
+            const adminSection =
+                document.getElementById(
+                    "adminPanelSection"
+                );
+            if(adminSection){
+                adminSection.style.display =
+                    "none";
+            }
             document
                 .getElementById("app")
                 .classList
@@ -2123,22 +2365,32 @@ function showView(name,button){
     document
         .querySelectorAll(".view")
         .forEach(function(view){
-            view.classList.remove("active");
+            view.classList.remove(
+                "active"
+            );
         });
     const target =
         document.getElementById(
             name + "View"
         );
     if(target){
-        target.classList.add("active");
+        target.classList.add(
+            "active"
+        );
     }
     document
-        .querySelectorAll(".main-nav button")
+        .querySelectorAll(
+            ".main-nav button"
+        )
         .forEach(function(btn){
-            btn.classList.remove("active");
+            btn.classList.remove(
+                "active"
+            );
         });
     if(button){
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
     }
 }
 /* ============================================================
@@ -2147,12 +2399,18 @@ function showView(name,button){
 function mobileView(name,button){
     showView(name);
     document
-        .querySelectorAll(".mobile-nav button")
+        .querySelectorAll(
+            ".mobile-nav button"
+        )
         .forEach(function(btn){
-            btn.classList.remove("active");
+            btn.classList.remove(
+                "active"
+            );
         });
     if(button){
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
     }
 }
 /* ============================================================
@@ -2160,24 +2418,36 @@ function mobileView(name,button){
 ============================================================ */
 function showFundsView(name,button){
     document
-        .querySelectorAll(".funds-view")
+        .querySelectorAll(
+            ".funds-view"
+        )
         .forEach(function(view){
-            view.classList.remove("active");
+            view.classList.remove(
+                "active"
+            );
         });
     const target =
         document.getElementById(
             name + "FundsView"
         );
     if(target){
-        target.classList.add("active");
+        target.classList.add(
+            "active"
+        );
     }
     document
-        .querySelectorAll(".funds-tabs button")
+        .querySelectorAll(
+            ".funds-tabs button"
+        )
         .forEach(function(btn){
-            btn.classList.remove("active");
+            btn.classList.remove(
+                "active"
+            );
         });
     if(button){
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
     }
 }
 function showFundsViewByName(name){
@@ -2192,8 +2462,13 @@ function showFundsViewByName(name){
         "financial"
     ];
     const index =
-        names.indexOf(name);
-    if(index >= 0 && buttons[index]){
+        names.indexOf(
+            name
+        );
+    if(
+        index >= 0 &&
+        buttons[index]
+    ){
         showFundsView(
             name,
             buttons[index]
@@ -2204,7 +2479,8 @@ function showFundsViewByName(name){
    SIDE
 ============================================================ */
 function setSide(side){
-    currentSide = side;
+    currentSide =
+        side;
     document
         .querySelector(".buy")
         .classList
@@ -2243,14 +2519,23 @@ function setSide(side){
    ORDER MODE
 ============================================================ */
 function setOrderMode(mode,button){
-    currentMode = mode;
+    currentMode =
+        mode;
     document
-        .querySelectorAll(".order-tabs button")
+        .querySelectorAll(
+            ".order-tabs button"
+        )
         .forEach(function(btn){
-            btn.classList.remove("active");
+            btn.classList.remove(
+                "active"
+            );
         });
-    button.classList.add("active");
-    setSide(currentSide);
+    button.classList.add(
+        "active"
+    );
+    setSide(
+        currentSide
+    );
     toast(
         mode === "margin"
             ? "Margin trading selected — simulation only"
@@ -2397,7 +2682,9 @@ function placeOrder(){
             : "Sell";
     /* OPEN ORDER */
     const row =
-        document.createElement("tr");
+        document.createElement(
+            "tr"
+        );
     row.innerHTML =
         "<td>BTC/USD</td>" +
         "<td>" +
@@ -2433,7 +2720,9 @@ function placeOrder(){
         .prepend(row);
     /* HISTORY */
     const historyRow =
-        document.createElement("tr");
+        document.createElement(
+            "tr"
+        );
     historyRow.innerHTML =
         "<td>Just now</td>" +
         "<td>BTC/USD</td>" +
@@ -2472,7 +2761,9 @@ function placeOrder(){
 ============================================================ */
 function cancelRow(button){
     const row =
-        button.closest("tr");
+        button.closest(
+            "tr"
+        );
     if(row){
         row.remove();
     }
@@ -2521,9 +2812,13 @@ function setTimeframe(button,time){
             ".chart-toolbar button"
         )
         .forEach(function(btn){
-            btn.classList.remove("active");
+            btn.classList.remove(
+                "active"
+            );
         });
-    button.classList.add("active");
+    button.classList.add(
+        "active"
+    );
     document.getElementById(
         "chartTime"
     ).textContent =
