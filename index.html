@@ -129,13 +129,69 @@ function escapeHtml(v){return String(v??"").replace(/&/g,"&amp;").replace(/</g,"
 function showToast(message){const el=document.getElementById("toast");el.textContent=message;el.classList.add("show");clearTimeout(showToast.t);showToast.t=setTimeout(()=>el.classList.remove("show"),2600)}
 function setAuthMessage(message,ok=false){const el=document.getElementById("authMessage");el.textContent=message||"";el.className="auth-message"+(ok?" ok":"")}
 function toggleAuthMode(){authMode=authMode==="login"?"signup":"login";document.getElementById("authButton").textContent=authMode==="login"?"Log In":"Create Account";document.getElementById("authSwitchText").textContent=authMode==="login"?"Don't have an account?":"Already have an account?";document.getElementById("authSwitchButton").textContent=authMode==="login"?"Create Account":"Log In";document.getElementById("authPassword").value="";setAuthMessage("")}
-async function handleAuth(){if(authBusy)return;const email=document.getElementById("authEmail").value.trim();const password=document.getElementById("authPassword").value;if(!email){setAuthMessage("Please enter your email.");return}if(!password){setAuthMessage("Please enter your password.");return}if(password.length<6){setAuthMessage("Password must be at least 6 characters.");return}authBusy=true;const btn=document.getElementById("authButton");btn.disabled=true;btn.textContent=authMode==="login"?"Logging in...":"Creating account...";setAuthMessage("");try{if(authMode==="login"){const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});if(error)throw error;if(!data?.session||!data?.user)throw new Error("Login completed but no active session was returned.");currentUser=data.user;await startApplication()}else{const {data,error}=await supabaseClient.auth.signUp({email,password});if(error)throw error;if(data?.session&&data?.user){currentUser=data.user;await startApplication()}else{setAuthMessage("Account created. Please confirm your email, then log in.",true)}}}catch(e){console.error("Authentication error:",e);let m=e?.message||"Unable to log in.";if(/invalid login credentials/i.test(m))m="Invalid email or password.";if(/email not confirmed/i.test(m))m="Please confirm your email before logging in.";setAuthMessage(m)}finally{authBusy=false;btn.disabled=false;btn.textContent=authMode==="login"?"Log In":"Create Account"}}
+async function handleAuth(){
+  if(authBusy)return;
+  const email=document.getElementById("authEmail").value.trim();
+  const password=document.getElementById("authPassword").value;
+  if(!email){setAuthMessage("Please enter your email.");return}
+  if(!password){setAuthMessage("Please enter your password.");return}
+  if(password.length<6){setAuthMessage("Password must be at least 6 characters.");return}
+  authBusy=true;
+  const btn=document.getElementById("authButton");
+  btn.disabled=true;
+  btn.textContent=authMode==="login"?"Logging in...":"Creating account...";
+  setAuthMessage("");
+  try{
+    if(authMode==="login"){
+      const {data,error}=await supabaseClient.auth.signInWithPassword({email,password});
+      if(error)throw error;
+      if(!data?.user)throw new Error("Login completed but no user was returned.");
+      currentUser=data.user;
+      // Show the application immediately. Secondary profile/market loading runs in the background,
+      // so a slow optional request cannot leave the login button stuck on "Logging in...".
+      showApp();
+      startApplication().catch(e=>console.warn("Application startup warning:",e));
+    }else{
+      const {data,error}=await supabaseClient.auth.signUp({email,password});
+      if(error)throw error;
+      if(data?.session&&data?.user){
+        currentUser=data.user;
+        showApp();
+        startApplication().catch(e=>console.warn("Application startup warning:",e));
+      }else{
+        setAuthMessage("Account created. Please confirm your email, then log in.",true);
+      }
+    }
+  }catch(e){
+    console.error("Authentication error:",e);
+    let m=e?.message||"Unable to log in.";
+    if(/invalid login credentials/i.test(m))m="Invalid email or password.";
+    if(/email not confirmed/i.test(m))m="Please confirm your email before logging in.";
+    setAuthMessage(m);
+  }finally{
+    authBusy=false;
+    btn.disabled=false;
+    btn.textContent=authMode==="login"?"Log In":"Create Account";
+  }
+}
 function showApp(){document.getElementById("loginScreen").style.display="none";document.getElementById("appScreen").style.display="block"}
 function showLogin(){document.getElementById("appScreen").style.display="none";document.getElementById("loginScreen").style.display="flex"}
 async function signOut(){await supabaseClient.auth.signOut();currentUser=null;showLogin();setAuthMessage("");document.getElementById("authPassword").value="";showToast("Logged out")}
 async function loadSession(){try{const {data,error}=await supabaseClient.auth.getSession();if(error)throw error;if(data?.session?.user){currentUser=data.session.user;await startApplication()}else showLogin()}catch(e){console.error("Session load failed",e);showLogin()}}
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT"){currentUser=null;showLogin();return}if(session?.user&&!currentUser){currentUser=session.user;setTimeout(()=>startApplication(),0)}});
-async function startApplication(){if(!currentUser)return;showApp();document.getElementById("topUserEmail").textContent=currentUser.email||"";await loadProfile();await loadWalletInformation();await refreshFinancialValues();await checkAdminPanelAccess();loadOrders();await refreshLiveMarkets();startMarketRefresh();showView(currentView);}
+async function startApplication(){
+  if(!currentUser)return;
+  showApp();
+  const emailEl=document.getElementById("topUserEmail");
+  if(emailEl)emailEl.textContent=currentUser.email||"";
+  // These are non-authentication tasks. They must never prevent the user from entering the app.
+  const tasks=[loadProfile(),loadWalletInformation(),refreshFinancialValues(),checkAdminPanelAccess(),refreshLiveMarkets()];
+  Promise.allSettled(tasks).then(()=>{
+    try{loadOrders()}catch(e){console.warn("Orders load skipped",e)}
+    startMarketRefresh();
+    showView(currentView);
+  });
+}
 async function loadProfile(){if(!currentUser)return;try{const {data,error}=await supabaseClient.from("profiles").select("email,balance,commission_today,account_status,account_restriction_reason,trading_enabled,futures_enabled,buy_enabled,sell_enabled,deposits_enabled,withdrawals_enabled,withdrawal_restriction_reason").eq("id",currentUser.id).maybeSingle();if(error)throw error;if(data){accountValues.balance=Number(data.balance||0);accountValues.available=Number(data.balance||0);accountValues.profit=Number(data.commission_today||0);userControls={...userControls,...data};document.getElementById("accountStatus").textContent=data.account_status||"Active";document.getElementById("homeStatus").textContent=data.account_status||"Active";applyUserControls()}}catch(e){console.warn("Profile load skipped:",e)}}
 function setButtonRestricted(id,restricted){const el=document.getElementById(id);if(!el)return;el.disabled=!!restricted;el.classList.toggle("action-disabled",!!restricted)}
 function applyUserControls(){
