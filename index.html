@@ -6490,7 +6490,7 @@ document.addEventListener(
 </div>
 <!-- ============================================================
      BITFINEY — PART 4 OF 4
-     JAVASCRIPT + FILE CLOSING
+     JAVASCRIPT + CUSTOMER SUPPORT + FILE CLOSING
 ============================================================ -->
 
 <script>
@@ -6545,14 +6545,17 @@ let marketRefreshTimer = null;
 ============================================================ */
 
 function money(value){
-    const number = Number(value || 0);
+    const number =
+        Number(value || 0);
 
-    return "$" + number.toFixed(2);
+    return "$" +
+        number.toFixed(2);
 }
 
 
 function number(value, decimals = 2){
-    return Number(value || 0).toFixed(decimals);
+    return Number(value || 0)
+        .toFixed(decimals);
 }
 
 
@@ -6567,6 +6570,7 @@ function escapeHtml(value){
 
 
 function showToast(message){
+
     const toast =
         document.getElementById("toast");
 
@@ -6574,7 +6578,9 @@ function showToast(message){
         return;
     }
 
-    toast.textContent = message;
+    toast.textContent =
+        message;
+
     toast.classList.add("show");
 
     clearTimeout(
@@ -6584,13 +6590,17 @@ function showToast(message){
     showToast.timer =
         setTimeout(() => {
             toast.classList.remove("show");
-        }, 2800);
+        },2800);
 }
 
 
 function copyText(value){
+
     if(!value){
-        showToast("Nothing to copy");
+        showToast(
+            "Nothing to copy"
+        );
+
         return;
     }
 
@@ -6598,6 +6608,7 @@ function copyText(value){
         navigator.clipboard &&
         window.isSecureContext
     ){
+
         navigator.clipboard
             .writeText(value)
             .then(() => {
@@ -6615,26 +6626,106 @@ function copyText(value){
 
 
 function fallbackCopy(value){
+
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
 
-    textarea.value = value;
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
+    textarea.value =
+        value;
 
-    document.body.appendChild(textarea);
+    textarea.style.position =
+        "fixed";
+
+    textarea.style.opacity =
+        "0";
+
+    document.body.appendChild(
+        textarea
+    );
 
     textarea.focus();
     textarea.select();
 
     try{
-        document.execCommand("copy");
+
+        document.execCommand(
+            "copy"
+        );
+
         showToast("Copied");
+
     }catch(error){
-        showToast("Copy failed");
+
+        showToast(
+            "Copy failed"
+        );
     }
 
     textarea.remove();
+}
+
+
+/* ============================================================
+   CUSTOMER SUPPORT
+============================================================ */
+
+function addCustomerSupport(){
+
+    const accountView =
+        document.getElementById(
+            "accountView"
+        );
+
+    if(!accountView){
+        return;
+    }
+
+    if(
+        document.getElementById(
+            "customerSupportCard"
+        )
+    ){
+        return;
+    }
+
+    const supportCard =
+        document.createElement(
+            "div"
+        );
+
+    supportCard.id =
+        "customerSupportCard";
+
+    supportCard.className =
+        "card customer-support-card";
+
+    supportCard.innerHTML = `
+        <h3>Customer Support</h3>
+
+        <p>
+            Need help with your Bitfiney
+            Trading Experience?
+            Contact customer support on Telegram.
+        </p>
+
+        <a
+            class="customer-support-button"
+            href="https://t.me/tradingcustomers"
+            target="_blank"
+            rel="noopener noreferrer">
+            💬 Contact Customer Support
+        </a>
+
+        <div class="customer-support-handle">
+            Telegram: @tradingcustomers
+        </div>
+    `;
+
+    accountView.appendChild(
+        supportCard
+    );
 }
 
 
@@ -6643,43 +6734,72 @@ function fallbackCopy(value){
 ============================================================ */
 
 function setAuthMode(mode){
+
     const loginForm =
-        document.getElementById("loginForm");
+        document.getElementById(
+            "loginForm"
+        );
 
     const signupForm =
-        document.getElementById("signupForm");
+        document.getElementById(
+            "signupForm"
+        );
 
     const loginTab =
-        document.getElementById("loginTab");
+        document.getElementById(
+            "loginTab"
+        );
 
     const signupTab =
-        document.getElementById("signupTab");
+        document.getElementById(
+            "signupTab"
+        );
 
-    if(!loginForm || !signupForm){
+    if(
+        !loginForm ||
+        !signupForm
+    ){
         return;
     }
 
     if(mode === "signup"){
-        loginForm.style.display = "none";
-        signupForm.style.display = "block";
+
+        loginForm.style.display =
+            "none";
+
+        signupForm.style.display =
+            "block";
 
         if(loginTab){
-            loginTab.classList.remove("active");
+            loginTab.classList.remove(
+                "active"
+            );
         }
 
         if(signupTab){
-            signupTab.classList.add("active");
+            signupTab.classList.add(
+                "active"
+            );
         }
+
     }else{
-        loginForm.style.display = "block";
-        signupForm.style.display = "none";
+
+        loginForm.style.display =
+            "block";
+
+        signupForm.style.display =
+            "none";
 
         if(loginTab){
-            loginTab.classList.add("active");
+            loginTab.classList.add(
+                "active"
+            );
         }
 
         if(signupTab){
-            signupTab.classList.remove("active");
+            signupTab.classList.remove(
+                "active"
+            );
         }
     }
 }
@@ -6690,19 +6810,31 @@ function setAuthMode(mode){
 ============================================================ */
 
 async function loginUser(event){
+
     if(event){
         event.preventDefault();
     }
 
     const email =
-        document.getElementById("loginEmail")?.value
+        document.getElementById(
+            "loginEmail"
+        )?.value
         ?.trim();
 
     const password =
-        document.getElementById("loginPassword")?.value;
+        document.getElementById(
+            "loginPassword"
+        )?.value;
 
-    if(!email || !password){
-        showToast("Enter your email and password");
+    if(
+        !email ||
+        !password
+    ){
+
+        showToast(
+            "Enter your email and password"
+        );
+
         return;
     }
 
@@ -6716,32 +6848,44 @@ async function loginUser(event){
     }
 
     try{
-        const { data, error } =
-            await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-            });
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .auth
+                .signInWithPassword({
+                    email,
+                    password
+                });
 
         if(error){
             throw error;
         }
 
-        currentUser = data.user;
+        currentUser =
+            data.user;
 
-        showToast("Welcome to Bitfiney");
+        showToast(
+            "Welcome to Bitfiney"
+        );
 
         await loadUserData();
 
         showApplication();
 
     }catch(error){
+
         console.error(error);
 
         showToast(
             error.message ||
             "Unable to sign in"
         );
+
     }finally{
+
         if(button){
             button.disabled = false;
         }
@@ -6754,34 +6898,57 @@ async function loginUser(event){
 ============================================================ */
 
 async function signupUser(event){
+
     if(event){
         event.preventDefault();
     }
 
     const email =
-        document.getElementById("signupEmail")?.value
+        document.getElementById(
+            "signupEmail"
+        )?.value
         ?.trim();
 
     const password =
-        document.getElementById("signupPassword")?.value;
+        document.getElementById(
+            "signupPassword"
+        )?.value;
 
     const confirmPassword =
-        document.getElementById("signupConfirmPassword")?.value;
+        document.getElementById(
+            "signupConfirmPassword"
+        )?.value;
 
-    if(!email || !password){
-        showToast("Complete all required fields");
+    if(
+        !email ||
+        !password
+    ){
+
+        showToast(
+            "Complete all required fields"
+        );
+
         return;
     }
 
     if(password.length < 6){
+
         showToast(
             "Password must contain at least 6 characters"
         );
+
         return;
     }
 
-    if(password !== confirmPassword){
-        showToast("Passwords do not match");
+    if(
+        password !==
+        confirmPassword
+    ){
+
+        showToast(
+            "Passwords do not match"
+        );
+
         return;
     }
 
@@ -6795,36 +6962,50 @@ async function signupUser(event){
     }
 
     try{
-        const { data, error } =
-            await supabaseClient.auth.signUp({
-                email,
-                password
-            });
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .auth
+                .signUp({
+                    email,
+                    password
+                });
 
         if(error){
             throw error;
         }
 
         if(data.user){
+
             showToast(
                 "Account created successfully"
             );
+
         }else{
+
             showToast(
                 "Check your email to confirm your account"
             );
         }
 
-        setAuthMode("login");
+        setAuthMode(
+            "login"
+        );
 
     }catch(error){
+
         console.error(error);
 
         showToast(
             error.message ||
             "Unable to create account"
         );
+
     }finally{
+
         if(button){
             button.disabled = false;
         }
@@ -6840,12 +7021,17 @@ supabaseClient.auth.onAuthStateChange(
     async (_event, session) => {
 
         currentUser =
-            session?.user || null;
+            session?.user ||
+            null;
 
         if(currentUser){
+
             await loadUserData();
+
             showApplication();
+
         }else{
+
             showLogin();
         }
     }
@@ -6853,41 +7039,55 @@ supabaseClient.auth.onAuthStateChange(
 
 
 /* ============================================================
-   SHOW / HIDE APPLICATION
+   SHOW APPLICATION
 ============================================================ */
 
 function showApplication(){
 
     const loginScreen =
-        document.getElementById("loginScreen");
+        document.getElementById(
+            "loginScreen"
+        );
 
     const appScreen =
-        document.getElementById("appScreen");
+        document.getElementById(
+            "appScreen"
+        );
 
     if(loginScreen){
-        loginScreen.style.display = "none";
+        loginScreen.style.display =
+            "none";
     }
 
     if(appScreen){
-        appScreen.style.display = "block";
+        appScreen.style.display =
+            "block";
     }
+
+    addCustomerSupport();
 }
 
 
 function showLogin(){
 
     const loginScreen =
-        document.getElementById("loginScreen");
+        document.getElementById(
+            "loginScreen"
+        );
 
     const appScreen =
-        document.getElementById("appScreen");
+        document.getElementById(
+            "appScreen"
+        );
 
     if(loginScreen){
-        loginScreen.style.display = "flex";
+        loginScreen.style.display =
+            "flex";
     }
 
     if(appScreen){
-        appScreen.style.display = "none";
+        appScreen.style.display =
+            "none";
     }
 }
 
@@ -6903,18 +7103,25 @@ async function loadUserData(){
     }
 
     await loadProfile();
+
     await loadRechargeSettings();
+
     await loadFinancialTotals();
 
     updateAccountUI();
+
     updateBalanceUI();
 
+    updateFinancialUI();
+
     await checkAdminPanelAccess();
+
+    addCustomerSupport();
 }
 
 
 /* ============================================================
-   PROFILE
+   LOAD PROFILE
 ============================================================ */
 
 async function loadProfile(){
@@ -6925,14 +7132,21 @@ async function loadProfile(){
 
     try{
 
-        const { data, error } =
+        const {
+            data,
+            error
+        } =
             await supabaseClient
                 .from("profiles")
                 .select("*")
-                .eq("id", currentUser.id)
+                .eq(
+                    "id",
+                    currentUser.id
+                )
                 .maybeSingle();
 
         if(error){
+
             console.error(
                 "Profile load failed:",
                 error
@@ -6941,45 +7155,71 @@ async function loadProfile(){
             return;
         }
 
-        currentProfile = data || {
-            id: currentUser.id,
-            email: currentUser.email,
-            balance: 0,
-            commission_today: 0,
-            bonus_commission: 0,
-            cash_gap: 0,
-            task_count: 0,
-            account_status: "active",
-            trading_enabled: true,
-            futures_enabled: true,
-            buy_enabled: true,
-            sell_enabled: true,
-            withdrawals_enabled: true
-        };
+        currentProfile =
+            data || {
+
+                id:
+                    currentUser.id,
+
+                email:
+                    currentUser.email,
+
+                balance: 0,
+
+                commission_today: 0,
+
+                bonus_commission: 0,
+
+                cash_gap: 0,
+
+                task_count: 0,
+
+                account_status:
+                    "active",
+
+                trading_enabled:
+                    true,
+
+                futures_enabled:
+                    true,
+
+                buy_enabled:
+                    true,
+
+                sell_enabled:
+                    true,
+
+                withdrawals_enabled:
+                    true
+            };
 
         accountValues.balance =
             Number(
-                currentProfile.balance || 0
+                currentProfile.balance ||
+                0
             );
 
         accountValues.available =
             Number(
-                currentProfile.balance || 0
+                currentProfile.balance ||
+                0
             );
 
         accountValues.profit =
             Number(
-                currentProfile.commission_today || 0
+                currentProfile.commission_today ||
+                0
             );
 
     }catch(error){
+
         console.error(error);
     }
 }
 
 
 /* ============================================================
-   RECHARGE / WALLET SETTINGS
+   RECHARGE SETTINGS
 ============================================================ */
 
 async function loadRechargeSettings(){
@@ -6990,14 +7230,23 @@ async function loadRechargeSettings(){
 
     try{
 
-        const { data, error } =
+        const {
+            data,
+            error
+        } =
             await supabaseClient
-                .from("user_recharge_settings")
+                .from(
+                    "user_recharge_settings"
+                )
                 .select("*")
-                .eq("user_id", currentUser.id)
+                .eq(
+                    "user_id",
+                    currentUser.id
+                )
                 .maybeSingle();
 
         if(error){
+
             console.error(
                 "Recharge settings load failed:",
                 error
@@ -7006,9 +7255,11 @@ async function loadRechargeSettings(){
             return;
         }
 
-        rechargeSettings = data || null;
+        rechargeSettings =
+            data || null;
 
     }catch(error){
+
         console.error(error);
     }
 }
@@ -7029,19 +7280,33 @@ async function loadFinancialTotals(){
         const depositsResult =
             await supabaseClient
                 .from("deposits")
-                .select("amount,status")
-                .eq("user_id", currentUser.id);
+                .select(
+                    "amount,status"
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
 
         if(!depositsResult.error){
 
             accountValues.deposits =
                 depositsResult.data
-                    .filter(row =>
-                        row.status === "approved"
+                    .filter(
+                        row =>
+                            row.status ===
+                            "approved"
                     )
                     .reduce(
-                        (sum,row) =>
-                            sum + Number(row.amount || 0),
+                        (
+                            sum,
+                            row
+                        ) =>
+                            sum +
+                            Number(
+                                row.amount ||
+                                0
+                            ),
                         0
                     );
         }
@@ -7050,24 +7315,39 @@ async function loadFinancialTotals(){
         const withdrawalsResult =
             await supabaseClient
                 .from("withdrawals")
-                .select("amount,status")
-                .eq("user_id", currentUser.id);
+                .select(
+                    "amount,status"
+                )
+                .eq(
+                    "user_id",
+                    currentUser.id
+                );
 
         if(!withdrawalsResult.error){
 
             accountValues.withdrawals =
                 withdrawalsResult.data
-                    .filter(row =>
-                        row.status === "approved"
+                    .filter(
+                        row =>
+                            row.status ===
+                            "approved"
                     )
                     .reduce(
-                        (sum,row) =>
-                            sum + Number(row.amount || 0),
+                        (
+                            sum,
+                            row
+                        ) =>
+                            sum +
+                            Number(
+                                row.amount ||
+                                0
+                            ),
                         0
                     );
         }
 
     }catch(error){
+
         console.error(
             "Financial totals error:",
             error
@@ -7091,7 +7371,8 @@ async function checkAdminPanelAccess(){
         return;
     }
 
-    section.style.display = "none";
+    section.style.display =
+        "none";
 
     try{
 
@@ -7099,11 +7380,15 @@ async function checkAdminPanelAccess(){
             data: {
                 session
             },
-            error: sessionError
+            error:
+                sessionError
         } =
-            await supabaseClient.auth.getSession();
+            await supabaseClient
+                .auth
+                .getSession();
 
         if(sessionError){
+
             console.error(
                 "Admin session check failed:",
                 sessionError
@@ -7133,6 +7418,7 @@ async function checkAdminPanelAccess(){
                 .maybeSingle();
 
         if(adminError){
+
             console.error(
                 "Admin authorization check failed:",
                 adminError
@@ -7142,7 +7428,9 @@ async function checkAdminPanelAccess(){
         }
 
         if(admin){
-            section.style.display = "block";
+
+            section.style.display =
+                "block";
         }
 
     }catch(error){
@@ -7162,7 +7450,11 @@ async function checkAdminPanelAccess(){
 async function openAdminPanel(){
 
     if(!currentUser){
-        showToast("Please sign in first");
+
+        showToast(
+            "Please sign in first"
+        );
+
         return;
     }
 
@@ -7186,6 +7478,7 @@ async function openAdminPanel(){
         }
 
         if(!admin){
+
             showToast(
                 "Administrator access denied"
             );
@@ -7215,16 +7508,25 @@ async function signOutUser(){
 
     try{
 
-        const { error } =
-            await supabaseClient.auth.signOut();
+        const {
+            error
+        } =
+            await supabaseClient
+                .auth
+                .signOut();
 
         if(error){
             throw error;
         }
 
-        currentUser = null;
-        currentProfile = null;
-        rechargeSettings = null;
+        currentUser =
+            null;
+
+        currentProfile =
+            null;
+
+        rechargeSettings =
+            null;
 
         showLogin();
 
@@ -7243,16 +7545,22 @@ async function signOutUser(){
    MAIN NAVIGATION
 ============================================================ */
 
-function showView(view, button){
+function showView(
+    view,
+    button
+){
 
     const views =
         document.querySelectorAll(
             ".main-view"
         );
 
-    views.forEach(item => {
-        item.style.display = "none";
-    });
+    views.forEach(
+        item => {
+            item.style.display =
+                "none";
+        }
+    );
 
     const target =
         document.getElementById(
@@ -7260,17 +7568,27 @@ function showView(view, button){
         );
 
     if(target){
-        target.style.display = "block";
+
+        target.style.display =
+            "block";
     }
 
     document
-        .querySelectorAll(".desktop-nav button")
-        .forEach(item => {
-            item.classList.remove("active");
-        });
+        .querySelectorAll(
+            ".desktop-nav button"
+        )
+        .forEach(
+            item => {
+                item.classList.remove(
+                    "active"
+                );
+            }
+        );
 
     if(button){
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
     }
 
     if(view === "market"){
@@ -7284,12 +7602,18 @@ function showView(view, button){
     }
 
     if(view === "account"){
+
         updateAccountUI();
+
+        addCustomerSupport();
     }
 }
 
 
-function mobileView(view, button){
+function mobileView(
+    view,
+    button
+){
 
     showView(
         view,
@@ -7300,12 +7624,22 @@ function mobileView(view, button){
         .querySelectorAll(
             ".mobile-bottom-nav button"
         )
-        .forEach(item => {
-            item.classList.remove("active");
-        });
+        .forEach(
+            item => {
+                item.classList.remove(
+                    "active"
+                );
+            }
+        );
 
     if(button){
-        button.classList.add("active");
+        button.classList.add(
+            "active"
+        );
+    }
+
+    if(view === "account"){
+        addCustomerSupport();
     }
 }
 
@@ -7316,23 +7650,28 @@ function mobileView(view, button){
 
 function showFundsView(view){
 
-    const tabs =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".funds-subnav button"
+        )
+        .forEach(
+            tab => {
+                tab.classList.remove(
+                    "active"
+                );
+            }
         );
 
-    tabs.forEach(tab => {
-        tab.classList.remove("active");
-    });
-
-    const sections =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".funds-section"
+        )
+        .forEach(
+            section => {
+                section.style.display =
+                    "none";
+            }
         );
-
-    sections.forEach(section => {
-        section.style.display = "none";
-    });
 
     const target =
         document.getElementById(
@@ -7340,7 +7679,8 @@ function showFundsView(view){
         );
 
     if(target){
-        target.style.display = "block";
+        target.style.display =
+            "block";
     }
 
     const activeButton =
@@ -7437,26 +7777,39 @@ function updateBalanceUI(){
     };
 
     if(elements.totalAssets){
+
         elements.totalAssets.textContent =
-            displayBalance(balance);
+            displayBalance(
+                balance
+            );
     }
 
     if(elements.available){
+
         elements.available.textContent =
-            displayBalance(available);
+            displayBalance(
+                available
+            );
     }
 
     if(elements.profit){
+
         elements.profit.textContent =
-            displayBalance(profit);
+            displayBalance(
+                profit
+            );
     }
 
     if(elements.spot){
+
         elements.spot.textContent =
-            displayBalance(balance);
+            displayBalance(
+                balance
+            );
     }
 
     if(elements.contract){
+
         elements.contract.textContent =
             displayBalance(0);
     }
@@ -7465,13 +7818,15 @@ function updateBalanceUI(){
         .querySelectorAll(
             "[data-balance-toggle]"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.textContent =
-                balanceVisible
-                    ? "◉"
-                    : "◎";
-        });
+                button.textContent =
+                    balanceVisible
+                        ? "◉"
+                        : "◎";
+            }
+        );
 }
 
 
@@ -7486,7 +7841,8 @@ function updateAccountUI(){
     }
 
     const email =
-        currentUser.email || "";
+        currentUser.email ||
+        "";
 
     const profileEmail =
         document.getElementById(
@@ -7514,22 +7870,26 @@ function updateAccountUI(){
         );
 
     if(profileEmail){
+
         profileEmail.textContent =
             email;
     }
 
     if(userId){
+
         userId.textContent =
             currentUser.id;
     }
 
     if(status){
+
         status.textContent =
             currentProfile?.account_status ||
             "active";
     }
 
     if(balance){
+
         balance.textContent =
             displayBalance(
                 accountValues.balance
@@ -7540,28 +7900,41 @@ function updateAccountUI(){
         withdrawalAddress &&
         rechargeSettings
     ){
+
         withdrawalAddress.value =
             rechargeSettings.withdrawal_address ||
             "";
     }
+
+    addCustomerSupport();
 }
 
 
 /* ============================================================
-   WITHDRAWAL ADDRESS
+   ETHEREUM ADDRESS VALIDATION
 ============================================================ */
 
-function isEthereumAddress(address){
+function isEthereumAddress(
+    address
+){
 
-    return /^0x[a-fA-F0-9]{40}$/.test(
-        String(address || "").trim()
-    );
+    return /^0x[a-fA-F0-9]{40}$/
+        .test(
+            String(
+                address || ""
+            ).trim()
+        );
 }
 
+
+/* ============================================================
+   SAVE WITHDRAWAL ADDRESS
+============================================================ */
 
 async function saveWithdrawalAddress(){
 
     if(!currentUser){
+
         showToast(
             "Please sign in first"
         );
@@ -7581,7 +7954,12 @@ async function saveWithdrawalAddress(){
     const address =
         input.value.trim();
 
-    if(!isEthereumAddress(address)){
+    if(
+        !isEthereumAddress(
+            address
+        )
+    ){
+
         showToast(
             "Enter a valid Ethereum address"
         );
@@ -7591,14 +7969,17 @@ async function saveWithdrawalAddress(){
 
     try{
 
-        const { error } =
-            await supabaseClient.rpc(
-                "set_my_withdrawal_address",
-                {
-                    p_withdrawal_address:
-                        address
-                }
-            );
+        const {
+            error
+        } =
+            await supabaseClient
+                .rpc(
+                    "set_my_withdrawal_address",
+                    {
+                        p_withdrawal_address:
+                            address
+                    }
+                );
 
         if(error){
             throw error;
@@ -7669,11 +8050,13 @@ function updateDepositInformation(){
         );
 
     if(network){
+
         network.textContent =
             getDepositNetwork();
     }
 
     if(address){
+
         address.value =
             getDepositAddress();
     }
@@ -7684,7 +8067,9 @@ function updateDepositInformation(){
    FUNDS MODAL
 ============================================================ */
 
-function openFundsModal(type){
+function openFundsModal(
+    type
+){
 
     const modal =
         document.getElementById(
@@ -7695,15 +8080,20 @@ function openFundsModal(type){
         return;
     }
 
-    modal.classList.add("show");
+    modal.classList.add(
+        "show"
+    );
 
     document
         .querySelectorAll(
             ".funds-modal-panel"
         )
-        .forEach(panel => {
-            panel.style.display = "none";
-        });
+        .forEach(
+            panel => {
+                panel.style.display =
+                    "none";
+            }
+        );
 
     const target =
         document.getElementById(
@@ -7711,7 +8101,9 @@ function openFundsModal(type){
         );
 
     if(target){
-        target.style.display = "block";
+
+        target.style.display =
+            "block";
     }
 
     if(type === "deposit"){
@@ -7736,6 +8128,7 @@ function closeFundsModal(){
         );
 
     if(modal){
+
         modal.classList.remove(
             "show"
         );
@@ -7760,11 +8153,13 @@ function updateWithdrawalInformation(){
         );
 
     if(network){
+
         network.textContent =
             "ETH";
     }
 
     if(address){
+
         address.value =
             getWithdrawalAddress();
     }
@@ -7783,6 +8178,7 @@ function updateExchangeInformation(){
         );
 
     if(fromBalance){
+
         fromBalance.textContent =
             money(
                 accountValues.balance
@@ -7798,6 +8194,7 @@ function updateExchangeInformation(){
 async function submitDepositRequest(){
 
     if(!currentUser){
+
         showToast(
             "Please sign in first"
         );
@@ -7817,14 +8214,19 @@ async function submitDepositRequest(){
 
     const amount =
         Number(
-            amountInput?.value || 0
+            amountInput?.value ||
+            0
         );
 
     const note =
         noteInput?.value?.trim() ||
         null;
 
-    if(!Number.isFinite(amount) || amount <= 0){
+    if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ){
+
         showToast(
             "Enter a valid deposit amount"
         );
@@ -7834,14 +8236,20 @@ async function submitDepositRequest(){
 
     try{
 
-        const { data, error } =
-            await supabaseClient.rpc(
-                "create_deposit_request",
-                {
-                    p_amount: amount,
-                    p_note: note
-                }
-            );
+        const {
+            error
+        } =
+            await supabaseClient
+                .rpc(
+                    "create_deposit_request",
+                    {
+                        p_amount:
+                            amount,
+
+                        p_note:
+                            note
+                    }
+                );
 
         if(error){
             throw error;
@@ -7884,6 +8292,7 @@ async function submitDepositRequest(){
 async function submitWithdrawalRequest(){
 
     if(!currentUser){
+
         showToast(
             "Please sign in first"
         );
@@ -7893,8 +8302,10 @@ async function submitWithdrawalRequest(){
 
     if(
         currentProfile &&
-        currentProfile.withdrawals_enabled === false
+        currentProfile.withdrawals_enabled ===
+        false
     ){
+
         showToast(
             "Withdrawals are currently unavailable"
         );
@@ -7914,14 +8325,19 @@ async function submitWithdrawalRequest(){
 
     const amount =
         Number(
-            amountInput?.value || 0
+            amountInput?.value ||
+            0
         );
 
     const note =
         noteInput?.value?.trim() ||
         null;
 
-    if(!Number.isFinite(amount) || amount <= 0){
+    if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ){
+
         showToast(
             "Enter a valid withdrawal amount"
         );
@@ -7929,7 +8345,11 @@ async function submitWithdrawalRequest(){
         return;
     }
 
-    if(amount > accountValues.balance){
+    if(
+        amount >
+        accountValues.balance
+    ){
+
         showToast(
             "Insufficient trading balance"
         );
@@ -7937,9 +8357,12 @@ async function submitWithdrawalRequest(){
         return;
     }
 
-    if(!isEthereumAddress(
-        getWithdrawalAddress()
-    )){
+    if(
+        !isEthereumAddress(
+            getWithdrawalAddress()
+        )
+    ){
+
         showToast(
             "Set your Ethereum withdrawal address first"
         );
@@ -7951,14 +8374,20 @@ async function submitWithdrawalRequest(){
 
     try{
 
-        const { error } =
-            await supabaseClient.rpc(
-                "create_withdrawal_request",
-                {
-                    p_amount: amount,
-                    p_note: note
-                }
-            );
+        const {
+            error
+        } =
+            await supabaseClient
+                .rpc(
+                    "create_withdrawal_request",
+                    {
+                        p_amount:
+                            amount,
+
+                        p_note:
+                            note
+                    }
+                );
 
         if(error){
             throw error;
@@ -7995,7 +8424,7 @@ async function submitWithdrawalRequest(){
 
 
 /* ============================================================
-   LOCAL TRADING EXPERIENCE EXCHANGE
+   TRADING EXPERIENCE EXCHANGE
 ============================================================ */
 
 async function executeExchange(){
@@ -8007,10 +8436,15 @@ async function executeExchange(){
 
     const amount =
         Number(
-            fromInput?.value || 0
+            fromInput?.value ||
+            0
         );
 
-    if(!Number.isFinite(amount) || amount <= 0){
+    if(
+        !Number.isFinite(amount) ||
+        amount <= 0
+    ){
+
         showToast(
             "Enter an exchange amount"
         );
@@ -8018,7 +8452,11 @@ async function executeExchange(){
         return;
     }
 
-    if(amount > accountValues.balance){
+    if(
+        amount >
+        accountValues.balance
+    ){
+
         showToast(
             "Insufficient trading balance"
         );
@@ -8026,14 +8464,14 @@ async function executeExchange(){
         return;
     }
 
-    const symbol =
-        currentMarketSymbol
-            .replace("/", "");
-
     const price =
-        Number(currentMarketPrice || 0);
+        Number(
+            currentMarketPrice ||
+            0
+        );
 
     if(price <= 0){
+
         showToast(
             "Market price unavailable"
         );
@@ -8044,8 +8482,11 @@ async function executeExchange(){
     const btcAmount =
         amount / price;
 
-    accountValues.balance -= amount;
-    accountValues.available -= amount;
+    accountValues.balance -=
+        amount;
+
+    accountValues.available -=
+        amount;
 
     updateBalanceUI();
 
@@ -8063,7 +8504,6 @@ async function executeExchange(){
         "Trading Experience exchange:",
         {
             amount,
-            symbol,
             btcAmount
         }
     );
@@ -8082,6 +8522,7 @@ function updateSpotWallet(){
         );
 
     if(balance){
+
         balance.textContent =
             displayBalance(
                 accountValues.balance
@@ -8094,6 +8535,7 @@ function updateSpotWallet(){
         );
 
     if(asset){
+
         asset.textContent =
             "USDT";
     }
@@ -8112,6 +8554,7 @@ function updateContractWallet(){
         );
 
     if(balance){
+
         balance.textContent =
             displayBalance(0);
     }
@@ -8140,6 +8583,7 @@ function updateFinancialUI(){
         );
 
     if(deposits){
+
         deposits.textContent =
             money(
                 accountValues.deposits
@@ -8147,6 +8591,7 @@ function updateFinancialUI(){
     }
 
     if(withdrawals){
+
         withdrawals.textContent =
             money(
                 accountValues.withdrawals
@@ -8154,6 +8599,7 @@ function updateFinancialUI(){
     }
 
     if(profit){
+
         profit.textContent =
             money(
                 accountValues.profit
@@ -8166,7 +8612,9 @@ function updateFinancialUI(){
    TRADING MODE
 ============================================================ */
 
-function selectTradingMode(mode){
+function selectTradingMode(
+    mode
+){
 
     selectedTradingMode =
         mode;
@@ -8190,13 +8638,17 @@ function selectTradingMode(mode){
    ORDER SIDE
 ============================================================ */
 
-function selectOrderSide(side){
+function selectOrderSide(
+    side
+){
 
     if(
         side === "buy" &&
         currentProfile &&
-        currentProfile.buy_enabled === false
+        currentProfile.buy_enabled ===
+        false
     ){
+
         showToast(
             "Buy orders are currently unavailable"
         );
@@ -8207,8 +8659,10 @@ function selectOrderSide(side){
     if(
         side === "sell" &&
         currentProfile &&
-        currentProfile.sell_enabled === false
+        currentProfile.sell_enabled ===
+        false
     ){
+
         showToast(
             "Sell orders are currently unavailable"
         );
@@ -8223,26 +8677,29 @@ function selectOrderSide(side){
         .querySelectorAll(
             "[data-order-side]"
         )
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.classList.remove(
-                "active"
-            );
-
-            if(
-                button.dataset.orderSide ===
-                side
-            ){
-                button.classList.add(
+                button.classList.remove(
                     "active"
                 );
+
+                if(
+                    button.dataset.orderSide ===
+                    side
+                ){
+
+                    button.classList.add(
+                        "active"
+                    );
+                }
             }
-        });
+        );
 }
 
 
 /* ============================================================
-   LIVE BITFINEX MARKET DATA
+   BITFINEX MARKET DATA
 ============================================================ */
 
 const BITFINEX_TICKER_URL =
@@ -8250,29 +8707,55 @@ const BITFINEX_TICKER_URL =
 
 
 const MARKET_SYMBOLS = [
+
     "tBTCUSD",
+
     "tETHUSD",
+
     "tSOLUSD",
+
     "tXRPUSD",
+
     "tDOGE:USD",
+
     "tADAUSD",
+
     "tAVAX:USD",
+
     "tLINK:USD",
+
     "tLTCUSD",
+
     "tDOTUSD"
 ];
 
 
-function bitfinexSymbolToDisplay(symbol){
+function bitfinexSymbolToDisplay(
+    symbol
+){
 
     const clean =
-        String(symbol || "")
-            .replace(/^t/,"")
-            .replace(":","/");
+        String(
+            symbol || ""
+        )
+        .replace(
+            /^t/,
+            ""
+        )
+        .replace(
+            ":",
+            "/"
+        );
 
-    if(clean.endsWith("USD")){
+    if(
+        clean.endsWith("USD")
+    ){
+
         return (
-            clean.slice(0,-3) +
+            clean.slice(
+                0,
+                -3
+            ) +
             "/USD"
         );
     }
@@ -8291,12 +8774,19 @@ async function fetchBitfinexTickers(){
         );
 
     const response =
-        await fetch(url, {
-            method: "GET",
-            cache: "no-store"
-        });
+        await fetch(
+            url,
+            {
+                method:
+                    "GET",
+
+                cache:
+                    "no-store"
+            }
+        );
 
     if(!response.ok){
+
         throw new Error(
             "Market data request failed"
         );
@@ -8320,27 +8810,82 @@ async function refreshMarketData(){
         }
 
         const marketData =
-            rows.map(row => {
+            rows.map(
+                row => {
 
-                return {
-                    symbol: row[0],
-                    display:
-                        bitfinexSymbolToDisplay(
-                            row[0]
-                        ),
-                    bid: Number(row[1] || 0),
-                    bidSize: Number(row[2] || 0),
-                    ask: Number(row[3] || 0),
-                    askSize: Number(row[4] || 0),
-                    change: Number(row[5] || 0),
-                    changePercent:
-                        Number(row[6] || 0) * 100,
-                    last: Number(row[7] || 0),
-                    volume: Number(row[8] || 0),
-                    high: Number(row[9] || 0),
-                    low: Number(row[10] || 0)
-                };
-            });
+                    return {
+
+                        symbol:
+                            row[0],
+
+                        display:
+                            bitfinexSymbolToDisplay(
+                                row[0]
+                            ),
+
+                        bid:
+                            Number(
+                                row[1] ||
+                                0
+                            ),
+
+                        bidSize:
+                            Number(
+                                row[2] ||
+                                0
+                            ),
+
+                        ask:
+                            Number(
+                                row[3] ||
+                                0
+                            ),
+
+                        askSize:
+                            Number(
+                                row[4] ||
+                                0
+                            ),
+
+                        change:
+                            Number(
+                                row[5] ||
+                                0
+                            ),
+
+                        changePercent:
+                            Number(
+                                row[6] ||
+                                0
+                            ) *
+                            100,
+
+                        last:
+                            Number(
+                                row[7] ||
+                                0
+                            ),
+
+                        volume:
+                            Number(
+                                row[8] ||
+                                0
+                            ),
+
+                        high:
+                            Number(
+                                row[9] ||
+                                0
+                            ),
+
+                        low:
+                            Number(
+                                row[10] ||
+                                0
+                            )
+                    };
+                }
+            );
 
         renderMarketCards(
             marketData
@@ -8353,7 +8898,8 @@ async function refreshMarketData(){
         const btc =
             marketData.find(
                 item =>
-                    item.symbol === "tBTCUSD"
+                    item.symbol ===
+                    "tBTCUSD"
             );
 
         if(btc){
@@ -8376,7 +8922,9 @@ async function refreshMarketData(){
 }
 
 
-function renderMarketCards(data){
+function renderMarketCards(
+    data
+){
 
     const container =
         document.getElementById(
@@ -8388,46 +8936,62 @@ function renderMarketCards(data){
     }
 
     const top =
-        data.slice(0,6);
+        data.slice(
+            0,
+            6
+        );
 
     container.innerHTML =
-        top.map(item => {
+        top.map(
+            item => {
 
-            const positive =
-                item.changePercent >= 0;
+                const positive =
+                    item.changePercent >=
+                    0;
 
-            return `
-                <div class="market-mini-card">
-                    <div class="market-mini-symbol">
-                        ${escapeHtml(item.display)}
-                    </div>
+                return `
+                    <div class="market-mini-card">
 
-                    <div class="market-mini-price">
-                        ${money(item.last)}
-                    </div>
+                        <div class="market-mini-symbol">
+                            ${escapeHtml(
+                                item.display
+                            )}
+                        </div>
 
-                    <div class="${
-                        positive
-                            ? "positive"
-                            : "negative"
-                    }">
-                        ${
+                        <div class="market-mini-price">
+                            ${money(
+                                item.last
+                            )}
+                        </div>
+
+                        <div class="${
                             positive
-                                ? "+"
-                                : ""
-                        }${number(
-                            item.changePercent,
-                            2
-                        )}%
-                    </div>
-                </div>
-            `;
+                                ? "positive"
+                                : "negative"
+                        }">
 
-        }).join("");
+                            ${
+                                positive
+                                    ? "+"
+                                    : ""
+                            }${number(
+                                item.changePercent,
+                                2
+                            )}%
+
+                        </div>
+
+                    </div>
+                `;
+            }
+        )
+        .join("");
 }
 
 
-function renderMarketTable(data){
+function renderMarketTable(
+    data
+){
 
     const body =
         document.getElementById(
@@ -8439,64 +9003,83 @@ function renderMarketTable(data){
     }
 
     body.innerHTML =
-        data.map(item => {
+        data.map(
+            item => {
 
-            const positive =
-                item.changePercent >= 0;
+                const positive =
+                    item.changePercent >=
+                    0;
 
-            return `
-                <tr>
-                    <td>
-                        <strong>
-                            ${escapeHtml(item.display)}
-                        </strong>
-                    </td>
+                return `
+                    <tr>
 
-                    <td>
-                        ${money(item.last)}
-                    </td>
+                        <td>
+                            <strong>
+                                ${escapeHtml(
+                                    item.display
+                                )}
+                            </strong>
+                        </td>
 
-                    <td>
-                        ${money(item.bid)}
-                    </td>
+                        <td>
+                            ${money(
+                                item.last
+                            )}
+                        </td>
 
-                    <td>
-                        ${money(item.ask)}
-                    </td>
+                        <td>
+                            ${money(
+                                item.bid
+                            )}
+                        </td>
 
-                    <td class="${
-                        positive
-                            ? "positive"
-                            : "negative"
-                    }">
-                        ${
+                        <td>
+                            ${money(
+                                item.ask
+                            )}
+                        </td>
+
+                        <td class="${
                             positive
-                                ? "+"
-                                : ""
-                        }${number(
-                            item.changePercent,
-                            2
-                        )}%
-                    </td>
+                                ? "positive"
+                                : "negative"
+                        }">
 
-                    <td>
-                        ${number(
-                            item.volume,
-                            2
-                        )}
-                    </td>
+                            ${
+                                positive
+                                    ? "+"
+                                    : ""
+                            }${number(
+                                item.changePercent,
+                                2
+                            )}%
 
-                    <td>
-                        ${money(item.high)}
-                    </td>
+                        </td>
 
-                    <td>
-                        ${money(item.low)}
-                    </td>
-                </tr>
-            `;
+                        <td>
+                            ${number(
+                                item.volume,
+                                2
+                            )}
+                        </td>
 
-        }).join("");
+                        <td>
+                            ${money(
+                                item.high
+                            )}
+                        </td>
+
+                        <td>
+                            ${money(
+                                item.low
+                            )}
+                        </td>
+
+                    </tr>
+                `;
+            }
+        )
+        .join("");
 }
 
 
@@ -8504,7 +9087,9 @@ function renderMarketTable(data){
    CONTRACT PRICE
 ============================================================ */
 
-function updateContractPrice(item){
+function updateContractPrice(
+    item
+){
 
     if(!item){
         return;
@@ -8521,11 +9106,15 @@ function updateContractPrice(item){
         );
 
     if(price){
+
         price.textContent =
-            money(item.last);
+            money(
+                item.last
+            );
     }
 
     if(input){
+
         input.value =
             item.last;
     }
@@ -8533,7 +9122,7 @@ function updateContractPrice(item){
 
 
 /* ============================================================
-   ORDERBOOK
+   ORDER BOOK
 ============================================================ */
 
 async function loadOrderBook(){
@@ -8544,11 +9133,16 @@ async function loadOrderBook(){
     try{
 
         const response =
-            await fetch(url, {
-                cache: "no-store"
-            });
+            await fetch(
+                url,
+                {
+                    cache:
+                        "no-store"
+                }
+            );
 
         if(!response.ok){
+
             throw new Error(
                 "Order book request failed"
             );
@@ -8571,7 +9165,9 @@ async function loadOrderBook(){
 }
 
 
-function renderOrderBook(data){
+function renderOrderBook(
+    data
+){
 
     const asks =
         document.getElementById(
@@ -8583,42 +9179,70 @@ function renderOrderBook(data){
             "orderBookBids"
         );
 
-    if(!asks || !bids){
+    if(
+        !asks ||
+        !bids
+    ){
         return;
     }
 
     const rows =
         Array.isArray(data)
-            ? data.slice(0,8)
+            ? data.slice(
+                0,
+                8
+            )
             : [];
 
     asks.innerHTML =
-        rows.slice()
+        rows
+            .slice()
             .reverse()
-            .map(row => `
-                <div class="orderbook-row">
-                    <span class="negative">
-                        ${money(row[0])}
-                    </span>
-                    <span>
-                        ${number(row[2],4)}
-                    </span>
-                </div>
-            `)
+            .map(
+                row => `
+                    <div class="orderbook-row">
+
+                        <span class="negative">
+                            ${money(
+                                row[0]
+                            )}
+                        </span>
+
+                        <span>
+                            ${number(
+                                row[2],
+                                4
+                            )}
+                        </span>
+
+                    </div>
+                `
+            )
             .join("");
 
     bids.innerHTML =
-        rows.map(row => `
-            <div class="orderbook-row">
-                <span class="positive">
-                    ${money(row[0])}
-                </span>
-                <span>
-                    ${number(row[2],4)}
-                </span>
-            </div>
-        `)
-        .join("");
+        rows
+            .map(
+                row => `
+                    <div class="orderbook-row">
+
+                        <span class="positive">
+                            ${money(
+                                row[0]
+                            )}
+                        </span>
+
+                        <span>
+                            ${number(
+                                row[2],
+                                4
+                            )}
+                        </span>
+
+                    </div>
+                `
+            )
+            .join("");
 }
 
 
@@ -8634,11 +9258,16 @@ async function loadRecentTrades(){
     try{
 
         const response =
-            await fetch(url, {
-                cache: "no-store"
-            });
+            await fetch(
+                url,
+                {
+                    cache:
+                        "no-store"
+                }
+            );
 
         if(!response.ok){
+
             throw new Error(
                 "Trades request failed"
             );
@@ -8661,7 +9290,9 @@ async function loadRecentTrades(){
 }
 
 
-function renderRecentTrades(data){
+function renderRecentTrades(
+    data
+){
 
     const container =
         document.getElementById(
@@ -8673,57 +9304,74 @@ function renderRecentTrades(data){
     }
 
     container.innerHTML =
-        data.map(row => {
+        data.map(
+            row => {
 
-            const price =
-                Number(row[3] || 0);
+                const price =
+                    Number(
+                        row[3] ||
+                        0
+                    );
 
-            const amount =
-                Number(row[2] || 0);
+                const amount =
+                    Number(
+                        row[2] ||
+                        0
+                    );
 
-            const time =
-                new Date(
-                    Number(row[1] || 0)
-                );
+                const time =
+                    new Date(
+                        Number(
+                            row[1] ||
+                            0
+                        )
+                    );
 
-            const side =
-                amount >= 0
-                    ? "positive"
-                    : "negative";
+                const side =
+                    amount >= 0
+                        ? "positive"
+                        : "negative";
 
-            return `
-                <div class="trade-row">
+                return `
+                    <div class="trade-row">
 
-                    <span>
-                        ${time.toLocaleTimeString()}
-                    </span>
+                        <span>
+                            ${time.toLocaleTimeString()}
+                        </span>
 
-                    <span class="${side}">
-                        ${money(price)}
-                    </span>
+                        <span class="${side}">
+                            ${money(
+                                price
+                            )}
+                        </span>
 
-                    <span>
-                        ${number(
-                            Math.abs(amount),
-                            4
-                        )}
-                    </span>
+                        <span>
+                            ${number(
+                                Math.abs(
+                                    amount
+                                ),
+                                4
+                            )}
+                        </span>
 
-                </div>
-            `;
-
-        }).join("");
+                    </div>
+                `;
+            }
+        )
+        .join("");
 }
 
 
 /* ============================================================
-   LIVE MARKET REFRESH
+   MARKET REFRESH
 ============================================================ */
 
 async function refreshAllMarketData(){
 
     await refreshMarketData();
+
     await loadOrderBook();
+
     await loadRecentTrades();
 }
 
@@ -8731,6 +9379,7 @@ async function refreshAllMarketData(){
 function startMarketRefresh(){
 
     if(marketRefreshTimer){
+
         clearInterval(
             marketRefreshTimer
         );
@@ -8753,7 +9402,10 @@ function startMarketRefresh(){
 function getOrdersStorageKey(){
 
     if(!currentUser){
-        return "bitfiney_orders_guest";
+
+        return (
+            "bitfiney_orders_guest"
+        );
     }
 
     return (
@@ -8770,7 +9422,8 @@ function getTradingOrders(){
         return JSON.parse(
             localStorage.getItem(
                 getOrdersStorageKey()
-            ) || "[]"
+            ) ||
+            "[]"
         );
 
     }catch(error){
@@ -8780,11 +9433,15 @@ function getTradingOrders(){
 }
 
 
-function saveTradingOrders(orders){
+function saveTradingOrders(
+    orders
+){
 
     localStorage.setItem(
         getOrdersStorageKey(),
-        JSON.stringify(orders)
+        JSON.stringify(
+            orders
+        )
     );
 }
 
@@ -8792,6 +9449,7 @@ function saveTradingOrders(orders){
 function placeOrder(){
 
     if(!currentUser){
+
         showToast(
             "Please sign in first"
         );
@@ -8801,8 +9459,10 @@ function placeOrder(){
 
     if(
         currentProfile &&
-        currentProfile.trading_enabled === false
+        currentProfile.trading_enabled ===
+        false
     ){
+
         showToast(
             "Trading is currently unavailable"
         );
@@ -8813,8 +9473,10 @@ function placeOrder(){
     if(
         selectedOrderSide === "buy" &&
         currentProfile &&
-        currentProfile.buy_enabled === false
+        currentProfile.buy_enabled ===
+        false
     ){
+
         showToast(
             "Buy orders are currently unavailable"
         );
@@ -8825,8 +9487,10 @@ function placeOrder(){
     if(
         selectedOrderSide === "sell" &&
         currentProfile &&
-        currentProfile.sell_enabled === false
+        currentProfile.sell_enabled ===
+        false
     ){
+
         showToast(
             "Sell orders are currently unavailable"
         );
@@ -8846,7 +9510,8 @@ function placeOrder(){
 
     const amount =
         Number(
-            amountInput?.value || 0
+            amountInput?.value ||
+            0
         );
 
     const price =
@@ -8857,6 +9522,7 @@ function placeOrder(){
         );
 
     if(amount <= 0){
+
         showToast(
             "Enter an order amount"
         );
@@ -8865,6 +9531,7 @@ function placeOrder(){
     }
 
     if(price <= 0){
+
         showToast(
             "Enter a valid order price"
         );
@@ -8891,6 +9558,7 @@ function placeOrder(){
             selectedTradingMode,
 
         amount,
+
         price,
 
         status:
@@ -8903,7 +9571,9 @@ function placeOrder(){
     const orders =
         getTradingOrders();
 
-    orders.unshift(order);
+    orders.unshift(
+        order
+    );
 
     saveTradingOrders(
         orders
@@ -8922,7 +9592,9 @@ function placeOrder(){
 }
 
 
-function cancelOrder(orderId){
+function cancelOrder(
+    orderId
+){
 
     const orders =
         getTradingOrders();
@@ -8930,7 +9602,8 @@ function cancelOrder(orderId){
     const order =
         orders.find(
             item =>
-                item.id === orderId
+                item.id ===
+                orderId
         );
 
     if(!order){
@@ -8980,78 +9653,87 @@ function renderTradingOrders(){
     }
 
     body.innerHTML =
-        orders.map(order => {
+        orders.map(
+            order => {
 
-            return `
-                <tr>
+                return `
+                    <tr>
 
-                    <td>
-                        ${escapeHtml(
-                            order.symbol
-                        )}
-                    </td>
+                        <td>
+                            ${escapeHtml(
+                                order.symbol
+                            )}
+                        </td>
 
-                    <td class="${
-                        order.side === "buy"
-                            ? "positive"
-                            : "negative"
-                    }">
-                        ${order.side.toUpperCase()}
-                    </td>
+                        <td class="${
+                            order.side === "buy"
+                                ? "positive"
+                                : "negative"
+                        }">
 
-                    <td>
-                        ${number(
-                            order.amount,
-                            4
-                        )}
-                    </td>
+                            ${order.side.toUpperCase()}
 
-                    <td>
-                        ${money(
-                            order.price
-                        )}
-                    </td>
+                        </td>
 
-                    <td>
-                        ${escapeHtml(
-                            order.mode
-                        )}
-                    </td>
+                        <td>
+                            ${number(
+                                order.amount,
+                                4
+                            )}
+                        </td>
 
-                    <td>
-                        ${escapeHtml(
-                            order.status
-                        )}
-                    </td>
+                        <td>
+                            ${money(
+                                order.price
+                            )}
+                        </td>
 
-                    <td>
+                        <td>
+                            ${escapeHtml(
+                                order.mode
+                            )}
+                        </td>
 
-                        ${
-                            order.status === "open"
-                            ? `
-                                <button
-                                    type="button"
-                                    onclick="cancelOrder('${escapeHtml(order.id)}')">
-                                    Cancel
-                                </button>
-                            `
-                            : "—"
-                        }
+                        <td>
+                            ${escapeHtml(
+                                order.status
+                            )}
+                        </td>
 
-                    </td>
+                        <td>
 
-                </tr>
-            `;
+                            ${
+                                order.status ===
+                                "open"
 
-        }).join("");
+                                ? `
+                                    <button
+                                        type="button"
+                                        onclick="cancelOrder('${escapeHtml(order.id)}')">
+                                        Cancel
+                                    </button>
+                                `
+
+                                : "—"
+                            }
+
+                        </td>
+
+                    </tr>
+                `;
+            }
+        )
+        .join("");
 }
 
 
 /* ============================================================
-   MARKET TIMEFRAME
+   CHART TIMEFRAME
 ============================================================ */
 
-function changeChartTimeframe(timeframe){
+function changeChartTimeframe(
+    timeframe
+){
 
     showToast(
         "Chart timeframe: " +
@@ -9076,8 +9758,10 @@ document.addEventListener(
 
         if(
             modal &&
-            event.target === modal
+            event.target ===
+            modal
         ){
+
             closeFundsModal();
         }
     }
@@ -9085,18 +9769,20 @@ document.addEventListener(
 
 
 /* ============================================================
-   KEYBOARD ESCAPE
+   ESCAPE KEY
 ============================================================ */
 
 document.addEventListener(
     "keydown",
     function(event){
 
-        if(event.key !== "Escape"){
-            return;
-        }
+        if(
+            event.key ===
+            "Escape"
+        ){
 
-        closeFundsModal();
+            closeFundsModal();
+        }
     }
 );
 
@@ -9114,7 +9800,9 @@ async function initializeBitfiney(){
                 session
             }
         } =
-            await supabaseClient.auth.getSession();
+            await supabaseClient
+                .auth
+                .getSession();
 
         if(session?.user){
 
@@ -9133,6 +9821,8 @@ async function initializeBitfiney(){
         renderTradingOrders();
 
         startMarketRefresh();
+
+        addCustomerSupport();
 
     }catch(error){
 
@@ -9158,11 +9848,15 @@ setInterval(
         }
 
         await loadProfile();
+
         await loadRechargeSettings();
+
         await loadFinancialTotals();
 
         updateAccountUI();
+
         updateBalanceUI();
+
         updateFinancialUI();
 
     },
