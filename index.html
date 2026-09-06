@@ -58,6 +58,10 @@
 .home-dollar.d1{left:7px;top:3px}.home-dollar.d2{left:28%;top:2px}.home-dollar.d3{left:53%;top:4px}.home-dollar.d4{left:78%;top:3px}.home-dollar.d5{right:8px;bottom:3px}.home-dollar.d6{left:42%;bottom:1px}
 @media(max-width:600px){.home-gold-trade-frame{padding:12px 30px 12px 12px;gap:9px}.home-gold-trade-text{font-size:11px}.home-gold-verified{width:27px;height:27px;min-width:27px;font-size:16px}.home-dollar{font-size:16px}}
 </style>
+
+<style>
+.gold-hot-coins-frame{margin:0 0 14px;padding:14px;border:2px solid #d4af37;border-radius:16px;background:linear-gradient(135deg,#fff8d6 0%,#d4af37 24%,#fff4b0 50%,#b8860b 78%,#f7e58b 100%);box-shadow:0 3px 14px rgba(212,175,55,.35),inset 0 1px 0 rgba(255,255,255,.85);color:#3d2b00;overflow:hidden}.hot-coins-title{display:flex;align-items:center;gap:10px;margin-bottom:11px}.hot-coins-title strong{display:block;font-size:13px;letter-spacing:.7px}.hot-coins-title small{display:block;margin-top:2px;font-size:10px;color:#5a4308}.hot-verified-icon{width:30px;height:30px;min-width:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 30%,#fff7a8,#d4af37 55%,#8b6508);border:2px solid #fff8cf;color:#fff;font-weight:900;font-size:17px;box-shadow:0 1px 5px rgba(0,0,0,.25)}.hot-coins-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hot-coin-card{background:rgba(255,255,255,.72);border:1px solid rgba(139,101,8,.55);border-radius:12px;padding:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}.hot-coin-head{display:flex;justify-content:space-between;align-items:center}.hot-coin-name{font-weight:800;font-size:12px}.hot-coin-price{font-weight:900;font-size:14px;margin-top:4px}.hot-coin-change{font-size:10px;font-weight:800;margin-top:2px}.hot-coin-change.up{color:#087a32}.hot-coin-change.down{color:#a11b1b}.hot-sparkline{width:100%;height:48px;margin-top:6px;display:block}.hot-coin-meta{font-size:9px;color:#5a4308;margin-top:3px}@media(max-width:700px){.hot-coins-grid{grid-template-columns:1fr}.hot-coin-card{display:grid;grid-template-columns:1fr 1.35fr;column-gap:8px;align-items:center}.hot-coin-card .hot-sparkline{grid-column:2;grid-row:1 / span 3}.hot-coin-card .hot-coin-meta{grid-column:1}}
+</style>
 </head>
 <body>
 <section id="loginScreen">
@@ -117,7 +121,10 @@
 
     <section id="view-contract" class="view">
       <div class="page-header"><div><h1>Contract</h1><p>Create Trading Experience orders using live market prices.</p></div></div>
-      <div class="experience-notice">TRADING EXPERIENCE: Orders created in this section are part of the Bitfiney trading experience.</div><div id="tradingRestrictionBox" class="restricted-box hidden"></div>
+      <div class="contract-hot-coins gold-hot-coins-frame">
+  <div class="hot-coins-title"><span class="hot-verified-icon">✓</span><div><strong>TOP HOT COINS</strong><small>Real prices &amp; 24-hour price history</small></div></div>
+  <div id="contractHotCoins" class="hot-coins-grid"></div>
+</div><div id="tradingRestrictionBox" class="restricted-box hidden"></div>
       <div class="contract-layout">
         <div>
           <div class="price-banner"><div id="contractSymbol" class="symbol">BTC/USDT</div><div id="contractPrice" class="price">$0.00</div><div id="contractChange" class="market-change muted">Loading live market data...</div></div>
@@ -323,6 +330,18 @@ function submitExchange(){
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeFundsModal();closeExchangePanel()}});
 showFundsPanel("overview",document.getElementById("fundTabOverview"));
 loadSession();
+</script>
+
+<script>
+(function(){
+ const hotSymbols=[{symbol:'BTCUSDT',name:'Bitcoin',short:'BTC'},{symbol:'ETHUSDT',name:'Ethereum',short:'ETH'},{symbol:'BNBUSDT',name:'BNB',short:'BNB'}];
+ const hotState={};
+ function money(v){const n=Number(v);if(!Number.isFinite(n))return '$0.00';if(n>=1000)return '$'+n.toLocaleString(undefined,{maximumFractionDigits:2});if(n>=1)return '$'+n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:4});return '$'+n.toFixed(6)}
+ function drawSpark(canvas,vals){if(!canvas||!vals.length)return;const dpr=window.devicePixelRatio||1,w=canvas.clientWidth||180,h=canvas.clientHeight||48;canvas.width=w*dpr;canvas.height=h*dpr;const c=canvas.getContext('2d');c.scale(dpr,dpr);const min=Math.min(...vals),max=Math.max(...vals),range=max-min||1;c.beginPath();vals.forEach((v,i)=>{const x=i*(w-4)/(vals.length-1)+2,y=h-4-((v-min)/range)*(h-8);if(i)c.lineTo(x,y);else c.moveTo(x,y)});c.lineWidth=2;c.strokeStyle=vals[vals.length-1]>=vals[0]?'#16803c':'#a11b1b';c.stroke()}
+ function render(){const box=document.getElementById('contractHotCoins');if(!box)return;box.innerHTML=hotSymbols.map(x=>{const d=hotState[x.symbol]||{};const ch=Number(d.change||0);return `<div class="hot-coin-card"><div class="hot-coin-head"><span class="hot-coin-name">${x.short}/USDT</span><span>💲</span></div><div class="hot-coin-price">${money(d.price)}</div><div class="hot-coin-change ${ch>=0?'up':'down'}">${ch>=0?'+':''}${ch.toFixed(2)}% · 24h</div><canvas class="hot-sparkline" data-hot="${x.symbol}"></canvas><div class="hot-coin-meta">24h high ${money(d.high)} · low ${money(d.low)}</div></div>`}).join('');hotSymbols.forEach(x=>drawSpark(box.querySelector(`[data-hot="${x.symbol}"]`),hotState[x.symbol]?.history||[]))}
+ async function loadHot(){try{const tick=await Promise.all(hotSymbols.map(x=>fetch('https://api.binance.com/api/v3/ticker/24hr?symbol='+x.symbol).then(r=>r.json())));const hist=await Promise.all(hotSymbols.map(x=>fetch('https://api.binance.com/api/v3/klines?symbol='+x.symbol+'&interval=1h&limit=24').then(r=>r.json())));hotSymbols.forEach((x,i)=>{const t=tick[i],k=hist[i];hotState[x.symbol]={price:Number(t.lastPrice),change:Number(t.priceChangePercent),high:Number(t.highPrice),low:Number(t.lowPrice),history:k.map(a=>Number(a[4]))}});render()}catch(e){console.warn('Hot coin data unavailable',e)}}
+ loadHot();setInterval(loadHot,60000);window.addEventListener('resize',render);
+})();
 </script>
 </body>
 </html>
