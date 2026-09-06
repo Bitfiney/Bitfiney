@@ -1,4 +1,7 @@
-User-agent: *
-Allow: /Bitfiney/
+# Bitfiney - Robots.txt
 
+User-agent: *
+Allow: /
+
+# Sitemap
 Sitemap: https://bitfiney.github.io/Bitfiney/sitemap.xml
