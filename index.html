@@ -48,6 +48,10 @@
 .live-chart-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:14px}.chart-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}.chart-timeframes{display:flex;gap:4px;flex-wrap:wrap}.chart-timeframes button{border:1px solid var(--border);background:var(--panel2);color:var(--muted);padding:6px 10px;border-radius:4px;font-size:11px}.chart-timeframes button.active{color:#fff;border-color:var(--green);background:rgba(22,199,132,.1)}.chart-status{font-size:11px;color:var(--muted)}#liveTradingChart{display:block;width:100%;height:360px;background:#0b0e11;border:1px solid #20262d;border-radius:4px}.order-options{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 14px}.order-options button{flex:1;min-width:72px;border:1px solid var(--border);background:var(--panel2);color:var(--muted);padding:9px 8px;border-radius:5px;font-size:12px}.order-options button.active{color:#fff;border-color:#697681;background:var(--panel3)}.amount-percent{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:-5px;margin-bottom:13px}.amount-percent button{border:1px solid var(--border);background:#0e1216;color:var(--muted);padding:7px 4px;border-radius:4px;font-size:11px}.amount-percent button:hover{color:#fff;border-color:#46515b}.available-line{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin:-3px 0 12px}.trade-estimate{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);padding:9px 0 12px;border-top:1px solid #22282e;margin-top:2px}.trade-estimate strong{color:#fff}
 @media(max-width:600px){#liveTradingChart{height:280px}.chart-toolbar{align-items:flex-start}.order-options button{min-width:64px}}
 .gold-promo-frame{display:flex;align-items:center;gap:12px;margin:0;padding:12px 16px;border:2px solid #d4af37;border-radius:12px;background:linear-gradient(135deg,#fff8d6 0%,#d4af37 28%,#fff2a8 50%,#b8860b 78%,#f7e58b 100%);box-shadow:0 2px 10px rgba(212,175,55,.28),inset 0 1px 0 rgba(255,255,255,.75);color:#3d2b00}.gold-promo-frame strong{font-size:12px;letter-spacing:.5px;color:#4a3200}.gold-promo-frame span{font-size:11px;color:#5a4308}.gold-verified-icon{width:28px;height:28px;min-width:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff8cf;background:radial-gradient(circle at 35% 30%,#fff7a8,#d4af37 55%,#8b6508);color:#fff;font-weight:800;font-size:17px;box-shadow:0 1px 5px rgba(0,0,0,.25)}
+
+.usa-flag{display:inline-block;font-size:13px;line-height:1;margin-left:5px;vertical-align:middle;transform:translateY(-1px)}
+@media(max-width:650px){.usa-flag{font-size:11px;margin-left:4px}}
+@media(max-width:640px){.view#view-market .live-market-list{width:100%;overflow-x:hidden}.view#view-market .live-market-row{grid-template-columns:minmax(0,1.15fr) minmax(82px,.9fr) auto;gap:6px;padding:11px 8px;min-width:0}.view#view-market .live-coin-name{min-width:0}.view#view-market .live-coin-name strong,.view#view-market .live-coin-name span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.view#view-market .live-market-row .market-price{font-size:13px;white-space:nowrap}.view#view-market .live-market-row .market-change{font-size:11px;white-space:nowrap}.view#view-market .coin-trade-hint{font-size:10px;white-space:nowrap}}
 </style>
 
 <style id="home-gold-trade-style">
@@ -79,7 +83,7 @@
 <section id="appScreen">
   <header class="topbar">
     <div class="top-left">
-      <div class="top-logo">Bit<span>finey</span></div>
+      <div class="top-logo">Bit<span>finey</span><span class="usa-flag" aria-label="USA">🇺🇸</span></div>
       <nav class="desktop-nav">
         <button id="navHome" onclick="showView('home',this)">Home</button>
         <button id="navMarket" onclick="showView('market',this)">Market</button>
