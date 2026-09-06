@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /Bitfiney/
+
+Sitemap: https://bitfiney.github.io/Bitfiney/sitemap.xml
